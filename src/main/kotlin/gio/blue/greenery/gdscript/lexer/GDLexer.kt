@@ -110,6 +110,11 @@ class GDLexer : LexerBase() {
                 return
             }
         }
+
+        if (tokenType != GDTokens.INVALID) {
+            // No more tokens - invalidate the result token
+            lastToken = QueuedToken(GDTokens.INVALID, 0, 0)
+        }
     }
 
     internal fun getRemainingBoundarySize(): Int = boundsEnd - boundsStart
