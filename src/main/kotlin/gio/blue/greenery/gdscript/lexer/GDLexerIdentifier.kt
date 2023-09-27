@@ -53,7 +53,7 @@ fun GDLexer.tryLexingPossibleIdentifier(): Boolean {
     // We actually need to read the identifier to figure out if it's a keyword
     val builder = StringBuilder()
     var endOffset = 0
-    for (i in 1..getRemainingBoundarySize()) {
+    for (i in 0..getRemainingBoundarySize()) {
         val ci = tryGetCharAt(i)
         if (ci == null || !GDCharacterUtil.isValidCharacterForIdentifierBody(ci)) break
         endOffset = i

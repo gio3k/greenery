@@ -25,11 +25,6 @@ class GDLexer : LexerBase() {
     internal var boundsStart = 0
     internal var boundsEnd = 0
 
-    // State (token result)
-    private var tokenType: IElementType? = null
-    private var tokenStart = 0
-    private var tokenEnd = 0
-
     private var state = 0
     private var buffer: CharSequence? = null
 
@@ -38,7 +33,7 @@ class GDLexer : LexerBase() {
     private fun reset() {
         boundsStart = 0
         boundsEnd = 0
-        tokenType = null
+        lastToken = QueuedToken(GDTokens.INVALID, 0, 0)
         queue.clear()
     }
 
@@ -55,9 +50,9 @@ class GDLexer : LexerBase() {
 
     override fun getState(): Int = state
 
-    override fun getTokenType(): IElementType? = tokenType
-    override fun getTokenStart(): Int = tokenStart
-    override fun getTokenEnd(): Int = tokenEnd
+    override fun getTokenType(): IElementType = lastToken.type
+    override fun getTokenStart(): Int = lastToken.start
+    override fun getTokenEnd(): Int = lastToken.end
 
     override fun getBufferEnd(): Int = boundsEnd
     override fun getBufferSequence(): CharSequence {
@@ -65,16 +60,7 @@ class GDLexer : LexerBase() {
         return buffer!!
     }
 
-    override fun advance() {
-        // Check if we can just return from the queue
-        if (queue.isNotEmpty()) {
-            // Update token info
-            lastToken = queue.remove()
-            return
-        }
-
-        if (!hasCharAt(0)) return
-
+    private fun process() {
         if (tryLexingLineBreak()) {
             // We found a line break - that means we're at the start of the line!
             depthHandlerAssociate.tryLexingStartOfLineIndents()
@@ -99,6 +85,26 @@ class GDLexer : LexerBase() {
         // Unknown character at this point
         println("Unknown character @ $boundsStart")
         enqueue(GDTokens.ISSUE_BAD_CHARACTER)
+    }
+
+    override fun advance() {
+        // Check if we can just return from the queue
+        if (queue.isNotEmpty()) {
+            // Update token info
+            lastToken = queue.remove()
+            return
+        }
+
+        while (hasCharAt(0)) {
+            println(getCharAt(0))
+            process()
+
+            if (queue.isNotEmpty()) {
+                // Update token info
+                lastToken = queue.remove()
+                return
+            }
+        }
     }
 
     internal fun getRemainingBoundarySize(): Int = boundsEnd - boundsStart
