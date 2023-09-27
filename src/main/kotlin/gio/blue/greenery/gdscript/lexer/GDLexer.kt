@@ -102,7 +102,6 @@ class GDLexer : LexerBase() {
         }
 
         while (hasCharAt(0)) {
-            println("'${getCharAt(0)}' @ ${boundsStart}")
             process()
 
             if (queue.isNotEmpty()) {
@@ -147,16 +146,32 @@ class GDLexer : LexerBase() {
         return getCharAt(offset)
     }
 
-    internal fun enqueue(type: IElementType, startOffset: Int, endOffset: Int) {
-        queue.add(
-            QueuedToken(type, startOffset + boundsStart, endOffset + boundsStart)
-        )
+    /**
+     * Add a token / element to the return queue
+     * @param type IElementType Token type to queue up
+     * @param startOffset Int Start of the token as an offset of the boundary
+     * @param endOffset Int End of the token as an offset of the boundary
+     * @param count Int Number of tokens to add
+     * @param updateBoundary Boolean Whether the boundary should be updated to move past the provided token
+     */
+    internal fun enqueue(
+        type: IElementType,
+        startOffset: Int = 0,
+        endOffset: Int = startOffset,
+        count: Int = 1,
+        updateBoundary: Boolean = true
+    ) {
+        for (i in 1..count) {
+            queue.add(
+                QueuedToken(type, startOffset + boundsStart, endOffset + boundsStart)
+            )
+        }
 
-        // Move reading boundary to the next character to read
-        boundsStart += endOffset + 1
+        if (updateBoundary) {
+            // Move reading boundary to the next character to read
+            boundsStart += endOffset + 1
+        }
     }
-
-    internal fun enqueue(type: IElementType, offset: Int = 0) = enqueue(type, offset, offset)
 
     internal fun peek(): QueuedToken? = queue.peek()
 }

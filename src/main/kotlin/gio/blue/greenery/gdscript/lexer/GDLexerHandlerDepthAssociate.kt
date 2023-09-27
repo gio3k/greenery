@@ -23,7 +23,9 @@ class GDLexerHandlerDepthAssociate(lexer: GDLexer) : GDLexer.GDLexerHandlerAssoc
                 // Data / non-space was found at the start of the line
                 // Reverse all indents, then return
                 if (stack.isNotEmpty()) {
-                    for (i in stack) lexer.enqueue(GDTokens.DEDENT)
+                    // Queue dedents, without affecting the boundary state.
+                    // We're over a data character - we really don't want to skip it!
+                    lexer.enqueue(GDTokens.DEDENT, 0, count = stack.size, updateBoundary = false)
                     stack.clear()
                     return true
                 }
@@ -80,6 +82,7 @@ class GDLexerHandlerDepthAssociate(lexer: GDLexer) : GDLexer.GDLexerHandlerAssoc
         }
 
         // Last indent size was lesser than the current, return an indent
+        stack.push(size)
         lexer.enqueue(GDTokens.INDENT, 0, endOffset)
         return true
     }
