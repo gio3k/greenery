@@ -25,7 +25,7 @@ class GDLexerHandlerDepthAssociate(lexer: GDLexer) : GDLexer.GDLexerHandlerAssoc
                 if (stack.isNotEmpty()) {
                     // Queue dedents, without affecting the boundary state.
                     // We're over a data character - we really don't want to skip it!
-                    lexer.enqueue(GDTokens.DEDENT, 0, count = stack.size, updateBoundary = false)
+                    lexer.enqueue(GDTokens.DEDENT, startOffset = 0, count = stack.size, updateBoundary = false)
                     stack.clear()
                     return true
                 }
