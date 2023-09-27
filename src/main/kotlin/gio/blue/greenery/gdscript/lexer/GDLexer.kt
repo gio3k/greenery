@@ -148,14 +148,15 @@ class GDLexer : LexerBase() {
     }
 
     internal fun enqueue(type: IElementType, startOffset: Int, endOffset: Int) {
+        queue.add(
+            QueuedToken(type, startOffset + boundsStart, endOffset + boundsStart)
+        )
+
         // Move reading boundary to the next character to read
         boundsStart += endOffset + 1
-
-        queue.add(
-            QueuedToken(type, startOffset, endOffset)
-        )
     }
 
     internal fun enqueue(type: IElementType, offset: Int = 0) = enqueue(type, offset, offset)
+
     internal fun peek(): QueuedToken? = queue.peek()
 }
