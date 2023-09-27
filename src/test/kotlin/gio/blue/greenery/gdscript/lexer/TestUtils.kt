@@ -26,15 +26,8 @@ internal fun GDLexer.assert(type: IElementType, start: Int, end: Int = start, me
     assertEquals(end, tokenEnd, message)
 }
 
-internal fun GDLexer.expectTypeSkipSpaces(type: IElementType, message: String? = null) {
-    skipSpaces()
+internal fun GDLexer.expectType(type: IElementType, message: String? = null) {
     assertType(type, message)
-    advance()
-}
-
-internal fun GDLexer.expectSkipSpaces(type: IElementType, start: Int, end: Int = start, message: String? = null) {
-    skipSpaces()
-    assert(type, start, end, message)
     advance()
 }
 
@@ -43,10 +36,16 @@ internal fun GDLexer.expect(type: IElementType, start: Int, end: Int = start, me
     advance()
 }
 
-internal fun GDLexer.expectType(type: IElementType, message: String? = null) {
-    assertType(type, message)
-    advance()
+internal fun GDLexer.expectTypeSkipSpaces(type: IElementType, message: String? = null) {
+    skipSpaces()
+    expectType(type, message)
 }
+
+internal fun GDLexer.expectSkipSpaces(type: IElementType, start: Int, end: Int = start, message: String? = null) {
+    skipSpaces()
+    expect(type, start, end, message)
+}
+
 
 internal fun createTestLexer(sequence: CharSequence): GDLexer {
     val lexer = GDLexer()
