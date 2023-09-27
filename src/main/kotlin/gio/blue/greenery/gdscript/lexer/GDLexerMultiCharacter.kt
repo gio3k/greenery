@@ -59,8 +59,11 @@ fun GDLexer.tryLexingMultiCharacter(): Boolean {
     for (i0 in multi0) {
         if (c0 != i0.c0) continue
         for (i1 in multi1) {
+            if (c0 != i1.c0) continue
             if (c1 != i1.c1) continue
             for (i2 in multi2) {
+                if (c0 != i2.c0) continue
+                if (c1 != i2.c1) continue
                 if (c2 != i2.c2) continue
                 enqueue(i2.type, 0, 2)
                 return true
