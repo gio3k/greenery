@@ -108,6 +108,7 @@ object GDTokens {
     val DOLLAR = GDElementType("DOLLAR") // $
     val QUESTION = GDElementType("QUESTION") // ?
     val BACKTICK = GDElementType("BACKTICK") // `
+    val EQ = GDElementType("EQ") // =
 
     /**
      * Comment:

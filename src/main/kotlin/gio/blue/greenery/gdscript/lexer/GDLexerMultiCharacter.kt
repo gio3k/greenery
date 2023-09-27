@@ -17,6 +17,7 @@ private val multi0 = setOf(
     MultiCharacter(GDTokens.OR, '|'),
     MultiCharacter(GDTokens.XOR, '^'),
     MultiCharacter(GDTokens.TILDE, '~'),
+    MultiCharacter(GDTokens.EQ, '='),
 )
 
 private val multi1 = setOf(
@@ -70,6 +71,7 @@ fun GDLexer.tryLexingMultiCharacter(): Boolean {
         }
 
         enqueue(i0.type, 0, 0)
+        return true
     }
 
     return false
