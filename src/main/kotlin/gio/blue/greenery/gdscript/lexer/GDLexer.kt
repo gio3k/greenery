@@ -67,6 +67,12 @@ class GDLexer : LexerBase() {
             return
         }
 
+        if (tokenType == GDTokens.INVALID) {
+            // We're the very first token seen by the lexer
+            // Try to parse indents, and if it doesn't work out, just continue
+            if (depthHandlerAssociate.tryLexingStartOfLineIndents()) return
+        }
+
         if (tryLexingCommentLine()) return
         if (tryLexingAnnotation()) return
 
@@ -96,7 +102,7 @@ class GDLexer : LexerBase() {
         }
 
         while (hasCharAt(0)) {
-            println(getCharAt(0))
+            println("'${getCharAt(0)}' @ ${boundsStart}")
             process()
 
             if (queue.isNotEmpty()) {
