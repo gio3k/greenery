@@ -1,12 +1,19 @@
 package gio.blue.greenery.gdscript
 
 import com.intellij.psi.TokenType
-import gio.blue.greenery.stage1.GDElementType
+import com.intellij.psi.tree.TokenSet
+import gio.blue.greenery.gdscript.psi.GDElementType
 
 object GDTokens {
+    val INVALID = GDElementType("INVALID")
+
     val IDENTIFIER = GDElementType("IDENTIFIER")
     val LINE_BREAK = GDElementType("LINE_BREAK")
-    val BAD_CHARACTER = TokenType.BAD_CHARACTER
+
+    // These are probably issues
+    var ISSUE_STRAY_CARRIAGE_RETURN = GDElementType("ISSUE_STRAY_CARRIAGE_RETURN")
+    var ISSUE_MIXED_INDENTS = GDElementType("ISSUE_MIXED_INDENTS")
+    val ISSUE_BAD_CHARACTER = TokenType.BAD_CHARACTER
 
     val SPACE = GDElementType("SPACE")
     val TAB = GDElementType("TAB")
@@ -45,23 +52,110 @@ object GDTokens {
     val VOID_KEYWORD = GDElementType("VOID_KEYWORD")
     val YIELD_KEYWORD = GDElementType("YIELD_KEYWORD")
 
+    // Operators
+    val PLUS = GDElementType("PLUS") // +
+    val MINUS = GDElementType("MINUS") // -
+    val MULT = GDElementType("MULT") // *
+    val EXP = GDElementType("EXP") // **
+    val DIV = GDElementType("DIV") // /
+    val PERC = GDElementType("PERC") // %
+    val LTLT = GDElementType("LTLT") // <<
+    val GTGT = GDElementType("GTGT") // >>
+    val AND = GDElementType("AND") // &
+    val OR = GDElementType("OR") // |
+    val XOR = GDElementType("XOR") // ^
+    val TILDE = GDElementType("TILDE") // ~
+    val LT = GDElementType("LT") // <
+    val GT = GDElementType("GT") // >
+    val LE = GDElementType("LE") // <=
+    val GE = GDElementType("GE") // >=
+    val EQEQ = GDElementType("EQEQ") // ==
+    val NE = GDElementType("NE") // !=
+
+    // Assignment operators
+    val PLUSEQ = GDElementType("PLUSEQ") // +=
+    val MINUSEQ = GDElementType("MINUSEQ") // -=
+    val MULTEQ = GDElementType("MULTEQ") // *=
+    val DIVEQ = GDElementType("DIVEQ")  // /=
+    val PERCEQ = GDElementType("PERCEQ") // %=
+    val ANDEQ = GDElementType("ANDEQ") // &=
+    val OREQ = GDElementType("OREQ") // |=
+    val XOREQ = GDElementType("XOREQ") // ^=
+    val LTLTEQ = GDElementType("LTLTEQ") // <<=
+    val GTGTEQ = GDElementType("GTGTEQ") // >>=
+    val EXPEQ = GDElementType("EXPEQ") // **=
+    val RARROW = GDElementType("RARROW") // ->
+    val COLONEQ = GDElementType("COLONEQ") // :=
+
     // Boolean keywords
     val TRUE_KEYWORD = GDElementType("TRUE_KEYWORD")
-    var FALSE_KEYWORD = GDElementType("FALSE_KEYWORD");
+    val FALSE_KEYWORD = GDElementType("FALSE_KEYWORD");
 
     // Depth
     val INDENT = GDElementType("INDENT")
     val DEDENT = GDElementType("DEDENT")
 
-    // String related
-    var
+    // Delimiters
+    val LPAR = GDElementType("LPAR") // (
+    val RPAR = GDElementType("RPAR") // )
+    val LBRACKET = GDElementType("LBRACKET") // [
+    val RBRACKET = GDElementType("RBRACKET") // ]
+    val LBRACE = GDElementType("LBRACE") // {
+    val RBRACE = GDElementType("RBRACE") // }
+    val COMMA = GDElementType("COMMA") // ,
+    val COLON = GDElementType("COLON") // :
+    val SEMICOLON = GDElementType("SEMICOLON") // ;
+    val DOLLAR = GDElementType("DOLLAR") // $
+    val QUESTION = GDElementType("QUESTION") // ?
+    val BACKTICK = GDElementType("BACKTICK") // `
 
-    // Literals
-    var NODE_PATH_LITERAL = GDElementType("NODE_PATH_LITERAL");
-    var STRING_NAME_LITERAL = GDElementType("STRING_NAME_LITERAL");
-    var INTEGER_LITERAL = GDElementType("INTEGER_LITERAL");
-    var FLOAT_LITERAL = GDElementType("FLOAT_LITERAL");
-    var NODE_PATH_LITERAL = GDElementType("NODE_PATH_LITERAL");
+    /**
+     * Comment:
+     * A whole comment, from the starting hash to the end of the line
+     */
+    val COMMENT = GDElementType("COMMENT")
+    val COMMENTS = TokenSet.create(COMMENT)
 
+    /**
+     * Annotation:
+     * A whole annotation, from the starting at to the end of the identifier
+     */
+    val ANNOTATION = GDElementType("ANNOTATION")
 
+    /* String related */
+    // String markers
+    val TRIPLE_STRING_MARKER = GDElementType("TRIPLE_STRING_MARKER") // """
+    val SINGLE_STRING_MARKER = GDElementType("SINGLE_STRING_MARKER") // "
+    val SMALL_STRING_MARKER = GDElementType("SMALL_STRING_MARKER") // '
+
+    // String prefixes (only one allowed at a time)
+    val RAW_STRING_PREFIX = GDElementType("RAW_STRING_PREFIX") // r
+    val NODE_PATH_STRING_PREFIX = GDElementType("NODE_PATH_STRING_PREFIX") // ^
+    val STRING_NAME_STRING_PREFIX = GDElementType("STRING_NAME_STRING_PREFIX") // &
+
+    // String data
+    val STRING_CONTENT_PART = GDElementType("STRING_CONTENT") // *
+    val STRING_ESCAPE_PART = GDElementType("STRING_ESCAPE_PART") // \*
+    val ISSUE_STRING_INVISIBLE_TEXT_DIRECTION_CHARACTER =
+        GDElementType("ISSUE_STRING_INVISIBLE_TEXT_DIRECTION_CHARACTER")
+
+    // String token set
+    val STRING_LITERALS = TokenSet.create(
+        TRIPLE_STRING_MARKER,
+        SINGLE_STRING_MARKER,
+        SMALL_STRING_MARKER,
+        RAW_STRING_PREFIX,
+        NODE_PATH_STRING_PREFIX,
+        STRING_NAME_STRING_PREFIX,
+        STRING_CONTENT_PART,
+        STRING_ESCAPE_PART
+    )
+
+    /* Literals */
+    val INTEGER_LITERAL = GDElementType("INTEGER_LITERAL")
+    val FLOAT_LITERAL = GDElementType("FLOAT_LITERAL")
+    val BINARY_LITERAL = GDElementType("BINARY_LITERAL")
+    val HEX_LITERAL = GDElementType("HEX_LITERAL")
+    var BOOLEAN_LITERALS = TokenSet.create(TRUE_KEYWORD, FALSE_KEYWORD)
+    var NUMERIC_LITERALS = TokenSet.create(INTEGER_LITERAL, FLOAT_LITERAL, BINARY_LITERAL, HEX_LITERAL)
 }

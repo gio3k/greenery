@@ -22,6 +22,8 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <fileType name="GDScript File" implementationClass="gio.blue.greenery.gdscript.GDFileType" fieldName="INSTANCE"
+                  language="GDScript" extensions="gd"/>
+        <lang.parserDefinition language="GDScript" implementationClass="gio.blue.greenery.gdscript.GDParserDefinition"/>
     </extensions>
 </idea-plugin>

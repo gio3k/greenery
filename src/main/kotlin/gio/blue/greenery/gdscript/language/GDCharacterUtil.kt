@@ -1,7 +1,18 @@
-package gio.blue.greenery.stage0.helpers
+package gio.blue.greenery.gdscript.language
 
 
-object CharUtil {
+object GDCharacterUtil {
+    data class CharRange(val a: Int, val b: Int)
+
+    fun isInvisibleTextDirectionControlCharacter(char: Char): Boolean {
+        val code = char.code
+        if (code == 0x200E) return true
+        if (code == 0x200F) return true
+        if (code in 0x202A..0x202E) return true
+        if (code in 0x2066..0x2069) return true
+        return false
+    }
+
     fun isValidCharacterForIdentifier(char: Char): Boolean {
         return when (char) {
             ':' -> false
@@ -32,31 +43,23 @@ object CharUtil {
         return true
     }
 
-    fun isUnicodeIdentifierStart(char: Char?): Boolean {
-        if (char == null) {
-            return false
-        }
+    fun isUnicodeIdentifierStart(char: Char): Boolean {
+        val code = char.code
         for (range in Start) {
-            if (char >= range.a.toChar() && char <= range.b.toChar()) {
-                return true
-            }
+            if (code >= range.a && code <= range.b) return true
         }
         return false
     }
 
-    fun isUnicodeIdentifierContinue(char: Char?): Boolean {
-        if (char == null) {
-            return false
-        }
+    fun isUnicodeIdentifierContinue(char: Char): Boolean {
+        val code = char.code
         for (range in Continue) {
-            if (char >= range.a.toChar() && char <= range.b.toChar()) {
-                return true
-            }
+            if (code >= range.a && code <= range.b) return true
         }
         return false
     }
 
-    val Start = arrayOf(
+    private val Start = arrayOf(
         CharRange(0x41, 0x5a),
         CharRange(0x5f, 0x5f),
         CharRange(0x61, 0x7a),

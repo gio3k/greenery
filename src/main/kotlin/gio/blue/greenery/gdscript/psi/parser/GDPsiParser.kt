@@ -1,4 +1,4 @@
-package gio.blue.greenery.stage1.psi.parser
+package gio.blue.greenery.gdscript.psi.parser
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiBuilder

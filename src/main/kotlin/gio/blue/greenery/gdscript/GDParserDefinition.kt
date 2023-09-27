@@ -1,4 +1,4 @@
-package gio.blue.greenery.stage1
+package gio.blue.greenery.gdscript
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
@@ -10,12 +10,12 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import gio.blue.greenery.stage1.psi.GDFile
+import gio.blue.greenery.gdscript.lexer.GDLexer
+import gio.blue.greenery.gdscript.psi.GDFile
 
 class GDParserDefinition : ParserDefinition {
     override fun createLexer(project: Project?): Lexer {
-
-        TODO("Not yet implemented")
+        return GDLexer()
     }
 
     override fun createParser(project: Project?): PsiParser {
@@ -27,11 +27,11 @@ class GDParserDefinition : ParserDefinition {
     }
 
     override fun getCommentTokens(): TokenSet {
-        TODO("Not yet implemented")
+        return GDTokens.COMMENTS
     }
 
     override fun getStringLiteralElements(): TokenSet {
-        TODO("Not yet implemented")
+        return GDTokens.STRING_LITERALS
     }
 
     override fun createElement(node: ASTNode?): PsiElement {
@@ -39,5 +39,4 @@ class GDParserDefinition : ParserDefinition {
     }
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile = GDFile(viewProvider)
-
 }
