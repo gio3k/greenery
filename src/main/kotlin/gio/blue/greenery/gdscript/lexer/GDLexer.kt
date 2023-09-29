@@ -37,11 +37,11 @@ class GDLexer : LexerBase() {
         queue.clear()
     }
 
-    override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
+    override fun start(buffer: CharSequence, start: Int, end: Int, initialState: Int) {
         reset()
 
-        boundsStart = startOffset
-        boundsEnd = endOffset
+        boundsStart = start
+        boundsEnd = end
 
         this.buffer = buffer
 
