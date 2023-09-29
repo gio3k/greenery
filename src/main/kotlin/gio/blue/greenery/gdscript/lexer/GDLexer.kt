@@ -50,7 +50,15 @@ class GDLexer : LexerBase() {
 
     override fun getState(): Int = state
 
-    override fun getTokenType(): IElementType = lastToken.type
+    override fun getTokenType(): IElementType? {
+        // We need to return null if we have no token!
+        return if (lastToken.type == GDTokens.INVALID) {
+            null
+        } else {
+            lastToken.type
+        }
+    }
+
     override fun getTokenStart(): Int = lastToken.start
     override fun getTokenEnd(): Int = lastToken.end
 
