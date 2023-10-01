@@ -1,6 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 /**
  * Checks if a character can end a comment token
@@ -26,7 +26,7 @@ fun GDLexer.tryLexingCommentLine(): Boolean {
         val ci = tryGetCharAt(i)
         if (ci == null || canCharEndCommentToken(ci)) {
             // Whether it's empty (just a #) or a full comment, we need to set and return
-            enqueue(GDTokens.COMMENT, 0, i - 1)
+            enqueue(TokenLibrary.COMMENT, 0, i - 1)
             return true
         }
     }

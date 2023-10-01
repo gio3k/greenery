@@ -1,6 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 import org.junit.jupiter.api.DisplayName
 import kotlin.test.Test
 
@@ -11,20 +11,20 @@ class BasicTests {
     fun basicStructureForKindScanning() {
         val lexer = createTestLexer("var a = 3\nfunc hello():\n    pass")
 
-        lexer.expectTypeSkipSpaces(GDTokens.VAR_KEYWORD)
-        lexer.expectTypeSkipSpaces(GDTokens.IDENTIFIER, "a?")
-        lexer.expectTypeSkipSpaces(GDTokens.EQ)
-        lexer.expectTypeSkipSpaces(GDTokens.INTEGER_LITERAL)
-        lexer.expectTypeSkipSpaces(GDTokens.LINE_BREAK)
+        lexer.expectTypeSkipSpaces(TokenLibrary.VAR_KEYWORD)
+        lexer.expectTypeSkipSpaces(TokenLibrary.IDENTIFIER, "a?")
+        lexer.expectTypeSkipSpaces(TokenLibrary.EQ)
+        lexer.expectTypeSkipSpaces(TokenLibrary.INTEGER_LITERAL)
+        lexer.expectTypeSkipSpaces(TokenLibrary.LINE_BREAK)
 
-        lexer.expectTypeSkipSpaces(GDTokens.FUNC_KEYWORD)
-        lexer.expectTypeSkipSpaces(GDTokens.IDENTIFIER, "hello?")
-        lexer.expectTypeSkipSpaces(GDTokens.LPAR)
-        lexer.expectTypeSkipSpaces(GDTokens.RPAR)
-        lexer.expectTypeSkipSpaces(GDTokens.COLON)
-        lexer.expectTypeSkipSpaces(GDTokens.LINE_BREAK)
+        lexer.expectTypeSkipSpaces(TokenLibrary.FUNC_KEYWORD)
+        lexer.expectTypeSkipSpaces(TokenLibrary.IDENTIFIER, "hello?")
+        lexer.expectTypeSkipSpaces(TokenLibrary.LPAR)
+        lexer.expectTypeSkipSpaces(TokenLibrary.RPAR)
+        lexer.expectTypeSkipSpaces(TokenLibrary.COLON)
+        lexer.expectTypeSkipSpaces(TokenLibrary.LINE_BREAK)
 
-        lexer.expectTypeSkipSpaces(GDTokens.INDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.PASS_KEYWORD)
+        lexer.expectTypeSkipSpaces(TokenLibrary.INDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.PASS_KEYWORD)
     }
 }

@@ -1,45 +1,45 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
-import gio.blue.greenery.gdscript.language.GDCharacterUtil
+import gio.blue.greenery.gdscript.GDCharacterUtil
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 val keywordMap = mapOf(
-    "if" to GDTokens.IF_KEYWORD,
-    "elif" to GDTokens.ELIF_KEYWORD,
-    "else" to GDTokens.ELSE_KEYWORD,
-    "for" to GDTokens.FOR_KEYWORD,
-    "while" to GDTokens.WHILE_KEYWORD,
-    "match" to GDTokens.MATCH_KEYWORD,
-    "break" to GDTokens.BREAK_KEYWORD,
-    "continue" to GDTokens.CONTINUE_KEYWORD,
-    "pass" to GDTokens.PASS_KEYWORD,
-    "return" to GDTokens.RETURN_KEYWORD,
+    "if" to TokenLibrary.IF_KEYWORD,
+    "elif" to TokenLibrary.ELIF_KEYWORD,
+    "else" to TokenLibrary.ELSE_KEYWORD,
+    "for" to TokenLibrary.FOR_KEYWORD,
+    "while" to TokenLibrary.WHILE_KEYWORD,
+    "match" to TokenLibrary.MATCH_KEYWORD,
+    "break" to TokenLibrary.BREAK_KEYWORD,
+    "continue" to TokenLibrary.CONTINUE_KEYWORD,
+    "pass" to TokenLibrary.PASS_KEYWORD,
+    "return" to TokenLibrary.RETURN_KEYWORD,
 
-    "as" to GDTokens.AS_KEYWORD,
-    "assert" to GDTokens.ASSERT_KEYWORD,
-    "await" to GDTokens.AWAIT_KEYWORD,
-    "breakpoint" to GDTokens.BREAKPOINT_KEYWORD,
-    "class" to GDTokens.CLASS_KEYWORD,
-    "class_name" to GDTokens.CLASS_NAME_KEYWORD,
-    "const" to GDTokens.CONST_KEYWORD,
-    "enum" to GDTokens.ENUM_KEYWORD,
-    "extends" to GDTokens.EXTENDS_KEYWORD,
-    "func" to GDTokens.FUNC_KEYWORD,
-    "in" to GDTokens.IN_KEYWORD,
-    "is" to GDTokens.IS_KEYWORD,
-    "namespace" to GDTokens.NAMESPACE_KEYWORD,
-    "preload" to GDTokens.PRELOAD_KEYWORD,
-    "self" to GDTokens.SELF_KEYWORD,
-    "signal" to GDTokens.SIGNAL_KEYWORD,
-    "static" to GDTokens.STATIC_KEYWORD,
-    "super" to GDTokens.SUPER_KEYWORD,
-    "trait" to GDTokens.TRAIT_KEYWORD,
-    "var" to GDTokens.VAR_KEYWORD,
-    "void" to GDTokens.VOID_KEYWORD,
-    "yield" to GDTokens.YIELD_KEYWORD,
+    "as" to TokenLibrary.AS_KEYWORD,
+    "assert" to TokenLibrary.ASSERT_KEYWORD,
+    "await" to TokenLibrary.AWAIT_KEYWORD,
+    "breakpoint" to TokenLibrary.BREAKPOINT_KEYWORD,
+    "class" to TokenLibrary.CLASS_KEYWORD,
+    "class_name" to TokenLibrary.CLASS_NAME_KEYWORD,
+    "const" to TokenLibrary.CONST_KEYWORD,
+    "enum" to TokenLibrary.ENUM_KEYWORD,
+    "extends" to TokenLibrary.EXTENDS_KEYWORD,
+    "func" to TokenLibrary.FUNC_KEYWORD,
+    "in" to TokenLibrary.IN_KEYWORD,
+    "is" to TokenLibrary.IS_KEYWORD,
+    "namespace" to TokenLibrary.NAMESPACE_KEYWORD,
+    "preload" to TokenLibrary.PRELOAD_KEYWORD,
+    "self" to TokenLibrary.SELF_KEYWORD,
+    "signal" to TokenLibrary.SIGNAL_KEYWORD,
+    "static" to TokenLibrary.STATIC_KEYWORD,
+    "super" to TokenLibrary.SUPER_KEYWORD,
+    "trait" to TokenLibrary.TRAIT_KEYWORD,
+    "var" to TokenLibrary.VAR_KEYWORD,
+    "void" to TokenLibrary.VOID_KEYWORD,
+    "yield" to TokenLibrary.YIELD_KEYWORD,
 
-    "true" to GDTokens.TRUE_KEYWORD,
-    "false" to GDTokens.FALSE_KEYWORD
+    "true" to TokenLibrary.TRUE_KEYWORD,
+    "false" to TokenLibrary.FALSE_KEYWORD
 )
 
 /**
@@ -71,6 +71,6 @@ fun GDLexer.tryLexingPossibleIdentifier(): Boolean {
     }
 
     // Return it as an identifier
-    enqueue(GDTokens.IDENTIFIER, 0, endOffset)
+    enqueue(TokenLibrary.IDENTIFIER, 0, endOffset)
     return true
 }

@@ -1,7 +1,7 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
-import gio.blue.greenery.gdscript.language.GDCharacterUtil
+import gio.blue.greenery.gdscript.elements.TokenLibrary
+import gio.blue.greenery.gdscript.GDCharacterUtil
 
 /**
  * Attempts to parse a string prefix
@@ -19,21 +19,21 @@ private fun GDLexer.tryLexingStringPrefix(): Boolean {
     when (getCharAt(0)) {
         'r' -> {
             if (isC1StringMarker()) {
-                enqueue(GDTokens.RAW_STRING_PREFIX)
+                enqueue(TokenLibrary.RAW_STRING_PREFIX)
                 return true
             }
         }
 
         '^' -> {
             if (isC1StringMarker()) {
-                enqueue(GDTokens.NODE_PATH_STRING_PREFIX)
+                enqueue(TokenLibrary.NODE_PATH_STRING_PREFIX)
                 return true
             }
         }
 
         '&' -> {
             if (isC1StringMarker()) {
-                enqueue(GDTokens.STRING_NAME_STRING_PREFIX)
+                enqueue(TokenLibrary.STRING_NAME_STRING_PREFIX)
                 return true
             }
         }
@@ -53,7 +53,7 @@ private fun GDLexer.tryLexingStringMarker(): Boolean {
     // See if we have a string marker - there could be no character here
     when (tryGetCharAt(0)) {
         '\'' -> {
-            enqueue(GDTokens.SMALL_STRING_MARKER)
+            enqueue(TokenLibrary.SMALL_STRING_MARKER)
             return true
         }
 
@@ -61,10 +61,10 @@ private fun GDLexer.tryLexingStringMarker(): Boolean {
             // Find out if this is a triple or single marker
             if (isTripleStringMarker()) {
                 // Triple marker found
-                enqueue(GDTokens.TRIPLE_STRING_MARKER, 0, 2)
+                enqueue(TokenLibrary.TRIPLE_STRING_MARKER, 0, 2)
             } else {
                 // Single marker found
-                enqueue(GDTokens.SINGLE_STRING_MARKER)
+                enqueue(TokenLibrary.SINGLE_STRING_MARKER)
             }
 
             return true
@@ -114,7 +114,7 @@ private fun GDLexer.tryLexingStringContent(): Boolean {
     // Don't bother appending empty string content
     if (size == 0) return false
 
-    enqueue(GDTokens.STRING_CONTENT_PART, 0, size)
+    enqueue(TokenLibrary.STRING_CONTENT_PART, 0, size)
     return true
 }
 
@@ -131,7 +131,7 @@ private fun GDLexer.tryLexingEscapeCharacter(): Boolean {
         null -> {
             // End of content found while reading escape character
             // We won't deal with issue raising
-            enqueue(GDTokens.STRING_ESCAPE_PART)
+            enqueue(TokenLibrary.STRING_ESCAPE_PART)
             return true
         }
 
@@ -139,7 +139,7 @@ private fun GDLexer.tryLexingEscapeCharacter(): Boolean {
             // UTF-16
             for (i in 5 downTo 2) {
                 if (hasCharAt(i)) {
-                    enqueue(GDTokens.STRING_ESCAPE_PART, 0, i)
+                    enqueue(TokenLibrary.STRING_ESCAPE_PART, 0, i)
                     return true
                 }
             }
@@ -149,7 +149,7 @@ private fun GDLexer.tryLexingEscapeCharacter(): Boolean {
             // UTF-32
             for (i in 7 downTo 2) {
                 if (hasCharAt(i)) {
-                    enqueue(GDTokens.STRING_ESCAPE_PART, 0, i)
+                    enqueue(TokenLibrary.STRING_ESCAPE_PART, 0, i)
                     return true
                 }
             }
@@ -157,20 +157,20 @@ private fun GDLexer.tryLexingEscapeCharacter(): Boolean {
 
         else -> {
             // Unknown - hopefully just a normal 2-character escape
-            enqueue(GDTokens.STRING_ESCAPE_PART, 0, 1)
+            enqueue(TokenLibrary.STRING_ESCAPE_PART, 0, 1)
             return true
         }
     }
 
     // We definitely found the escape character - we don't know what the data is
-    enqueue(GDTokens.STRING_ESCAPE_PART)
+    enqueue(TokenLibrary.STRING_ESCAPE_PART)
     return true
 }
 
 private fun GDLexer.tryLexingInvisibleControlChar(): Boolean {
     val c0 = tryGetCharAt(0) ?: return false
     if (GDCharacterUtil.isInvisibleTextDirectionControlCharacter(c0)) {
-        enqueue(GDTokens.ISSUE_STRING_INVISIBLE_TEXT_DIRECTION_CHARACTER)
+        enqueue(TokenLibrary.ISSUE_STRING_INVISIBLE_TEXT_DIRECTION_CHARACTER)
         return true
     }
     return false

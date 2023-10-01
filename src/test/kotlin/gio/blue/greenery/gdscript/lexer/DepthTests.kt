@@ -1,6 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 import org.junit.jupiter.api.DisplayName
 import kotlin.test.Test
 
@@ -11,11 +11,11 @@ class DepthTests {
     fun scanIndentsForDepth() {
         val lexer = createTestLexer("   \n    \na")
 
-        lexer.expectTypeSkipSpaces(GDTokens.INDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.LINE_BREAK)
+        lexer.expectTypeSkipSpaces(TokenLibrary.INDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.LINE_BREAK)
 
-        lexer.expectTypeSkipSpaces(GDTokens.INDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.LINE_BREAK)
+        lexer.expectTypeSkipSpaces(TokenLibrary.INDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.LINE_BREAK)
     }
 
     @Test
@@ -23,15 +23,15 @@ class DepthTests {
     fun scanIndentsForDepthAndHandleReversal() {
         val lexer = createTestLexer("   \n    \na")
 
-        lexer.expectTypeSkipSpaces(GDTokens.INDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.LINE_BREAK)
+        lexer.expectTypeSkipSpaces(TokenLibrary.INDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.LINE_BREAK)
 
-        lexer.expectTypeSkipSpaces(GDTokens.INDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.LINE_BREAK)
+        lexer.expectTypeSkipSpaces(TokenLibrary.INDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.LINE_BREAK)
 
         // Because a non-space character is the first character on the line, all indents should be reversed
-        lexer.expectTypeSkipSpaces(GDTokens.DEDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.DEDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.DEDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.DEDENT)
     }
 
     @Test
@@ -39,18 +39,18 @@ class DepthTests {
     fun scanIndentsForDepthAndHandleReversalSafely() {
         val lexer = createTestLexer("   \n    \na")
 
-        lexer.expectTypeSkipSpaces(GDTokens.INDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.LINE_BREAK)
+        lexer.expectTypeSkipSpaces(TokenLibrary.INDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.LINE_BREAK)
 
-        lexer.expectTypeSkipSpaces(GDTokens.INDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.LINE_BREAK)
+        lexer.expectTypeSkipSpaces(TokenLibrary.INDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.LINE_BREAK)
 
         // Because a non-space character is the first character on the line, all indents should be reversed
-        lexer.expectTypeSkipSpaces(GDTokens.DEDENT)
-        lexer.expectTypeSkipSpaces(GDTokens.DEDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.DEDENT)
+        lexer.expectTypeSkipSpaces(TokenLibrary.DEDENT)
 
         // We should get the identifier (a) now
-        lexer.expectTypeSkipSpaces(GDTokens.IDENTIFIER, "a?")
+        lexer.expectTypeSkipSpaces(TokenLibrary.IDENTIFIER, "a?")
     }
 }
 

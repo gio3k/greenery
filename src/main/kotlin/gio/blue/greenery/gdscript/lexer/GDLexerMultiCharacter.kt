@@ -1,49 +1,49 @@
 package gio.blue.greenery.gdscript.lexer
 
 import com.intellij.psi.tree.IElementType
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 data class MultiCharacter(val type: IElementType, val c0: Char, val c1: Char? = null, var c2: Char? = null)
 
 private val multi0 = setOf(
-    MultiCharacter(GDTokens.PLUS, '+'),
-    MultiCharacter(GDTokens.MINUS, '-'),
-    MultiCharacter(GDTokens.MULT, '*'),
-    MultiCharacter(GDTokens.DIV, '/'),
-    MultiCharacter(GDTokens.PERC, '%'),
-    MultiCharacter(GDTokens.LT, '<'),
-    MultiCharacter(GDTokens.GT, '>'),
-    MultiCharacter(GDTokens.AND, '&'),
-    MultiCharacter(GDTokens.OR, '|'),
-    MultiCharacter(GDTokens.XOR, '^'),
-    MultiCharacter(GDTokens.TILDE, '~'),
-    MultiCharacter(GDTokens.EQ, '='),
+    MultiCharacter(TokenLibrary.PLUS, '+'),
+    MultiCharacter(TokenLibrary.MINUS, '-'),
+    MultiCharacter(TokenLibrary.MULT, '*'),
+    MultiCharacter(TokenLibrary.DIV, '/'),
+    MultiCharacter(TokenLibrary.PERC, '%'),
+    MultiCharacter(TokenLibrary.LT, '<'),
+    MultiCharacter(TokenLibrary.GT, '>'),
+    MultiCharacter(TokenLibrary.AND, '&'),
+    MultiCharacter(TokenLibrary.OR, '|'),
+    MultiCharacter(TokenLibrary.XOR, '^'),
+    MultiCharacter(TokenLibrary.TILDE, '~'),
+    MultiCharacter(TokenLibrary.EQ, '='),
 )
 
 private val multi1 = setOf(
-    MultiCharacter(GDTokens.PLUSEQ, '+', '='),
-    MultiCharacter(GDTokens.MINUSEQ, '-', '='),
-    MultiCharacter(GDTokens.EXP, '*', '*'),
-    MultiCharacter(GDTokens.MULTEQ, '*', '='),
-    MultiCharacter(GDTokens.DIVEQ, '/', '='),
-    MultiCharacter(GDTokens.PERCEQ, '%', '='),
-    MultiCharacter(GDTokens.LTLT, '<', '<'),
-    MultiCharacter(GDTokens.LE, '<', '='),
-    MultiCharacter(GDTokens.GTGT, '>', '>'),
-    MultiCharacter(GDTokens.GE, '>', '='),
-    MultiCharacter(GDTokens.EQEQ, '=', '='),
-    MultiCharacter(GDTokens.NE, '!', '='),
-    MultiCharacter(GDTokens.OREQ, '|', '='),
-    MultiCharacter(GDTokens.ANDEQ, '&', '='),
-    MultiCharacter(GDTokens.XOREQ, '^', '='),
-    MultiCharacter(GDTokens.RARROW, '-', '>'),
-    MultiCharacter(GDTokens.COLONEQ, ':', '='),
+    MultiCharacter(TokenLibrary.PLUSEQ, '+', '='),
+    MultiCharacter(TokenLibrary.MINUSEQ, '-', '='),
+    MultiCharacter(TokenLibrary.EXP, '*', '*'),
+    MultiCharacter(TokenLibrary.MULTEQ, '*', '='),
+    MultiCharacter(TokenLibrary.DIVEQ, '/', '='),
+    MultiCharacter(TokenLibrary.PERCEQ, '%', '='),
+    MultiCharacter(TokenLibrary.LTLT, '<', '<'),
+    MultiCharacter(TokenLibrary.LE, '<', '='),
+    MultiCharacter(TokenLibrary.GTGT, '>', '>'),
+    MultiCharacter(TokenLibrary.GE, '>', '='),
+    MultiCharacter(TokenLibrary.EQEQ, '=', '='),
+    MultiCharacter(TokenLibrary.NE, '!', '='),
+    MultiCharacter(TokenLibrary.OREQ, '|', '='),
+    MultiCharacter(TokenLibrary.ANDEQ, '&', '='),
+    MultiCharacter(TokenLibrary.XOREQ, '^', '='),
+    MultiCharacter(TokenLibrary.RARROW, '-', '>'),
+    MultiCharacter(TokenLibrary.COLONEQ, ':', '='),
 )
 
 private val multi2 = setOf(
-    MultiCharacter(GDTokens.LTLTEQ, '<', '<', '='),
-    MultiCharacter(GDTokens.EXPEQ, '*', '*', '='),
-    MultiCharacter(GDTokens.GTGTEQ, '>', '>', '='),
+    MultiCharacter(TokenLibrary.LTLTEQ, '<', '<', '='),
+    MultiCharacter(TokenLibrary.EXPEQ, '*', '*', '='),
+    MultiCharacter(TokenLibrary.GTGTEQ, '>', '>', '='),
 )
 
 /**

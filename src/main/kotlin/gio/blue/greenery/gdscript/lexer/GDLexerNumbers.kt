@@ -1,6 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 fun GDLexer.findNumberEndOffsetAfterPrefix(): Int {
     // This is called *while still lexing the number*, right after the prefix
@@ -43,18 +43,18 @@ fun GDLexer.tryLexingNumber(): Boolean {
     if (getCharAt(0) == '0') {
         when (tryGetCharAt(1)) {
             'b' -> {
-                enqueue(GDTokens.BINARY_LITERAL, 0, findNumberEndOffsetAfterPrefix())
+                enqueue(TokenLibrary.BINARY_LITERAL, 0, findNumberEndOffsetAfterPrefix())
                 return true
             }
 
             'x' -> {
-                enqueue(GDTokens.HEX_LITERAL, 0, findNumberEndOffsetAfterPrefix())
+                enqueue(TokenLibrary.HEX_LITERAL, 0, findNumberEndOffsetAfterPrefix())
                 return true
             }
 
             null -> {
                 // The number was just 0
-                enqueue(GDTokens.INTEGER_LITERAL)
+                enqueue(TokenLibrary.INTEGER_LITERAL)
                 return true
             }
         }
@@ -77,9 +77,9 @@ fun GDLexer.tryLexingNumber(): Boolean {
     }
 
     if (isFloatingPoint) {
-        enqueue(GDTokens.FLOAT_LITERAL, 0, endOffset)
+        enqueue(TokenLibrary.FLOAT_LITERAL, 0, endOffset)
     } else {
-        enqueue(GDTokens.INTEGER_LITERAL, 0, endOffset)
+        enqueue(TokenLibrary.INTEGER_LITERAL, 0, endOffset)
     }
 
     return true

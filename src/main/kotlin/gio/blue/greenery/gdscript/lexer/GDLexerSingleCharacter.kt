@@ -1,6 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 
 /**
@@ -10,25 +10,25 @@ import gio.blue.greenery.gdscript.GDTokens
  */
 fun GDLexer.tryLexingSingleCharacter(): Boolean {
     when (getCharAt(0)) {
-        '{' -> enqueue(GDTokens.LBRACE)
-        '}' -> enqueue(GDTokens.RBRACE)
-        '[' -> enqueue(GDTokens.LBRACKET)
-        ']' -> enqueue(GDTokens.RBRACKET)
-        '(' -> enqueue(GDTokens.LPAR)
-        ')' -> enqueue(GDTokens.RPAR)
+        '{' -> enqueue(TokenLibrary.LBRACE)
+        '}' -> enqueue(TokenLibrary.RBRACE)
+        '[' -> enqueue(TokenLibrary.LBRACKET)
+        ']' -> enqueue(TokenLibrary.RBRACKET)
+        '(' -> enqueue(TokenLibrary.LPAR)
+        ')' -> enqueue(TokenLibrary.RPAR)
 
-        ':' -> enqueue(GDTokens.COLON)
-        ';' -> enqueue(GDTokens.SEMICOLON)
-        '$' -> enqueue(GDTokens.DOLLAR)
-        '`' -> enqueue(GDTokens.BACKTICK)
-        '?' -> enqueue(GDTokens.QUESTION)
-        ',' -> enqueue(GDTokens.COMMA)
+        ':' -> enqueue(TokenLibrary.COLON)
+        ';' -> enqueue(TokenLibrary.SEMICOLON)
+        '$' -> enqueue(TokenLibrary.DOLLAR)
+        '`' -> enqueue(TokenLibrary.BACKTICK)
+        '?' -> enqueue(TokenLibrary.QUESTION)
+        ',' -> enqueue(TokenLibrary.COMMA)
 
         // Space wasn't handled anywhere else
-        ' ' -> enqueue(GDTokens.SPACE)
+        ' ' -> enqueue(TokenLibrary.SPACE)
 
         // Tab wasn't handled anywhere else
-        '\t' -> enqueue(GDTokens.TAB)
+        '\t' -> enqueue(TokenLibrary.TAB)
 
         else -> return false
     }

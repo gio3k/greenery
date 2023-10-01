@@ -1,6 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 /**
  * Checks if a character can end an annotation token
@@ -26,7 +26,7 @@ fun GDLexer.tryLexingAnnotation(): Boolean {
         val ci = tryGetCharAt(i)
         if (ci == null || canCharEndAnnotationToken(ci)) {
             // Whether it's an empty or a full annotation, we need to set and return
-            enqueue(GDTokens.ANNOTATION, 0, i - 1)
+            enqueue(TokenLibrary.ANNOTATION, 0, i - 1)
             return true
         }
     }

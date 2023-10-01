@@ -10,33 +10,36 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 import gio.blue.greenery.gdscript.lexer.GDLexer
-import gio.blue.greenery.gdscript.psi.GDFile
+import gio.blue.greenery.gdscript.psi.GDPsiParser
 
 class GDParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project?): Lexer {
-        return GDLexer()
-    }
-
-    override fun createParser(project: Project?): PsiParser {
-        TODO("Not yet implemented")
-    }
+    override fun createLexer(project: Project?): Lexer = GDLexer()
+    override fun createParser(project: Project?): PsiParser = GDPsiParser()
 
     override fun getFileNodeType(): IFileElementType {
-        TODO("Not yet implemented")
+        return GDLanguage.FILE
     }
 
     override fun getCommentTokens(): TokenSet {
-        return GDTokens.COMMENTS
+        return TokenLibrary.COMMENTS
     }
 
     override fun getStringLiteralElements(): TokenSet {
-        return GDTokens.STRING_LITERALS
+        return TokenLibrary.STRING_ELEMENTS
     }
 
-    override fun createElement(node: ASTNode?): PsiElement {
-        TODO("Not yet implemented")
+    override fun getWhitespaceTokens(): TokenSet {
+        return TokenLibrary.WHITESPACE
     }
 
-    override fun createFile(viewProvider: FileViewProvider): PsiFile = GDFile(viewProvider)
+    override fun createElement(node: ASTNode): PsiElement {
+        println("creating psi element for $node")
+    }
+
+    override fun createFile(viewProvider: FileViewProvider): PsiFile {
+        println("createFile!")
+        return GDFile(viewProvider)
+    }
 }

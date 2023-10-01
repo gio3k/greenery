@@ -1,4 +1,4 @@
-package gio.blue.greenery.gdscript.language
+package gio.blue.greenery.gdscript
 
 
 object GDCharacterUtil {

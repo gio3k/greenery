@@ -1,6 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 import org.junit.jupiter.api.DisplayName
 import kotlin.test.Test
 
@@ -11,17 +11,17 @@ class LanguageFeatureTests {
     fun scanFunctionWithTypeHint() {
         val lexer = createTestLexer("func a() -> String:\n\tpass")
 
-        lexer.expectSkipSpaces(GDTokens.FUNC_KEYWORD, 0, 3)
-        lexer.expectSkipSpaces(GDTokens.IDENTIFIER, 5)
-        lexer.expectSkipSpaces(GDTokens.LPAR, 6)
-        lexer.expectSkipSpaces(GDTokens.RPAR, 7)
-        lexer.expectSkipSpaces(GDTokens.RARROW, 9, 10)
-        lexer.expectSkipSpaces(GDTokens.IDENTIFIER, 12, 17, "String?")
-        lexer.expectSkipSpaces(GDTokens.COLON, 18)
-        lexer.expectSkipSpaces(GDTokens.LINE_BREAK, 19)
+        lexer.expectSkipSpaces(TokenLibrary.FUNC_KEYWORD, 0, 3)
+        lexer.expectSkipSpaces(TokenLibrary.IDENTIFIER, 5)
+        lexer.expectSkipSpaces(TokenLibrary.LPAR, 6)
+        lexer.expectSkipSpaces(TokenLibrary.RPAR, 7)
+        lexer.expectSkipSpaces(TokenLibrary.RARROW, 9, 10)
+        lexer.expectSkipSpaces(TokenLibrary.IDENTIFIER, 12, 17, "String?")
+        lexer.expectSkipSpaces(TokenLibrary.COLON, 18)
+        lexer.expectSkipSpaces(TokenLibrary.LINE_BREAK, 19)
 
-        lexer.expectSkipSpaces(GDTokens.INDENT, 20)
-        lexer.expectSkipSpaces(GDTokens.PASS_KEYWORD, 21, 24)
+        lexer.expectSkipSpaces(TokenLibrary.INDENT, 20)
+        lexer.expectSkipSpaces(TokenLibrary.PASS_KEYWORD, 21, 24)
     }
 
     @Test
@@ -29,14 +29,14 @@ class LanguageFeatureTests {
     fun scanVariableWithTypeHintAndDefault() {
         val lexer = createTestLexer("var a: String = \"abc\"")
 
-        lexer.expectSkipSpaces(GDTokens.VAR_KEYWORD, 0, 2)
-        lexer.expectSkipSpaces(GDTokens.IDENTIFIER, 4, 4, "a?")
-        lexer.expectSkipSpaces(GDTokens.COLON, 5)
-        lexer.expectSkipSpaces(GDTokens.IDENTIFIER, 7, 12, "String?")
-        lexer.expectSkipSpaces(GDTokens.EQ, 14)
-        lexer.expectSkipSpaces(GDTokens.SINGLE_STRING_MARKER, 16)
-        lexer.expectSkipSpaces(GDTokens.STRING_CONTENT_PART, 17, 19)
-        lexer.expectSkipSpaces(GDTokens.SINGLE_STRING_MARKER, 20)
+        lexer.expectSkipSpaces(TokenLibrary.VAR_KEYWORD, 0, 2)
+        lexer.expectSkipSpaces(TokenLibrary.IDENTIFIER, 4, 4, "a?")
+        lexer.expectSkipSpaces(TokenLibrary.COLON, 5)
+        lexer.expectSkipSpaces(TokenLibrary.IDENTIFIER, 7, 12, "String?")
+        lexer.expectSkipSpaces(TokenLibrary.EQ, 14)
+        lexer.expectSkipSpaces(TokenLibrary.SINGLE_STRING_MARKER, 16)
+        lexer.expectSkipSpaces(TokenLibrary.STRING_CONTENT_PART, 17, 19)
+        lexer.expectSkipSpaces(TokenLibrary.SINGLE_STRING_MARKER, 20)
     }
 
     @Test
@@ -44,14 +44,14 @@ class LanguageFeatureTests {
     fun scanEnumWith3Values() {
         val lexer = createTestLexer("enum Test{A, B,C}")
 
-        lexer.expectSkipSpaces(GDTokens.ENUM_KEYWORD, 0, 3)
-        lexer.expectTypeSkipSpaces(GDTokens.IDENTIFIER, "Test?")
-        lexer.expectTypeSkipSpaces(GDTokens.LBRACE)
-        lexer.expectTypeSkipSpaces(GDTokens.IDENTIFIER, "A?")
-        lexer.expectTypeSkipSpaces(GDTokens.COMMA)
-        lexer.expectTypeSkipSpaces(GDTokens.IDENTIFIER, "B?")
-        lexer.expectTypeSkipSpaces(GDTokens.COMMA)
-        lexer.expectTypeSkipSpaces(GDTokens.IDENTIFIER, "C?")
-        lexer.expectSkipSpaces(GDTokens.RBRACE, 16)
+        lexer.expectSkipSpaces(TokenLibrary.ENUM_KEYWORD, 0, 3)
+        lexer.expectTypeSkipSpaces(TokenLibrary.IDENTIFIER, "Test?")
+        lexer.expectTypeSkipSpaces(TokenLibrary.LBRACE)
+        lexer.expectTypeSkipSpaces(TokenLibrary.IDENTIFIER, "A?")
+        lexer.expectTypeSkipSpaces(TokenLibrary.COMMA)
+        lexer.expectTypeSkipSpaces(TokenLibrary.IDENTIFIER, "B?")
+        lexer.expectTypeSkipSpaces(TokenLibrary.COMMA)
+        lexer.expectTypeSkipSpaces(TokenLibrary.IDENTIFIER, "C?")
+        lexer.expectSkipSpaces(TokenLibrary.RBRACE, 16)
     }
 }

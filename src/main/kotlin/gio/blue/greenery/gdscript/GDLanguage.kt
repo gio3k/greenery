@@ -1,7 +1,8 @@
 package gio.blue.greenery.gdscript
 
 import com.intellij.lang.Language
+import com.intellij.psi.tree.IFileElementType
 
 object GDLanguage : Language("GDScript") {
-    private fun readResolve(): Any = GDLanguage
+    val FILE = IFileElementType(this)
 }

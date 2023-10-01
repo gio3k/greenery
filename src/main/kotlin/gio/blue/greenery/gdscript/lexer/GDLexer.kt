@@ -2,7 +2,7 @@ package gio.blue.greenery.gdscript.lexer
 
 import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 import java.util.*
 
 class GDLexer : LexerBase() {
@@ -19,7 +19,7 @@ class GDLexer : LexerBase() {
      * Queue of tokens to return
      */
     private var queue: Queue<QueuedToken> = LinkedList()
-    private var lastToken = QueuedToken(GDTokens.INVALID, 0, 0)
+    private var lastToken = QueuedToken(TokenLibrary.INVALID, 0, 0)
 
     // Bounds to read
     internal var boundsStart = 0
@@ -33,7 +33,7 @@ class GDLexer : LexerBase() {
     private fun reset() {
         boundsStart = 0
         boundsEnd = 0
-        lastToken = QueuedToken(GDTokens.INVALID, 0, 0)
+        lastToken = QueuedToken(TokenLibrary.INVALID, 0, 0)
         queue.clear()
     }
 
@@ -52,7 +52,7 @@ class GDLexer : LexerBase() {
 
     override fun getTokenType(): IElementType? {
         // We need to return null if we have no token!
-        return if (lastToken.type == GDTokens.INVALID) {
+        return if (lastToken.type == TokenLibrary.INVALID) {
             null
         } else {
             lastToken.type
@@ -75,7 +75,7 @@ class GDLexer : LexerBase() {
             return
         }
 
-        if (tokenType == GDTokens.INVALID) {
+        if (tokenType == TokenLibrary.INVALID) {
             // We're the very first token seen by the lexer
             // Try to parse indents, and if it doesn't work out, just continue
             if (depthHandlerAssociate.tryLexingStartOfLineIndents()) return
@@ -98,7 +98,7 @@ class GDLexer : LexerBase() {
 
         // Unknown character at this point
         println("Unknown character @ $boundsStart")
-        enqueue(GDTokens.ISSUE_BAD_CHARACTER)
+        enqueue(TokenLibrary.ISSUE_BAD_CHARACTER)
     }
 
     override fun advance() {

@@ -7,5 +7,5 @@ object GDFileType : LanguageFileType(GDLanguage) {
     override fun getName(): String = "GDScript File"
     override fun getDescription(): String = "Script file for the Godot game engine"
     override fun getDefaultExtension(): String = "gd"
-    override fun getIcon(): Icon = Resources.FILE_ICON
+    override fun getIcon(): Icon = GDLanguageResources.FILE_ICON
 }

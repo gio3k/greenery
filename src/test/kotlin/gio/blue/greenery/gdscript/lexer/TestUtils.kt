@@ -1,7 +1,7 @@
 package gio.blue.greenery.gdscript.lexer
 
 import com.intellij.psi.tree.IElementType
-import gio.blue.greenery.gdscript.GDTokens
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 import kotlin.test.assertEquals
 
 /**
@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
  * @receiver GDLexer
  */
 internal fun GDLexer.skipSpaces() {
-    while (tokenType == GDTokens.INVALID || tokenType == GDTokens.SPACE || tokenType == GDTokens.TAB) {
+    while (tokenType == TokenLibrary.INVALID || tokenType == TokenLibrary.SPACE || tokenType == TokenLibrary.TAB) {
         advance()
         if (getRemainingBoundarySize() <= 0)
             return
