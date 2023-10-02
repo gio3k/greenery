@@ -13,6 +13,12 @@ open class SyntaxParser {
     fun parse(root: IElementType, builder: SyntaxTreeBuilder) {
         val context = createContext(builder)
         val rootMarker = builder.mark()
+
+        while (!builder.eof()) {
+            context.statements.parse()
+        }
+
+        rootMarker.done(root)
     }
 
     private fun createContext(builder: SyntaxTreeBuilder): SyntaxParserBuildContext =

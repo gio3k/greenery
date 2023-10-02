@@ -1,6 +1,5 @@
 package gio.blue.greenery.gdscript.syntax
 
-import com.intellij.lang.PsiBuilder
 import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.elements.SyntaxLibrary
 import gio.blue.greenery.gdscript.elements.TokenLibrary
@@ -11,16 +10,19 @@ class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTr
         builder
     ) {
 
-    fun tryParsePrimary() {
+    /**
+     * Parse an expression
+     */
+    fun parse() {
 
     }
 
 
-    fun tryParseStringLiteral(builder: PsiBuilder): Boolean {
-        if (!TokenLibrary.STRING_ELEMENTS.contains(builder.tokenType))
+    fun tryParseStringLiteral(): Boolean {
+        if (!TokenLibrary.STRING_ELEMENTS.contains(tokenType))
             return false // Can't parse
 
-        val marker = builder.mark()
+        val marker = mark()
 
         while (TokenLibrary.STRING_ELEMENTS.contains(builder.tokenType)) {
             builder.advanceLexer()
@@ -30,7 +32,7 @@ class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTr
         return true
     }
 
-    fun parseListLiteral(builder: PsiBuilder) {
+    /*fun parseListLiteral(builder: PsiBuilder) {
         assert(builder.tokenType == TokenLibrary.LBRACKET)
 
         val marker = builder.mark()
@@ -49,5 +51,5 @@ class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTr
 
         marker.done(SyntaxLibrary.STRING_LITERAL_EXPRESSION)
         return true
-    }
+    }*/
 }

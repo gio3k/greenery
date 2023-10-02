@@ -17,4 +17,11 @@ class ElementDescription : IElementType {
     constructor(debugName: @NonNls String) : this(debugName, {
         throw IllegalStateException("GDElementType doesn't have migration function (element type ${it.elementType})")
     })
+
+    /**
+     * Migrate the provided AST node to become a PSI element
+     * @param node ASTNode Node
+     * @return PsiElement PSI element
+     */
+    fun migrateToPsi(node: ASTNode): PsiElement = migrateToPsiElementFunction(node)
 }
