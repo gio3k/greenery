@@ -9,6 +9,6 @@ object GDSyntaxBundle : DynamicBundle("messages.GDSyntaxBundle") {
     private const val BUNDLE = "messages.GDSyntaxBundle"
 
     @Nls
-    fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any): String =
-        getMessage(key, params)
+    fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: String): String =
+        getMessage(key, *params)
 }
