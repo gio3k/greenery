@@ -22,7 +22,7 @@ object TokenLibrary {
 
     val SPACE = ElementDescription("SPACE")
     val TAB = ElementDescription("TAB")
-    var WHITESPACE = TokenSet.create(SPACE, TAB, LINE_BREAK)
+    var WHITESPACE = TokenSet.create(SPACE, TAB)
 
     // Keywords
     val IF_KEYWORD = ElementDescription("IF_KEYWORD")

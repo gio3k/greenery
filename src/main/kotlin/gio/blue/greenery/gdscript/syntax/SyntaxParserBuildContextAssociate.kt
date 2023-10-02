@@ -2,24 +2,80 @@ package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.IElementType
+import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 abstract class SyntaxParserBuildContextAssociate(val parser: SyntaxParser, protected val builder: SyntaxTreeBuilder) {
     val tokenType: IElementType?
         get() = builder.tokenType
 
-    protected fun nextExpect(expectation: IElementType, message: String): Boolean {
+    /**
+     * Checks if the next element is the expected one, errors if not
+     * @param et1 IElementType Expected element
+     * @return Boolean Whether the element was expected
+     */
+    protected fun nextForExpectedElementAfterThis(et1: IElementType): Boolean {
+        // What we started with
+        val t0 = tokenType
         next()
-        if (builder.tokenType == expectation) return true
-        builder.error(message)
+
+        // What we got
+        val t1 = tokenType
+        if (t1 == et1)
+            return true
+
+        // Error
+        builder.error(
+            GDSyntaxBundle.message(
+                "SYNTAX.expected.identifier.0.after.1.got.2",
+                et1.toString(),
+                t0.toString(),
+                t1.toString()
+            )
+        )
         return false
     }
 
-    protected fun nowExpect(expectation: IElementType, message: String): Boolean {
-        if (builder.tokenType == expectation) {
-            next()
+    protected fun nextForLineBreakAfterThis(): Boolean {
+        // What we started with
+        val t0 = tokenType
+        next()
+
+        // What we got
+        val t1 = tokenType
+        if (t1 == TokenLibrary.LINE_BREAK)
             return true
+
+        // Error
+        builder.error(
+            GDSyntaxBundle.message(
+                "SYNTAX.expected.linebreak.after.0.got.1",
+                t0.toString(),
+                t1.toString()
+            )
+        )
+        return false
+    }
+
+    protected fun nextForStatementBreakAfterThis(): Boolean {
+        // What we started with
+        val t0 = tokenType
+        next()
+
+        // What we got
+        val t1 = tokenType
+        when (t1) {
+            TokenLibrary.LINE_BREAK -> return true
+            null -> return true
         }
-        builder.error(message)
+
+        // Error
+        builder.error(
+            GDSyntaxBundle.message(
+                "SYNTAX.expected.statement.break.after.0.got.1",
+                t0.toString(),
+                t1.toString()
+            )
+        )
         return false
     }
 

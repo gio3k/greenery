@@ -5,8 +5,7 @@ import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 class StatementSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
-        parser,
-        builder
+        parser, builder
     ) {
 
     /**
@@ -14,23 +13,27 @@ class StatementSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTre
      */
     fun parse() {
         println("parse: $tokenType")
-        val tokenType0 = tokenType ?: return
-        when (tokenType0) {
+        val t0 = tokenType ?: return
+        when (t0) {
             TokenLibrary.EXTENDS_KEYWORD -> return parseExtendsStatement()
             TokenLibrary.CLASS_NAME_KEYWORD -> return parseClassNameStatement()
         }
 
         // Unknown token
         next()
-        builder.error("Unknown statement start token $tokenType0")
+        builder.error(
+            GDSyntaxBundle.message(
+                "SYNTAX.expected.statement.got.0", t0.toString()
+            )
+        )
     }
-
-
+    
     private fun parseExtendsStatement() {
         assert(tokenType == TokenLibrary.EXTENDS_KEYWORD)
 
-        if (!nextExpect(TokenLibrary.IDENTIFIER, GDSyntaxBundle.message("SYNTAX.expected.identifier")))
-            return
+        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) return
+
+        if (!nextForStatementBreakAfterThis()) return
 
         next()
     }
@@ -38,8 +41,9 @@ class StatementSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTre
     private fun parseClassNameStatement() {
         assert(builder.tokenType == TokenLibrary.CLASS_NAME_KEYWORD)
 
-        if (!nextExpect(TokenLibrary.IDENTIFIER, GDSyntaxBundle.message("SYNTAX.expected.identifier")))
-            return
+        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) return
+
+        if (!nextForStatementBreakAfterThis()) return
 
         next()
     }
