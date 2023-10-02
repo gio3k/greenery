@@ -79,8 +79,16 @@ abstract class SyntaxParserBuildContextAssociate(val parser: SyntaxParser, prote
         return false
     }
 
+    protected fun assertType(et: IElementType) = assert(tokenType == et)
+
     protected fun next() {
         builder.advanceLexer()
+    }
+
+    protected fun markSingleHere(type: IElementType) {
+        val marker = mark()
+        next()
+        marker.done(type)
     }
 
     protected fun mark(): SyntaxTreeBuilder.Marker {
