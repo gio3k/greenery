@@ -2,7 +2,7 @@ package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.SyntaxTreeBuilder
-import gio.blue.greenery.gdscript.elements.PartLibrary
+import gio.blue.greenery.gdscript.elements.SyntaxLibrary
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTreeBuilder) :
@@ -26,7 +26,7 @@ class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTr
             builder.advanceLexer()
         }
 
-        marker.done(PartLibrary.STRING_LITERAL_EXPRESSION)
+        marker.done(SyntaxLibrary.STRING_LITERAL_EXPRESSION)
         return true
     }
 
@@ -39,7 +39,7 @@ class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTr
         // If it's a ], just return an empty list
         if (builder.tokenType == TokenLibrary.RBRACKET) {
             builder.advanceLexer()
-            marker.done(PartLibrary.LIST_LITERAL_EXPRESSION)
+            marker.done(SyntaxLibrary.LIST_LITERAL_EXPRESSION)
             return
         }
 
@@ -47,7 +47,7 @@ class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTr
             builder.advanceLexer()
         }
 
-        marker.done(PartLibrary.STRING_LITERAL_EXPRESSION)
+        marker.done(SyntaxLibrary.STRING_LITERAL_EXPRESSION)
         return true
     }
 }
