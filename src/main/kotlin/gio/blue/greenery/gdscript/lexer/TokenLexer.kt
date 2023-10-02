@@ -1,11 +1,16 @@
 package gio.blue.greenery.gdscript.lexer
 
 import com.intellij.lexer.LexerBase
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.tree.IElementType
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 import java.util.*
 
 class TokenLexer : LexerBase() {
+    companion object {
+        val LOG = Logger.getInstance(TokenLexer::class.java)
+    }
+
     data class QueuedToken(val type: IElementType, val start: Int, val end: Int)
 
     /**
@@ -39,6 +44,8 @@ class TokenLexer : LexerBase() {
         this.buffer = buffer
 
         state = initialState
+
+        advance()
     }
 
     override fun getState(): Int = state
@@ -90,11 +97,17 @@ class TokenLexer : LexerBase() {
         if (tryLexingPossibleIdentifier()) return
 
         // Unknown character at this point
-        println("Unknown character @ $boundsStart")
+        LOG.warn("Unknown character @ $boundsStart")
         enqueue(TokenLibrary.ISSUE_BAD_CHARACTER)
     }
 
     override fun advance() {
+        // Check if we're out of characters to read
+        if (boundsStart >= boundsEnd) {
+            lastToken = QueuedToken(TokenLibrary.INVALID, 0, 0)
+            return
+        }
+
         // Check if we can just return from the queue
         if (queue.isNotEmpty()) {
             // Update token info
