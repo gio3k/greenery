@@ -1,10 +1,16 @@
 package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.PsiBuilder
+import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.elements.PartLibrary
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 
-class ExpressionSyntaxParser(parser: SyntaxParser) : SyntaxParserAssociate(parser) {
+class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTreeBuilder) :
+    SyntaxParserBuildContextAssociate(
+        parser,
+        builder
+    ) {
+
     fun tryParsePrimary() {
 
     }

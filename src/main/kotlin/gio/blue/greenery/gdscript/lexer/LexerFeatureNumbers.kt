@@ -2,7 +2,7 @@ package gio.blue.greenery.gdscript.lexer
 
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 
-fun GDLexer.findNumberEndOffsetAfterPrefix(): Int {
+fun TokenLexer.findNumberEndOffsetAfterPrefix(): Int {
     // This is called *while still lexing the number*, right after the prefix
     // The first character is 0, the 2nd character is b or x
     for (i in 2..getRemainingBoundarySize()) {
@@ -25,7 +25,7 @@ fun GDLexer.findNumberEndOffsetAfterPrefix(): Int {
  * @receiver GDLexer
  * @return Boolean True if a token was parsed
  */
-fun GDLexer.tryLexingNumber(): Boolean {
+fun TokenLexer.tryLexingNumber(): Boolean {
     when (getCharAt(0)) {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {}
         '.', '-' -> {

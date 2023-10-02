@@ -8,7 +8,7 @@ import gio.blue.greenery.gdscript.GDCharacterUtil
  * @receiver GDLexer
  * @return Boolean True if a token was parsed
  */
-private fun GDLexer.tryLexingStringPrefix(): Boolean {
+private fun TokenLexer.tryLexingStringPrefix(): Boolean {
     fun isC1StringMarker(): Boolean {
         return when (tryGetCharAt(1)) {
             '\'' -> true
@@ -42,14 +42,14 @@ private fun GDLexer.tryLexingStringPrefix(): Boolean {
     return false
 }
 
-private fun GDLexer.isTripleStringMarker(): Boolean {
+private fun TokenLexer.isTripleStringMarker(): Boolean {
     // We already know the first character is correct, just check the next 2
     if (tryGetCharAt(1) != '"') return false
     if (tryGetCharAt(2) != '"') return false
     return true
 }
 
-private fun GDLexer.tryLexingStringMarker(): Boolean {
+private fun TokenLexer.tryLexingStringMarker(): Boolean {
     // See if we have a string marker - there could be no character here
     when (tryGetCharAt(0)) {
         '\'' -> {
@@ -73,7 +73,7 @@ private fun GDLexer.tryLexingStringMarker(): Boolean {
     return false
 }
 
-private fun GDLexer.tryLexingStringContent(): Boolean {
+private fun TokenLexer.tryLexingStringContent(): Boolean {
     var size = 0
     for (i in 0..getRemainingBoundarySize()) {
         when (val cin = tryGetCharAt(i)) {
@@ -118,7 +118,7 @@ private fun GDLexer.tryLexingStringContent(): Boolean {
     return true
 }
 
-private fun GDLexer.tryLexingEscapeCharacter(): Boolean {
+private fun TokenLexer.tryLexingEscapeCharacter(): Boolean {
     if (tryGetCharAt(0) != '\\') return false
 
     // Escape characters have three forms
@@ -167,7 +167,7 @@ private fun GDLexer.tryLexingEscapeCharacter(): Boolean {
     return true
 }
 
-private fun GDLexer.tryLexingInvisibleControlChar(): Boolean {
+private fun TokenLexer.tryLexingInvisibleControlChar(): Boolean {
     val c0 = tryGetCharAt(0) ?: return false
     if (GDCharacterUtil.isInvisibleTextDirectionControlCharacter(c0)) {
         enqueue(TokenLibrary.ISSUE_STRING_INVISIBLE_TEXT_DIRECTION_CHARACTER)
@@ -181,7 +181,7 @@ private fun GDLexer.tryLexingInvisibleControlChar(): Boolean {
  * @receiver GDLexer
  * @return Boolean True if a token was parsed
  */
-fun GDLexer.tryLexingString(): Boolean {
+fun TokenLexer.tryLexingString(): Boolean {
     // Try finding the string prefix first
     tryLexingStringPrefix()
 

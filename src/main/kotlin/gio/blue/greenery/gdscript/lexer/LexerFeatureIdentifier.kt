@@ -47,7 +47,7 @@ val keywordMap = mapOf(
  * @receiver GDLexer
  * @return Boolean True if a token was parsed
  */
-fun GDLexer.tryLexingPossibleIdentifier(): Boolean {
+fun TokenLexer.tryLexingPossibleIdentifier(): Boolean {
     if (!GDCharacterUtil.isValidCharacterForIdentifierStart(getCharAt(0))) return false
 
     // We actually need to read the identifier to figure out if it's a keyword

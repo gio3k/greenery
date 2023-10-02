@@ -7,7 +7,7 @@ import gio.blue.greenery.gdscript.elements.TokenLibrary
  * @receiver GDLexer
  * @return Boolean True if a token was parsed
  */
-fun GDLexer.tryLexingLineBreak(): Boolean {
+fun TokenLexer.tryLexingLineBreak(): Boolean {
     when (getCharAt(0)) {
         '\r' -> {
             if (tryGetCharAt(1) != '\n') {

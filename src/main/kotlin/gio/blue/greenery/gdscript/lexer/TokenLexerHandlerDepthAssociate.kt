@@ -3,7 +3,7 @@ package gio.blue.greenery.gdscript.lexer
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 import java.util.*
 
-class GDLexerHandlerDepthAssociate(lexer: GDLexer) : GDLexer.GDLexerHandlerAssociate(lexer) {
+class TokenLexerHandlerDepthAssociate(lexer: TokenLexer) : TokenLexerHandlerAssociate(lexer) {
     private var stack: Stack<Int> = Stack()
     override fun reset() {
         stack.clear()

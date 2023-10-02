@@ -9,6 +9,12 @@ object TokenLibrary {
     val IDENTIFIER = ElementDescription("IDENTIFIER")
     val LINE_BREAK = ElementDescription("LINE_BREAK")
 
+    /**
+     * Statement Break - while we could handle this while parsing, this works too
+     * (it also makes the Python parser a better reference)
+     */
+    val STATEMENT_BREAK = ElementDescription("STATEMENT_BREAK")
+
     // These are probably issues
     var ISSUE_STRAY_CARRIAGE_RETURN = ElementDescription("ISSUE_STRAY_CARRIAGE_RETURN")
     var ISSUE_MIXED_INDENTS = ElementDescription("ISSUE_MIXED_INDENTS")

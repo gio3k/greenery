@@ -1,9 +1,15 @@
 package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.PsiBuilder
+import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 
-class StatementSyntaxParser(parser: SyntaxParser) : SyntaxParserAssociate(parser) {
+class StatementSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTreeBuilder) :
+    SyntaxParserBuildContextAssociate(
+        parser,
+        builder
+    ) {
+
     /**
      * Parse a statement
      * @param builder PsiBuilder
@@ -21,7 +27,7 @@ class StatementSyntaxParser(parser: SyntaxParser) : SyntaxParserAssociate(parser
 
 
 
-        builder.    next()
+        builder.next()
 
 
     }

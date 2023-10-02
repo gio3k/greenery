@@ -5,14 +5,7 @@ import com.intellij.psi.tree.IElementType
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 import java.util.*
 
-class GDLexer : LexerBase() {
-    abstract class GDLexerHandlerAssociate(val lexer: GDLexer) {
-        /**
-         * Reset the handler state
-         */
-        abstract fun reset()
-    }
-
+class TokenLexer : LexerBase() {
     data class QueuedToken(val type: IElementType, val start: Int, val end: Int)
 
     /**
@@ -28,7 +21,7 @@ class GDLexer : LexerBase() {
     private var state = 0
     private var buffer: CharSequence? = null
 
-    private val depthHandlerAssociate = GDLexerHandlerDepthAssociate(this)
+    private val depthHandlerAssociate = TokenLexerHandlerDepthAssociate(this)
 
     private fun reset() {
         boundsStart = 0

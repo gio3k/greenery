@@ -51,7 +51,7 @@ private val multi2 = setOf(
  * @receiver GDLexer
  * @return Boolean True if a token was parsed
  */
-fun GDLexer.tryLexingMultiCharacter(): Boolean {
+fun TokenLexer.tryLexingMultiCharacter(): Boolean {
     val c0 = getCharAt(0)
     val c1 = tryGetCharAt(1)
     val c2 = tryGetCharAt(2)

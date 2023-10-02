@@ -8,7 +8,7 @@ import gio.blue.greenery.gdscript.elements.TokenLibrary
  * @receiver GDLexer
  * @return Boolean True if a token was parsed
  */
-fun GDLexer.tryLexingSingleCharacter(): Boolean {
+fun TokenLexer.tryLexingSingleCharacter(): Boolean {
     when (getCharAt(0)) {
         '{' -> enqueue(TokenLibrary.LBRACE)
         '}' -> enqueue(TokenLibrary.RBRACE)

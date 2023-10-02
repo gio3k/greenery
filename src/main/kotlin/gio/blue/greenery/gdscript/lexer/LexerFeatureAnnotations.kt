@@ -19,7 +19,7 @@ private fun canCharEndAnnotationToken(c: Char): Boolean {
  * @receiver GDLexer
  * @return Boolean True if a token was parsed
  */
-fun GDLexer.tryLexingAnnotation(): Boolean {
+fun TokenLexer.tryLexingAnnotation(): Boolean {
     if (getCharAt(0) != '@') return false
 
     for (i in 1..getRemainingBoundarySize()) {

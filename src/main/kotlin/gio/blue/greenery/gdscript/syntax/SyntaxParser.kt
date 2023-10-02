@@ -3,6 +3,7 @@ package gio.blue.greenery.gdscript.syntax
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.IElementType
 
+
 /**
  * Syntax parser
  *
@@ -10,6 +11,11 @@ import com.intellij.psi.tree.IElementType
  */
 open class SyntaxParser {
     fun parse(root: IElementType, builder: SyntaxTreeBuilder) {
+        val context = createContext(builder)
         val rootMarker = builder.mark()
     }
+
+    private fun createContext(builder: SyntaxTreeBuilder): SyntaxParserBuildContext =
+        SyntaxParserBuildContext(this, builder)
 }
+

@@ -11,11 +11,11 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import gio.blue.greenery.gdscript.elements.TokenLibrary
-import gio.blue.greenery.gdscript.lexer.GDLexer
+import gio.blue.greenery.gdscript.lexer.TokenLexer
 import gio.blue.greenery.gdscript.psi.GDPsiParser
 
 class GDParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project?): Lexer = GDLexer()
+    override fun createLexer(project: Project?): Lexer = TokenLexer()
     override fun createParser(project: Project?): PsiParser = GDPsiParser()
 
     override fun getFileNodeType(): IFileElementType {
