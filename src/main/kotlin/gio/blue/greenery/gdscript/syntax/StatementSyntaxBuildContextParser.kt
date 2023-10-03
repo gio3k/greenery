@@ -1,6 +1,7 @@
 package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
+import gio.blue.greenery.gdscript.elements.SyntaxLibrary
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
@@ -30,23 +31,87 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
     }
 
     private fun parseExtendsStatement() {
-        assert(tokenType == TokenLibrary.EXTENDS_KEYWORD)
+        assertType(TokenLibrary.EXTENDS_KEYWORD)
 
-        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) return
+        val marker = mark()
 
-        if (!nextForStatementBreakAfterThis()) return
+        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
+            marker.drop()
+            return
+        }
+
+        if (!nextForStatementBreakAfterThis()) {
+            marker.drop()
+            return
+        }
 
         next()
+
+        marker.done(SyntaxLibrary.EXTENDS_STATEMENT)
     }
 
     private fun parseClassNameStatement() {
-        assert(builder.tokenType == TokenLibrary.CLASS_NAME_KEYWORD)
+        assertType(TokenLibrary.CLASS_NAME_KEYWORD)
 
-        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) return
+        val marker = mark()
 
-        if (!nextForStatementBreakAfterThis()) return
+        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
+            marker.drop()
+            return
+        }
+
+        if (!nextForStatementBreakAfterThis()) {
+            marker.drop()
+            return
+        }
 
         next()
+
+        marker.done(SyntaxLibrary.CLASS_NAME_STATEMENT)
+    }
+
+    private fun parseForStatement() {
+        assertType(TokenLibrary.FOR_KEYWORD)
+
+        val marker = mark()
+
+        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
+            marker.drop()
+            return
+        }
+
+        if (!nextForExpectedElementAfterThis(TokenLibrary.IN_KEYWORD)) {
+            marker.drop()
+            return
+        }
+
+        next()
+
+        marker.done(SyntaxLibrary.EXTENDS_STATEMENT)
+    }
+
+    private fun parseVariableDeclarationStatement() {
+        assertType(TokenLibrary.VAR_KEYWORD)
+
+        val marker = mark()
+
+        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
+            marker.drop()
+            return
+        }
+
+        next()
+
+        // var hello = 3
+        // var hello: String = ""
+        // var hello:<br><tab>get:<br><tab><tab>return 3
+
+        when (tokenType) {
+            TokenLibrary.COLON -> {
+                // Type hint or property
+
+            }
+        }
     }
 
     private fun parseAnnotationStatement() {

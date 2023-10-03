@@ -13,43 +13,61 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
     /**
      * Parse an expression
      */
-    fun parse() {
+    fun parse(): Boolean {
+        val t0 = tokenType ?: return false
+        when (t0) {
+            TokenLibrary.FLOAT_LITERAL -> {
+                markSingleHere(SyntaxLibrary.FLOAT_LITERAL_EXPRESSION)
+                return true
+            }
 
+            TokenLibrary.INTEGER_LITERAL -> {
+                markSingleHere(SyntaxLibrary.INTEGER_LITERAL_EXPRESSION)
+                return true
+            }
+
+            TokenLibrary.HEX_LITERAL -> {
+                markSingleHere(SyntaxLibrary.HEX_LITERAL_EXPRESSION)
+                return true
+            }
+
+            TokenLibrary.BINARY_LITERAL -> {
+                markSingleHere(SyntaxLibrary.BINARY_LITERAL_EXPRESSION)
+                return true
+            }
+
+            TokenLibrary.TRUE_KEYWORD, TokenLibrary.FALSE_KEYWORD -> {
+                markSingleHere(SyntaxLibrary.BOOLEAN_LITERAL_EXPRESSION)
+                return true
+            }
+
+            TokenLibrary.LPAR -> {
+                parseExpressionInParentheses()
+                return true
+            }
+
+            TokenLibrary.LBRACKET -> {
+                parseListExpressionInBrackets()
+                return true
+            }
+
+            TokenLibrary.LBRACE -> {
+                parseDictionaryExpressionInBraces()
+                return true
+            }
+        }
+        return false
     }
 
-
-    fun tryParseStringLiteral(): Boolean {
-        if (!TokenLibrary.STRING_ELEMENTS.contains(tokenType))
-            return false // Can't parse
-
-        val marker = mark()
-
-        while (TokenLibrary.STRING_ELEMENTS.contains(builder.tokenType)) {
-            builder.advanceLexer()
-        }
-
-        marker.done(SyntaxLibrary.STRING_LITERAL_EXPRESSION)
-        return true
+    fun parseExpressionInParentheses() {
+        TODO()
     }
 
-    /*fun parseListLiteral(builder: PsiBuilder) {
-        assert(builder.tokenType == TokenLibrary.LBRACKET)
+    fun parseListExpressionInBrackets() {
+        TODO()
+    }
 
-        val marker = builder.mark()
-
-        // Advance to the token after the [
-        // If it's a ], just return an empty list
-        if (builder.tokenType == TokenLibrary.RBRACKET) {
-            builder.advanceLexer()
-            marker.done(SyntaxLibrary.LIST_LITERAL_EXPRESSION)
-            return
-        }
-
-        while (TokenLibrary.STRING_ELEMENTS.contains(builder.tokenType)) {
-            builder.advanceLexer()
-        }
-
-        marker.done(SyntaxLibrary.STRING_LITERAL_EXPRESSION)
-        return true
-    }*/
+    fun parseDictionaryExpressionInBraces() {
+        TODO()
+    }
 }
