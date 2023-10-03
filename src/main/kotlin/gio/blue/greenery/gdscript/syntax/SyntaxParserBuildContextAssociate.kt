@@ -4,7 +4,10 @@ import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.IElementType
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 
-abstract class SyntaxParserBuildContextAssociate(val parser: SyntaxParser, protected val builder: SyntaxTreeBuilder) {
+abstract class SyntaxParserBuildContextAssociate(
+    val context: SyntaxParserBuildContext,
+    protected val builder: SyntaxTreeBuilder
+) {
     val tokenType: IElementType?
         get() = builder.tokenType
 

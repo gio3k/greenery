@@ -3,9 +3,9 @@ package gio.blue.greenery.gdscript.syntax
 import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 
-class StatementSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTreeBuilder) :
+class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
-        parser, builder
+        context, builder
     ) {
 
     /**
@@ -17,6 +17,7 @@ class StatementSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTre
         when (t0) {
             TokenLibrary.EXTENDS_KEYWORD -> return parseExtendsStatement()
             TokenLibrary.CLASS_NAME_KEYWORD -> return parseClassNameStatement()
+            TokenLibrary.ANNOTATION -> return parseAnnotationStatement()
         }
 
         // Unknown token
@@ -27,7 +28,7 @@ class StatementSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTre
             )
         )
     }
-    
+
     private fun parseExtendsStatement() {
         assert(tokenType == TokenLibrary.EXTENDS_KEYWORD)
 
@@ -46,5 +47,13 @@ class StatementSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTre
         if (!nextForStatementBreakAfterThis()) return
 
         next()
+    }
+
+    private fun parseAnnotationStatement() {
+        assert(builder.tokenType == TokenLibrary.EXTENDS_KEYWORD)
+
+        if (context.peekScope().purpose == SyntaxParserBuildScopePurpose.TOP_LEVEL) {
+            // Top level annotation
+        }
     }
 }

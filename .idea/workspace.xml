@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d5c1d4cf-1b60-4b9e-9c97-671f9e52c9cd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScope.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScopePurpose.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
@@ -45,6 +45,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContext.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContextAssociate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContextAssociate.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScope.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScope.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/messages/GDSyntaxBundle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages/GDSyntaxBundle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/BasicTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/BasicTests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/DepthTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/DepthTests.kt" afterDir="false" />
@@ -254,7 +255,8 @@
       <workItem from="1696079382925" duration="13971000" />
       <workItem from="1696160051162" duration="17516000" />
       <workItem from="1696245197223" duration="6834000" />
-      <workItem from="1696256248759" duration="5741000" />
+      <workItem from="1696256248759" duration="5743000" />
+      <workItem from="1696339681712" duration="6518000" />
     </task>
     <servers />
   </component>

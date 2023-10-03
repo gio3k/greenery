@@ -4,9 +4,9 @@ import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.elements.SyntaxLibrary
 import gio.blue.greenery.gdscript.elements.TokenLibrary
 
-class ExpressionSyntaxBuildContextParser(parser: SyntaxParser, builder: SyntaxTreeBuilder) :
+class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
-        parser,
+        context,
         builder
     ) {
 
