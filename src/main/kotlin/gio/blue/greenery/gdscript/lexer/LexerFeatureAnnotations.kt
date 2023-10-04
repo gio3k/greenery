@@ -1,7 +1,5 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.elements.TokenLibrary
-
 /**
  * Checks if a character can end an annotation token
  * @param c Char

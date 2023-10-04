@@ -1,4 +1,4 @@
-package gio.blue.greenery.gdscript.elements
+package gio.blue.greenery.gdscript
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement

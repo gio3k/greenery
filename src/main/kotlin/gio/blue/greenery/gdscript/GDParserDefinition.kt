@@ -11,8 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import gio.blue.greenery.gdscript.elements.ElementDescription
-import gio.blue.greenery.gdscript.elements.TokenLibrary
+import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.lexer.TokenLexer
 import gio.blue.greenery.gdscript.psi.PsiWrapperSyntaxParser
 

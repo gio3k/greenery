@@ -1,7 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
 import com.intellij.psi.tree.IElementType
-import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 data class MultiCharacter(val type: IElementType, val c0: Char, val c1: Char? = null, var c2: Char? = null)
 

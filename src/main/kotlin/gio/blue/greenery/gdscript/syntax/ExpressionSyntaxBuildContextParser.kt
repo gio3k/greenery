@@ -1,8 +1,7 @@
 package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
-import gio.blue.greenery.gdscript.elements.SyntaxLibrary
-import gio.blue.greenery.gdscript.elements.TokenLibrary
+import gio.blue.greenery.gdscript.lexer.TokenLibrary
 
 class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
@@ -69,5 +68,13 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
 
     fun parseDictionaryExpressionInBraces() {
         TODO()
+    }
+
+    fun parseArgumentListExpressionInParentheses(): Boolean {
+        val
+        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
+            marker.drop()
+            return false
+        }
     }
 }

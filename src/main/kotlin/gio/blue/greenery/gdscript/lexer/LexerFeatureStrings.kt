@@ -1,6 +1,5 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.elements.TokenLibrary
 import gio.blue.greenery.gdscript.GDCharacterUtil
 
 /**

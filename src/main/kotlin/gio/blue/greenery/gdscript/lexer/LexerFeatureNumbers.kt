@@ -1,7 +1,5 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.elements.TokenLibrary
-
 fun TokenLexer.findNumberEndOffsetAfterPrefix(): Int {
     // This is called *while still lexing the number*, right after the prefix
     // The first character is 0, the 2nd character is b or x

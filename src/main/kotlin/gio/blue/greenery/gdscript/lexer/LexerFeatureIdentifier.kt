@@ -1,7 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
 import gio.blue.greenery.gdscript.GDCharacterUtil
-import gio.blue.greenery.gdscript.elements.TokenLibrary
 
 val keywordMap = mapOf(
     "if" to TokenLibrary.IF_KEYWORD,

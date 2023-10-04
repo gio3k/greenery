@@ -2,7 +2,7 @@ package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.IElementType
-import gio.blue.greenery.gdscript.elements.TokenLibrary
+import gio.blue.greenery.gdscript.lexer.TokenLibrary
 
 abstract class SyntaxParserBuildContextAssociate(
     val context: SyntaxParserBuildContext,

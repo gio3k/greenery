@@ -1,6 +1,5 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.elements.TokenLibrary
 import org.junit.jupiter.api.DisplayName
 import kotlin.test.Test
 

@@ -1,7 +1,5 @@
 package gio.blue.greenery.gdscript.lexer
 
-import gio.blue.greenery.gdscript.elements.TokenLibrary
-
 
 /**
  * Attempts to parse a single character token

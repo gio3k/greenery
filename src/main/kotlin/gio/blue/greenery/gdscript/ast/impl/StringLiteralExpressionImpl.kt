@@ -1,10 +1,11 @@
-package gio.blue.greenery.gdscript.ast
+package gio.blue.greenery.gdscript.ast.impl
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
-import gio.blue.greenery.gdscript.elements.TokenLibrary
+import gio.blue.greenery.gdscript.ast.StringLiteralExpression
+import gio.blue.greenery.gdscript.lexer.TokenLibrary
 
-class StringLiteralExpressionNode(node: ASTNode) : ASTWrapperPsiElement(node), IStringLiteralExpressionNode {
+class StringLiteralExpressionImpl(node: ASTNode) : ASTWrapperPsiElement(node), StringLiteralExpression {
     private var valueCacheResult: String? = null
 
     override fun getValue(): Any? {

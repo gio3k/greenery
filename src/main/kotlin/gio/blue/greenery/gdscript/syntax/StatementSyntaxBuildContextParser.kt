@@ -1,8 +1,7 @@
 package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
-import gio.blue.greenery.gdscript.elements.SyntaxLibrary
-import gio.blue.greenery.gdscript.elements.TokenLibrary
+import gio.blue.greenery.gdscript.lexer.TokenLibrary
 
 class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
@@ -114,11 +113,28 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         }
     }
 
-    private fun parseAnnotationStatement() {
-        assert(builder.tokenType == TokenLibrary.EXTENDS_KEYWORD)
+    private fun parseAnnotationStatement(): Boolean {
+        assertType(TokenLibrary.ANNOTATION)
 
-        if (context.peekScope().purpose == SyntaxParserBuildScopePurpose.TOP_LEVEL) {
-            // Top level annotation
+        val marker = mark()
+
+        // Move forward, see if there are arguments to this annotation
+        next()
+
+        // Check for annotation arguments
+        if (tokenType == TokenLibrary.LPAR) {
+            // Annotation has arguments, parse them
+            if (!context.expressions.parseArgumentListExpressionInParentheses()) {
+                marker.drop()
+                return false // Failure to parse argument list, give up on annotation
+            }
         }
+
+        
+
+        context.expressions.parseArgumentListExpressionInParentheses()
+
+
+
     }
 }

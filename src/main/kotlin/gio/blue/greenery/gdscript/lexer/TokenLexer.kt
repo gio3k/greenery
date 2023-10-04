@@ -3,7 +3,6 @@ package gio.blue.greenery.gdscript.lexer
 import com.intellij.lexer.LexerBase
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.tree.IElementType
-import gio.blue.greenery.gdscript.elements.TokenLibrary
 import java.util.*
 
 class TokenLexer : LexerBase() {

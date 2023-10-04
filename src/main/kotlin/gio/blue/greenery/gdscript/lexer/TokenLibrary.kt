@@ -1,7 +1,8 @@
-package gio.blue.greenery.gdscript.elements
+package gio.blue.greenery.gdscript.lexer
 
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.TokenSet
+import gio.blue.greenery.gdscript.ElementDescription
 
 object TokenLibrary {
     val INVALID = ElementDescription("INVALID")

@@ -5,13 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d5c1d4cf-1b60-4b9e-9c97-671f9e52c9cd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScopePurpose.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/AnnotationStatement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/ClassNameStatement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/base/Expression.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/base/Statement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/base/impl/ElementImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/impl/AnnotationStatementImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/impl/ClassNameStatementImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/impl/ExtendsStatementImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDCharacterUtil.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDCharacterUtil.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDFile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDFile.kt" afterDir="false" />
@@ -20,13 +28,13 @@
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDLanguageResources.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDLanguageResources.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDNames.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDNames.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDParserDefinition.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/GDParserDefinition.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/ElementNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/ElementNode.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/IExpressionNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/IExpressionNode.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/IStringLiteralExpressionNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/IStringLiteralExpressionNode.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/StringLiteralExpressionNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/StringLiteralExpressionNode.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/ElementDescription.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/ElementDescription.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/SyntaxLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/SyntaxLibrary.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/TokenLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/TokenLibrary.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/ElementNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/ExtendsStatement.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/IExpressionNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/base/Element.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/IStringLiteralExpressionNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/StringLiteralExpression.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/StringLiteralExpressionNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ast/impl/StringLiteralExpressionImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/ElementDescription.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/ElementDescription.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/SyntaxLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxLibrary.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/elements/TokenLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/TokenLibrary.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureAnnotations.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureAnnotations.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureComments.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureComments.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureIdentifier.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureIdentifier.kt" afterDir="false" />
@@ -46,6 +54,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContext.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContextAssociate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContextAssociate.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScope.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScope.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScopePurpose.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScopePurpose.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/messages/GDSyntaxBundle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages/GDSyntaxBundle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/BasicTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/BasicTests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/DepthTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/DepthTests.kt" afterDir="false" />
@@ -91,8 +100,8 @@
         <option value="Class" />
         <option value="Kotlin Object" />
         <option value="JUnit5 Test Class" />
-        <option value="Kotlin Interface" />
         <option value="Kotlin File" />
+        <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -153,21 +162,26 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\src\projects\greenery\src\main\kotlin\gio\blue\greenery\gdscript\ast\impl" />
       <recent name="C:\src\projects\greenery\src\main\kotlin\gio\blue\greenery\gdscript\psi\elements" />
       <recent name="C:\src\projects\greenery\src\main\kotlin\gio\blue\greenery\stage0" />
     </key>
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="gio.blue.greenery.gdscript.ast" />
+    </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="gio.blue.greenery.gdscript.syntax" />
+      <recent name="gio.blue.greenery.gdscript.lexer" />
       <recent name="gio.blue.greenery.gdscript" />
-      <recent name="gio.blue.greenery.gdscript.elements" />
-      <recent name="gio.blue.greenery.gdscript.psi.parsing" />
-      <recent name="gio.blue.greenery.gdscript.psi.elements.impl" />
-      <recent name="gio.blue.greenery.gdscript.psi" />
+      <recent name="gio.blue.greenery.gdscript.ast" />
+      <recent name="gio.blue.greenery.gdscript.ast.base" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="gio.blue.greenery.gdscript.lexer" />
       <recent name="gio.blue.greenery" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="gio.blue.greenery.gdscript.ast" />
       <recent name="gio.blue.greenery.gdscript.syntax" />
     </key>
   </component>
@@ -256,7 +270,10 @@
       <workItem from="1696160051162" duration="17516000" />
       <workItem from="1696245197223" duration="6834000" />
       <workItem from="1696256248759" duration="5743000" />
-      <workItem from="1696339681712" duration="6518000" />
+      <workItem from="1696339681712" duration="7108000" />
+      <workItem from="1696406059952" duration="1221000" />
+      <workItem from="1696424650423" duration="3349000" />
+      <workItem from="1696433048081" duration="593000" />
     </task>
     <servers />
   </component>
@@ -264,6 +281,18 @@
     <option name="version" value="3" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties>
+            <catch-class-filters>
+              <class-filter pattern="SyntaxParserBuildContextAssociate" />
+            </catch-class-filters>
+            <option name="catch-filters-enabled" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="com.intellij.lang.impl.PsiBuilderImpl" memberName="myLexTypes" />

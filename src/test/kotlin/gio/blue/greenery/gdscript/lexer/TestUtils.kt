@@ -1,7 +1,6 @@
 package gio.blue.greenery.gdscript.lexer
 
 import com.intellij.psi.tree.IElementType
-import gio.blue.greenery.gdscript.elements.TokenLibrary
 import kotlin.test.assertEquals
 
 /**
