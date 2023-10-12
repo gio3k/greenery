@@ -130,11 +130,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             }
         }
 
-        
-
-        context.expressions.parseArgumentListExpressionInParentheses()
-
-
-
+        marker.done(SyntaxLibrary.ANNOTATION_STATEMENT)
+        return true
     }
 }

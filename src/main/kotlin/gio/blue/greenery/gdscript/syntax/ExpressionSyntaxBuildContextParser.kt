@@ -10,7 +10,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
     ) {
 
     /**
-     * Parse an expression
+     * Figure out what expression this token is and try to parse it
      */
     fun parse(): Boolean {
         val t0 = tokenType ?: return false
@@ -41,37 +41,122 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             }
 
             TokenLibrary.LPAR -> {
-                parseExpressionInParentheses()
+                parseInParentheses()
                 return true
             }
 
             TokenLibrary.LBRACKET -> {
-                parseListExpressionInBrackets()
+                parseListInBrackets()
                 return true
             }
 
             TokenLibrary.LBRACE -> {
-                parseDictionaryExpressionInBraces()
+                parseDictionaryInBraces()
                 return true
             }
         }
         return false
     }
 
-    fun parseExpressionInParentheses() {
+    fun parseInParentheses() {
         TODO()
     }
 
-    fun parseListExpressionInBrackets() {
+    fun parseListInBrackets() {
         TODO()
     }
 
-    fun parseDictionaryExpressionInBraces() {
-        TODO()
+    //region Dictionaries
+
+    /**
+     * Parse dictionary expression pair
+     *
+     * There are two types of dictionary pair syntax:
+     * (key: expression) (colon) (value: expression)
+     * Lua style: (key: identifier or string literal) (equals) (value: expression)
+     *
+     * Having mixed styles of pairs is not allowed.
+     */
+    fun parseDictionaryPair(): Boolean {
+        val marker = mark()
+
+        // Read key as expression
+        // If the pair is Lua style, the expression *needs* to be a string literal or identifier
+        // We'll deal with that later though - just parse as a normal expression for now
+        if (!parse()) {
+            marker.error(
+                GDSyntaxBundle.message("SYNTAX.expected.dictionary.pair.key.expression.got.0", tokenType.toString())
+            )
+            return false
+        }
+
+        skip(TokenLibrary.LINE_BREAK)
+        skip(TokenLibrary.INDENT)
+
+        if (tokenType != TokenLibrary.COLON && tokenType != TokenLibrary.EQ) {
+            marker.error(
+                GDSyntaxBundle.message("SYNTAX.expected.dictionary.pair.separator.got.0", tokenType.toString())
+            )
+            return false
+        }
+
+        next()
+        skip(TokenLibrary.LINE_BREAK)
+        skip(TokenLibrary.INDENT)
+
+        if (!parse()) {
+            marker.error(
+                GDSyntaxBundle.message("SYNTAX.expected.dictionary.pair.value.expression.got.0", tokenType.toString())
+            )
+            return false
+        }
+
+        marker.done(SyntaxLibrary.DICTIONARY_PAIR_EXPRESSION)
+        return true
     }
 
-    fun parseArgumentListExpressionInParentheses(): Boolean {
-        val
+    fun parseDictionaryInBraces() {
+        assertType(TokenLibrary.LBRACE)
+        val marker = mark()
+        next()
+
+        while (tokenType != TokenLibrary.RBRACE) {
+            val foundType = tokenType // Save the token type first
+
+            skip(TokenLibrary.LINE_BREAK)
+            skip(TokenLibrary.INDENT)
+
+            // Try to parse a pair
+            if (!parseDictionaryPair()) {
+                marker.error(
+                    GDSyntaxBundle.message(
+                        "SYNTAX.expected.dictionary.pair.got.0", foundType.toString()
+                    )
+                )
+                return
+            }
+
+            skip(TokenLibrary.LINE_BREAK)
+            skip(TokenLibrary.INDENT)
+
+            // We just read a pair, expect a comma or right brace
+            if (tokenType != TokenLibrary.COMMA && tokenType != TokenLibrary.RBRACE) {
+                marker.error(
+                    GDSyntaxBundle.message(
+                        "SYNTAX.expected.dictionary.end.or.continuation.got.0", foundType.toString()
+                    )
+                )
+                return
+            }
+        }
+
+        marker.done(SyntaxLibrary.DICTIONARY_EXPRESSION)
+    }
+
+    //endregion
+
+    fun parseArgumentListInParentheses(): Boolean {
+
         if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
             marker.drop()
             return false

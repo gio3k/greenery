@@ -12,6 +12,16 @@ abstract class SyntaxParserBuildContextAssociate(
         get() = builder.tokenType
 
     /**
+     * Skip all elements of provided type
+     * @param et IElementType
+     */
+    protected fun skip(et: IElementType) {
+        while (tokenType == et) {
+            next()
+        }
+    }
+
+    /**
      * Checks if the next element is the expected one, errors if not
      * @param et1 IElementType Expected element
      * @return Boolean Whether the element was expected
