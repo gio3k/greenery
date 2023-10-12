@@ -6,7 +6,7 @@ import org.jetbrains.annotations.PropertyKey
 
 
 object GDSyntaxBundle : DynamicBundle("messages.GDSyntaxBundle") {
-    private const val BUNDLE = "messages.GDSyntaxBundle"
+    internal const val BUNDLE = "messages.GDSyntaxBundle"
 
     @Nls
     fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: String): String =

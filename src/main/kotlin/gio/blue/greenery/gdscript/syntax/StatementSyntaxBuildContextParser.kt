@@ -1,6 +1,7 @@
 package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
+import com.intellij.psi.tree.IElementType
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 
 class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
@@ -11,9 +12,8 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
     /**
      * Parse a statement
      */
-    fun parse() {
-        println("parse: $tokenType")
-        val t0 = tokenType ?: return
+    fun parse(): Boolean {
+        val t0 = tokenType ?: return false
         when (t0) {
             TokenLibrary.EXTENDS_KEYWORD -> return parseExtendsStatement()
             TokenLibrary.CLASS_NAME_KEYWORD -> return parseClassNameStatement()
@@ -23,111 +23,96 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         // Unknown token
         next()
         builder.error(
-            GDSyntaxBundle.message(
-                "SYNTAX.expected.statement.got.0", t0.toString()
-            )
+            message("SYNTAX.generic.expected.statement.got.0", t0.toString())
         )
+        return false
     }
 
-    private fun parseExtendsStatement() {
-        assertType(TokenLibrary.EXTENDS_KEYWORD)
+    private fun parseClassInformationStatement(token: IElementType, syntax: IElementType): Boolean {
+        assertType(token)
 
         val marker = mark()
 
-        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
-            marker.drop()
-            return
+        next()
+        if (tokenType != TokenLibrary.IDENTIFIER) {
+            marker.error(
+                message("SYNTAX.generic.expected.0.got.1", tokenType.toString(), TokenLibrary.IDENTIFIER.toString())
+            )
+            return false
         }
 
-        if (!nextForStatementBreakAfterThis()) {
-            marker.drop()
-            return
+        next()
+        if (!isCurrentlyOnEndOfStatement()) {
+            marker.error(
+                message("SYNTAX.statement.expected.statement-break.got.0", tokenType.toString())
+            )
+            return false
         }
 
         next()
 
-        marker.done(SyntaxLibrary.EXTENDS_STATEMENT)
+        marker.done(syntax)
+        return true
     }
 
-    private fun parseClassNameStatement() {
-        assertType(TokenLibrary.CLASS_NAME_KEYWORD)
+    private fun parseExtendsStatement(): Boolean =
+        parseClassInformationStatement(TokenLibrary.EXTENDS_KEYWORD, SyntaxLibrary.EXTENDS_STATEMENT)
 
-        val marker = mark()
+    private fun parseClassNameStatement(): Boolean =
+        parseClassInformationStatement(TokenLibrary.CLASS_NAME_KEYWORD, SyntaxLibrary.CLASS_NAME_STATEMENT)
 
-        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
-            marker.drop()
-            return
-        }
-
-        if (!nextForStatementBreakAfterThis()) {
-            marker.drop()
-            return
-        }
-
-        next()
-
-        marker.done(SyntaxLibrary.CLASS_NAME_STATEMENT)
-    }
-
-    private fun parseForStatement() {
+    /**
+     * For statement
+     *
+     * (here! for) (?: identifier) (in) (iterable: expression) (colon) (block)
+     */
+    private fun parseForStatement(): Boolean {
         assertType(TokenLibrary.FOR_KEYWORD)
-
         val marker = mark()
-
-        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
-            marker.drop()
-            return
-        }
-
-        if (!nextForExpectedElementAfterThis(TokenLibrary.IN_KEYWORD)) {
-            marker.drop()
-            return
-        }
-
         next()
 
-        marker.done(SyntaxLibrary.EXTENDS_STATEMENT)
+        marker.drop()
+        return true
     }
 
-    private fun parseVariableDeclarationStatement() {
-        assertType(TokenLibrary.VAR_KEYWORD)
-
+    /**
+     * Variable declaration
+     *
+     * Constant or variable:
+     * (here! const or var) (name: identifier) [(colon) (type: identifier)] [(equals) (value: expression)]
+     *
+     * Property: (here! var) (name: identifier) [(colon) (type: identifier)] (colon)
+     *     [_INDENT_ (get) (colon) (block)]
+     *     [_INDENT_ (set) (parameter list) (colon) (block)]
+     */
+    private fun parseVariableDeclarationStatement(): Boolean {
+        assert(tokenType == TokenLibrary.VAR_KEYWORD || tokenType == TokenLibrary.CONST_KEYWORD)
         val marker = mark()
-
-        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
-            marker.drop()
-            return
-        }
-
         next()
 
-        // var hello = 3
-        // var hello: String = ""
-        // var hello:<br><tab>get:<br><tab><tab>return 3
-
-        when (tokenType) {
-            TokenLibrary.COLON -> {
-                // Type hint or property
-
-            }
-        }
+        marker.drop()
+        return true
     }
 
+    /**
+     * Annotation
+     *
+     * (at)_NO SPACE_(here! identifier) [(lpar) (argument list) (rpar)] _NEWLINE_
+     */
     private fun parseAnnotationStatement(): Boolean {
         assertType(TokenLibrary.ANNOTATION)
-
         val marker = mark()
-
-        // Move forward, see if there are arguments to this annotation
         next()
 
-        // Check for annotation arguments
-        if (tokenType == TokenLibrary.LPAR) {
-            // Annotation has arguments, parse them
-            if (!context.expressions.parseArgumentListExpressionInParentheses()) {
-                marker.drop()
-                return false // Failure to parse argument list, give up on annotation
-            }
+        if (tokenType != TokenLibrary.LPAR) {
+            marker.done(SyntaxLibrary.ANNOTATION_STATEMENT)
+            return true
+        }
+
+        // Read an argument list
+        if (!context.expressions.parseArgumentListInParentheses()) {
+            marker.drop()
+            return false
         }
 
         marker.done(SyntaxLibrary.ANNOTATION_STATEMENT)

@@ -18,6 +18,10 @@ object SyntaxLibrary {
     val DICTIONARY_EXPRESSION = ElementDescription("DICTIONARY_EXPRESSION")
     val DICTIONARY_PAIR_EXPRESSION = ElementDescription("DICTIONARY_PAIR_EXPRESSION")
 
+    val ARGUMENT = ElementDescription("ARGUMENT")
+    val ARGUMENT_TYPE_HINT = ElementDescription("ARGUMENT_TYPE_HINT")
+    val ARGUMENT_DEFAULT_ASSIGNMENT = ElementDescription("ARGUMENT_DEFAULT_ASSIGNMENT")
+
     val EXTENDS_STATEMENT = ElementDescription("EXTENDS_STATEMENT") { ExtendsStatementImpl(it) }
     val CLASS_NAME_STATEMENT = ElementDescription("CLASS_NAME_STATEMENT") { ClassNameStatementImpl(it) }
     val ANNOTATION_STATEMENT = ElementDescription("ANNOTATION_STATEMENT") { AnnotationStatementImpl(it) }

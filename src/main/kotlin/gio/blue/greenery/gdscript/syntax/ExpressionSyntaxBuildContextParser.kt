@@ -69,11 +69,11 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
     //region Dictionaries
 
     /**
-     * Parse dictionary expression pair
+     * Dictionary pair
      *
      * There are two types of dictionary pair syntax:
-     * (key: expression) (colon) (value: expression)
-     * Lua style: (key: identifier or string literal) (equals) (value: expression)
+     * (here! key: expression) (colon) (value: expression)
+     * Lua style: (here! key: identifier or string literal) (equals) (value: expression)
      *
      * Having mixed styles of pairs is not allowed.
      */
@@ -85,7 +85,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         // We'll deal with that later though - just parse as a normal expression for now
         if (!parse()) {
             marker.error(
-                GDSyntaxBundle.message("SYNTAX.expected.dictionary.pair.key.expression.got.0", tokenType.toString())
+                message("SYNTAX.dictionary.expected.pair.key.expression.got.0", tokenType.toString())
             )
             return false
         }
@@ -95,7 +95,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
 
         if (tokenType != TokenLibrary.COLON && tokenType != TokenLibrary.EQ) {
             marker.error(
-                GDSyntaxBundle.message("SYNTAX.expected.dictionary.pair.separator.got.0", tokenType.toString())
+                message("SYNTAX.dictionary.expected.pair.separator.got.0", tokenType.toString())
             )
             return false
         }
@@ -106,7 +106,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
 
         if (!parse()) {
             marker.error(
-                GDSyntaxBundle.message("SYNTAX.expected.dictionary.pair.value.expression.got.0", tokenType.toString())
+                message("SYNTAX.dictionary.expected.pair.value.expression.got.0", tokenType.toString())
             )
             return false
         }
@@ -115,7 +115,12 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         return true
     }
 
-    fun parseDictionaryInBraces() {
+    /**
+     * Dictionary inside braces
+     *
+     * (here! lbrace) [(dictionary pair)(comma...)] (rbrace)
+     */
+    fun parseDictionaryInBraces(): Boolean {
         assertType(TokenLibrary.LBRACE)
         val marker = mark()
         next()
@@ -129,11 +134,11 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             // Try to parse a pair
             if (!parseDictionaryPair()) {
                 marker.error(
-                    GDSyntaxBundle.message(
-                        "SYNTAX.expected.dictionary.pair.got.0", foundType.toString()
+                    message(
+                        "SYNTAX.dictionary.expected.pair.got.0", foundType.toString()
                     )
                 )
-                return
+                return false
             }
 
             skip(TokenLibrary.LINE_BREAK)
@@ -142,24 +147,101 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             // We just read a pair, expect a comma or right brace
             if (tokenType != TokenLibrary.COMMA && tokenType != TokenLibrary.RBRACE) {
                 marker.error(
-                    GDSyntaxBundle.message(
-                        "SYNTAX.expected.dictionary.end.or.continuation.got.0", foundType.toString()
+                    message(
+                        "SYNTAX.dictionary.expected.end.or.continuation.got.0", foundType.toString()
                     )
                 )
-                return
+                return false
             }
         }
 
         marker.done(SyntaxLibrary.DICTIONARY_EXPRESSION)
+        return true
     }
 
     //endregion
 
-    fun parseArgumentListInParentheses(): Boolean {
+    //region Arguments
 
-        if (!nextForExpectedElementAfterThis(TokenLibrary.IDENTIFIER)) {
-            marker.drop()
+    /**
+     * Type hint
+     *
+     * (here! colon) (identifier)
+     */
+    fun parseArgumentTypeHint(): Boolean {
+        assertType(TokenLibrary.COLON)
+        val marker = mark()
+        next()
+
+        if (tokenType != TokenLibrary.IDENTIFIER) {
+            marker.error(
+                message("SYNTAX.argument.type-hint.expected.identifier.after.colon")
+            )
             return false
         }
+
+        next()
+        marker.done(SyntaxLibrary.ARGUMENT_TYPE_HINT)
+        return true
     }
+
+    /**
+     * Single argument
+     *
+     * (here! identifier) [(colon) (name: identifier)] [(equals) (default: expression)]
+     */
+    fun parseArgument(): Boolean {
+        assertType(TokenLibrary.IDENTIFIER)
+        val marker = mark()
+        next()
+
+        marker.drop()
+        return true
+    }
+
+    /**
+     * Argument list (in parentheses)
+     *
+     * (here! lpar) [(argument)(comma...)] (rpar)
+     */
+    fun parseArgumentListInParentheses(): Boolean {
+        assertType(TokenLibrary.LPAR)
+        val marker = mark()
+        next()
+
+        while (tokenType != TokenLibrary.RPAR) {
+            val foundType = tokenType // Save the token type first
+
+            skip(TokenLibrary.LINE_BREAK)
+            skip(TokenLibrary.INDENT)
+
+            // Try to parse a pair
+            if (!parseArgument()) {
+                marker.error(
+                    message(
+                        "SYNTAX.generic.expected.argument.got.0", foundType.toString()
+                    )
+                )
+                return false
+            }
+
+            skip(TokenLibrary.LINE_BREAK)
+            skip(TokenLibrary.INDENT)
+
+            // We just read a pair, expect a comma or right brace
+            if (tokenType != TokenLibrary.COMMA && tokenType != TokenLibrary.RPAR) {
+                marker.error(
+                    message(
+                        "SYNTAX.argument-list.expected.end.or.continuation.got.0", foundType.toString()
+                    )
+                )
+                return false
+            }
+        }
+
+        marker.drop()
+        return true
+    }
+
+    //endregion
 }
