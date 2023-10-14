@@ -9,9 +9,6 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         builder
     ) {
 
-    /**
-     * Figure out what expression this token is and try to parse it
-     */
     fun parse(): Boolean {
         val t0 = tokenType ?: return false
         when (t0) {
@@ -245,3 +242,4 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
 
     //endregion
 }
+

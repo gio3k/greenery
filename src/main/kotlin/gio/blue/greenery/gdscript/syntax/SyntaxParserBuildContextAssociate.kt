@@ -2,6 +2,7 @@ package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.PropertyKey
@@ -47,6 +48,8 @@ abstract class SyntaxParserBuildContextAssociate(
     }
 
     protected fun assertType(et: IElementType) = assert(tokenType == et)
+
+    protected fun assertSet(ets: TokenSet) = assert(ets.contains(tokenType))
 
     @Nls
     fun message(@PropertyKey(resourceBundle = GDSyntaxBundle.BUNDLE) key: String, vararg params: String): String =

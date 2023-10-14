@@ -94,6 +94,16 @@ object TokenLibrary {
     val RARROW = ElementDescription("RARROW") // ->
     val COLONEQ = ElementDescription("COLONEQ") // :=
 
+    val UNARY_OPERATORS = TokenSet.create(
+        PLUS,
+        MINUS,
+        TILDE
+    )
+
+    val BINARY_OPERATORS = TokenSet.create(
+        PLUS
+    )
+
     // Boolean keywords
     val TRUE_KEYWORD = ElementDescription("TRUE_KEYWORD")
     val FALSE_KEYWORD = ElementDescription("FALSE_KEYWORD");

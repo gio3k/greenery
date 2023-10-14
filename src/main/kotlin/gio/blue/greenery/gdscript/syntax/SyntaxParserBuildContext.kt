@@ -7,6 +7,7 @@ class SyntaxParserBuildContext(val parser: SyntaxParser, builder: SyntaxTreeBuil
 
     val expressions = ExpressionSyntaxBuildContextParser(this, builder)
     val statements = StatementSyntaxBuildContextParser(this, builder)
+    val opex = OpExSyntaxBuildContextParser(this, builder)
 
     fun popScope(): SyntaxParserBuildScope = scopes.removeLast()
     fun pushScope(scope: SyntaxParserBuildScope) = scopes.addLast(scope)
