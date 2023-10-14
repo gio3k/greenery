@@ -26,7 +26,7 @@ fun TokenLexer.findNumberEndOffsetAfterPrefix(): Int {
 fun TokenLexer.tryLexingNumber(): Boolean {
     when (getCharAt(0)) {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {}
-        '.', '-' -> {
+        '.' -> {
             // These could be part of the number
             if (tryGetCharAt(1)?.isDigit() != true) return false
 
