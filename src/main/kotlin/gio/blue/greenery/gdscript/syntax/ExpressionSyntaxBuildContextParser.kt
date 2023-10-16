@@ -190,6 +190,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
      */
     fun parseArgument(): Boolean {
         assertType(TokenLibrary.IDENTIFIER)
+
         val marker = mark()
         next()
 
@@ -214,7 +215,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             skip(TokenLibrary.INDENT)
 
             // Try to parse a pair
-            if (!parseArgument()) {
+            if (tokenType != TokenLibrary.IDENTIFIER || !parseArgument()) {
                 marker.error(
                     message(
                         "SYNTAX.generic.expected.argument.got.0", foundType.toString()
