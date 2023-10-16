@@ -48,6 +48,7 @@ object TokenLibrary {
     val FUNC_KEYWORD = ElementDescription("FUNC_KEYWORD")
     val IN_KEYWORD = ElementDescription("IN_KEYWORD")
     val IS_KEYWORD = ElementDescription("IS_KEYWORD")
+    val NOT_KEYWORD = ElementDescription("NOT_KEYWORD")
     val NAMESPACE_KEYWORD = ElementDescription("NAMESPACE_KEYWORD")
     val PRELOAD_KEYWORD = ElementDescription("PRELOAD_KEYWORD")
     val SELF_KEYWORD = ElementDescription("SELF_KEYWORD")
@@ -72,6 +73,7 @@ object TokenLibrary {
     val OR = ElementDescription("OR") // |
     val XOR = ElementDescription("XOR") // ^
     val TILDE = ElementDescription("TILDE") // ~
+    val EXCLAIM = ElementDescription("EXCLAIM") // !
     val LT = ElementDescription("LT") // <
     val GT = ElementDescription("GT") // >
     val LE = ElementDescription("LE") // <=

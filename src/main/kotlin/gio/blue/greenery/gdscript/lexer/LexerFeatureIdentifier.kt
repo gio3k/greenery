@@ -26,6 +26,7 @@ val keywordMap = mapOf(
     "func" to TokenLibrary.FUNC_KEYWORD,
     "in" to TokenLibrary.IN_KEYWORD,
     "is" to TokenLibrary.IS_KEYWORD,
+    "not" to TokenLibrary.NOT_KEYWORD,
     "namespace" to TokenLibrary.NAMESPACE_KEYWORD,
     "preload" to TokenLibrary.PRELOAD_KEYWORD,
     "self" to TokenLibrary.SELF_KEYWORD,

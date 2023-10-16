@@ -17,6 +17,7 @@ private val multi0 = setOf(
     MultiCharacter(TokenLibrary.XOR, '^'),
     MultiCharacter(TokenLibrary.TILDE, '~'),
     MultiCharacter(TokenLibrary.EQ, '='),
+    MultiCharacter(TokenLibrary.EXCLAIM, '!'),
 )
 
 private val multi1 = setOf(
