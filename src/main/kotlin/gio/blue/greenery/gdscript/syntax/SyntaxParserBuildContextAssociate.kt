@@ -27,6 +27,7 @@ abstract class SyntaxParserBuildContextAssociate(
     protected fun isCurrentlyOnEndOfStatement(): Boolean {
         when (tokenType) {
             TokenLibrary.LINE_BREAK -> return true
+            TokenLibrary.SEMICOLON -> return true
             null -> return true
         }
 
