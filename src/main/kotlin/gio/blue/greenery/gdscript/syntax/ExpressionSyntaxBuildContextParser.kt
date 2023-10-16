@@ -52,7 +52,8 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
                 return true
             }
         }
-        return false
+
+        return context.opex.parse()
     }
 
     fun parseInParentheses() {

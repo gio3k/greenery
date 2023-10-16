@@ -18,7 +18,7 @@ object SyntaxLibrary {
     val DICTIONARY_EXPRESSION = ElementDescription("DICTIONARY_EXPRESSION")
     val DICTIONARY_PAIR_EXPRESSION = ElementDescription("DICTIONARY_PAIR_EXPRESSION")
 
-    val UNARY_PREFIX_EXPRESSION = ElementDescription("UNARY_PREFIX_EXPRESSION")
+    val PREFIX_EXPRESSION = ElementDescription("PREFIX_EXPRESSION")
     val BINARY_EXPRESSION = ElementDescription("BINARY_EXPRESSION")
 
     val ARGUMENT = ElementDescription("ARGUMENT")

@@ -11,8 +11,9 @@ class OpExSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: S
 
     fun parse(): Boolean {
         if (TokenLibrary.UNARY_OPERATORS.contains(tokenType)) return parseFromUnaryStart()
+        if (TokenLibrary.NEGATION_OPERATORS.contains(tokenType)) return parseFromNotStart()
 
-
+        return false
     }
 
     /**
@@ -32,11 +33,28 @@ class OpExSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: S
             return false
         }
 
-        marker.done(SyntaxLibrary.UNARY_PREFIX_EXPRESSION)
+        marker.done(SyntaxLibrary.PREFIX_EXPRESSION)
         return true
     }
 
+    /**
+     * Not start
+     *
+     * ... (here! not keyword or !) (expression)
+     */
     private fun parseFromNotStart(): Boolean {
+        assertSet(TokenLibrary.NEGATION_OPERATORS)
 
+        val marker = mark()
+
+        next()
+
+        if (!context.expressions.parse()) {
+            marker.error(message("SYNTAX.negate.invalid.target"))
+            return false
+        }
+
+        marker.done(SyntaxLibrary.PREFIX_EXPRESSION)
+        return true
     }
 }

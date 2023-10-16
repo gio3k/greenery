@@ -106,6 +106,11 @@ object TokenLibrary {
         PLUS
     )
 
+    val NEGATION_OPERATORS = TokenSet.create(
+        NOT_KEYWORD,
+        EXCLAIM
+    )
+
     // Boolean keywords
     val TRUE_KEYWORD = ElementDescription("TRUE_KEYWORD")
     val FALSE_KEYWORD = ElementDescription("FALSE_KEYWORD");
