@@ -13,11 +13,14 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
      * Parse a statement
      */
     fun parse(): Boolean {
+        skip(TokenLibrary.LINE_BREAK)
+
         val t0 = tokenType ?: return false
         when (t0) {
-            TokenLibrary.EXTENDS_KEYWORD -> return parseExtendsStatement()
-            TokenLibrary.CLASS_NAME_KEYWORD -> return parseClassNameStatement()
-            TokenLibrary.ANNOTATION -> return parseAnnotationStatement()
+            TokenLibrary.EXTENDS_KEYWORD -> return parseExtends()
+            TokenLibrary.CLASS_NAME_KEYWORD -> return parseClassName()
+            TokenLibrary.ANNOTATION -> return parseAnnotation()
+            TokenLibrary.FOR_KEYWORD -> return parseFor()
         }
 
         // Unknown token
@@ -28,7 +31,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         return false
     }
 
-    private fun parseClassInformationStatement(token: IElementType, syntax: IElementType): Boolean {
+    private fun parseClassInformation(token: IElementType, syntax: IElementType): Boolean {
         assertType(token)
 
         val marker = mark()
@@ -42,7 +45,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         }
 
         next()
-        if (!isCurrentlyOnEndOfStatement()) {
+        if (tokenType != null && !TokenLibrary.STATEMENT_BREAKERS.contains(tokenType)) {
             marker.error(
                 message("SYNTAX.statement.expected.statement-break.got.0", tokenType.toString())
             )
@@ -55,23 +58,75 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         return true
     }
 
-    private fun parseExtendsStatement(): Boolean =
-        parseClassInformationStatement(TokenLibrary.EXTENDS_KEYWORD, SyntaxLibrary.EXTENDS_STATEMENT)
+    private fun parseExtends(): Boolean =
+        parseClassInformation(TokenLibrary.EXTENDS_KEYWORD, SyntaxLibrary.EXTENDS_STATEMENT)
 
-    private fun parseClassNameStatement(): Boolean =
-        parseClassInformationStatement(TokenLibrary.CLASS_NAME_KEYWORD, SyntaxLibrary.CLASS_NAME_STATEMENT)
+    private fun parseClassName(): Boolean =
+        parseClassInformation(TokenLibrary.CLASS_NAME_KEYWORD, SyntaxLibrary.CLASS_NAME_STATEMENT)
 
     /**
      * For statement
      *
      * (here! for) (?: identifier) (in) (iterable: expression) (colon) (block)
      */
-    private fun parseForStatement(): Boolean {
+    private fun parseFor(): Boolean {
         assertType(TokenLibrary.FOR_KEYWORD)
         val marker = mark()
         next()
 
-        marker.drop()
+        // Expect identifier
+        if (tokenType != TokenLibrary.IDENTIFIER) {
+            marker.error(
+                message(
+                    "SYNTAX.generic.expected.0.got.1", TokenLibrary.IDENTIFIER.toString(), tokenType.toString()
+                )
+            )
+            return false
+        }
+        next()
+
+        // Expect in keyword
+        if (tokenType != TokenLibrary.IN_KEYWORD) {
+            marker.error(
+                message(
+                    "SYNTAX.for.expected.in.got.0", tokenType.toString()
+                )
+            )
+            return false
+        }
+        next()
+
+        // Expect expression
+        if (!context.expressions.parse()) {
+            marker.error(
+                message("SYNTAX.for.expected.expression.got.0", tokenType.toString())
+            )
+            return false
+        }
+
+        // Expect colon
+        if (tokenType != TokenLibrary.COLON) {
+            marker.error(
+                message(
+                    "SYNTAX.generic.expected.0.got.1", TokenLibrary.COLON.toString(), tokenType.toString()
+                )
+            )
+            return false
+        }
+
+        next()
+
+        // Parse block
+        if (!context.blocks.parse()) {
+            marker.error(
+                message(
+                    "SYNTAX.statement.expected.block"
+                )
+            )
+            return false
+        }
+
+        marker.done(SyntaxLibrary.FOR_STATEMENT)
         return true
     }
 
@@ -85,7 +140,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
      *     [_INDENT_ (get) (colon) (block)]
      *     [_INDENT_ (set) (parameter list) (colon) (block)]
      */
-    private fun parseVariableDeclarationStatement(): Boolean {
+    private fun parseVariableDeclaration(): Boolean {
         assert(tokenType == TokenLibrary.VAR_KEYWORD || tokenType == TokenLibrary.CONST_KEYWORD)
         val marker = mark()
         next()
@@ -99,7 +154,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
      *
      * (at)_NO SPACE_(here! identifier) [(lpar) (argument list) (rpar)] _NEWLINE_
      */
-    private fun parseAnnotationStatement(): Boolean {
+    private fun parseAnnotation(): Boolean {
         assertType(TokenLibrary.ANNOTATION)
         val marker = mark()
         next()

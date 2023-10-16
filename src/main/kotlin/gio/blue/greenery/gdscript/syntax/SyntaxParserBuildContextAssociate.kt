@@ -3,7 +3,6 @@ package gio.blue.greenery.gdscript.syntax
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.PropertyKey
 
@@ -22,16 +21,6 @@ abstract class SyntaxParserBuildContextAssociate(
         while (tokenType == et1) {
             next()
         }
-    }
-
-    protected fun isCurrentlyOnEndOfStatement(): Boolean {
-        when (tokenType) {
-            TokenLibrary.LINE_BREAK -> return true
-            TokenLibrary.SEMICOLON -> return true
-            null -> return true
-        }
-
-        return false
     }
 
     protected fun next() {

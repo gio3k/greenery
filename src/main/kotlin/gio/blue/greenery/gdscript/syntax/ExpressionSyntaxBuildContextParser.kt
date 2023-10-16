@@ -162,9 +162,9 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
     //region Arguments
 
     /**
-     * Type hint
+     * Argument type hint
      *
-     * (here! colon) (identifier)
+     * (here! colon) (type name: identifier)
      */
     fun parseArgumentTypeHint(): Boolean {
         assertType(TokenLibrary.COLON)
@@ -184,9 +184,31 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
     }
 
     /**
+     * Argument default value expression
+     *
+     * (here! eq) (value: expression)
+     */
+    fun parseArgumentDefaultValueExpression(): Boolean {
+        assertType(TokenLibrary.EQ)
+        val marker = mark()
+        next()
+
+        val expressionStartTokenType = tokenType
+        if (!parse()) {
+            marker.error(
+                message("SYNTAX.generic.expected.expression.got.0", expressionStartTokenType.toString())
+            )
+            return false
+        }
+
+        marker.done(SyntaxLibrary.ARGUMENT_DEFAULT_ASSIGNMENT)
+        return true
+    }
+
+    /**
      * Single argument
      *
-     * (here! identifier) [(colon) (name: identifier)] [(equals) (default: expression)]
+     * (here! identifier) [type hint] [default value expression]
      */
     fun parseArgument(): Boolean {
         assertType(TokenLibrary.IDENTIFIER)
@@ -194,7 +216,18 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         val marker = mark()
         next()
 
-        marker.drop()
+        if (tokenType == TokenLibrary.COLON) {
+            parseArgumentTypeHint()
+        }
+
+        if (tokenType == TokenLibrary.EQ) {
+            if (!parseArgumentDefaultValueExpression()) {
+                // Failed to parse the default value, skip past whatever it found
+                next()
+            }
+        }
+
+        marker.done(SyntaxLibrary.ARGUMENT)
         return true
     }
 
@@ -228,17 +261,25 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             skip(TokenLibrary.INDENT)
 
             // We just read a pair, expect a comma or right brace
-            if (tokenType != TokenLibrary.COMMA && tokenType != TokenLibrary.RPAR) {
-                marker.error(
-                    message(
-                        "SYNTAX.argument-list.expected.end.or.continuation.got.0", foundType.toString()
-                    )
-                )
-                return false
+            if (tokenType == TokenLibrary.COMMA) {
+                next()
+                continue
             }
+
+            if (tokenType == TokenLibrary.RPAR) {
+                next()
+                break
+            }
+
+            marker.error(
+                message(
+                    "SYNTAX.argument-list.expected.end.or.continuation.got.0", foundType.toString()
+                )
+            )
+            return false
         }
 
-        marker.drop()
+        marker.done(SyntaxLibrary.ARGUMENT_LIST)
         return true
     }
 

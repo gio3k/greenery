@@ -21,6 +21,7 @@ object SyntaxLibrary {
     val PREFIX_EXPRESSION = ElementDescription("PREFIX_EXPRESSION")
     val BINARY_EXPRESSION = ElementDescription("BINARY_EXPRESSION")
 
+    val ARGUMENT_LIST = ElementDescription("ARGUMENT_LIST")
     val ARGUMENT = ElementDescription("ARGUMENT")
     val ARGUMENT_TYPE_HINT = ElementDescription("ARGUMENT_TYPE_HINT")
     val ARGUMENT_DEFAULT_ASSIGNMENT = ElementDescription("ARGUMENT_DEFAULT_ASSIGNMENT")
@@ -28,4 +29,7 @@ object SyntaxLibrary {
     val EXTENDS_STATEMENT = ElementDescription("EXTENDS_STATEMENT") { ExtendsStatementImpl(it) }
     val CLASS_NAME_STATEMENT = ElementDescription("CLASS_NAME_STATEMENT") { ClassNameStatementImpl(it) }
     val ANNOTATION_STATEMENT = ElementDescription("ANNOTATION_STATEMENT") { AnnotationStatementImpl(it) }
+    val FOR_STATEMENT = ElementDescription("FOR_STATEMENT")
+
+    val BLOCK_BODY = ElementDescription("BLOCK_BODY")
 }
