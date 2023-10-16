@@ -47,9 +47,17 @@ abstract class SyntaxParserBuildContextAssociate(
         return builder.mark()
     }
 
-    protected fun assertType(et: IElementType) = assert(tokenType == et)
+    protected fun assertType(et: IElementType) {
+        if (tokenType != et) {
+            throw AssertionError("Syntax assertion failed: $tokenType != expected $et")
+        }
+    }
 
-    protected fun assertSet(ets: TokenSet) = assert(ets.contains(tokenType))
+    protected fun assertSet(ets: TokenSet) {
+        if (ets.contains(tokenType)) {
+            throw AssertionError("Syntax assertion failed: $tokenType not in expected set $ets")
+        }
+    }
 
     @Nls
     fun message(@PropertyKey(resourceBundle = GDSyntaxBundle.BUNDLE) key: String, vararg params: String): String =
