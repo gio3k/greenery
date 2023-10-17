@@ -25,6 +25,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             TokenLibrary.ANNOTATION -> return parseAnnotation()
             TokenLibrary.FOR_KEYWORD -> return parseFor()
             TokenLibrary.FUNC_KEYWORD -> return context.functions.parse()
+            TokenLibrary.PASS_KEYWORD -> return parsePass()
         }
 
         // Unknown token
@@ -59,6 +60,17 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         next()
 
         marker.done(syntax)
+        return true
+    }
+
+    /**
+     * Pass
+     *
+     * (here! pass keyword)
+     */
+    private fun parsePass(): Boolean {
+        assertType(TokenLibrary.PASS_KEYWORD)
+        next()
         return true
     }
 
