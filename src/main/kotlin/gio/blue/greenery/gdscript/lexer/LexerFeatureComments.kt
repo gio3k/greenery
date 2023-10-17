@@ -14,7 +14,7 @@ private fun canCharEndCommentToken(c: Char): Boolean {
 
 /**
  * Attempts to parse a comment line
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 fun TokenLexer.tryLexingCommentLine(): Boolean {

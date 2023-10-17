@@ -3,7 +3,7 @@ package gio.blue.greenery.gdscript.lexer
 
 /**
  * Attempts to parse a single character token
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 fun TokenLexer.tryLexingSingleCharacter(): Boolean {

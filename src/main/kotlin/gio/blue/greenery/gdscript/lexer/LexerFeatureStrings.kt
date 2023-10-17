@@ -4,7 +4,7 @@ import gio.blue.greenery.gdscript.GDCharacterUtil
 
 /**
  * Attempts to parse a string prefix
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 private fun TokenLexer.tryLexingStringPrefix(): Boolean {
@@ -177,7 +177,7 @@ private fun TokenLexer.tryLexingInvisibleControlChar(): Boolean {
 
 /**
  * Attempts to parse a string
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 fun TokenLexer.tryLexingString(): Boolean {

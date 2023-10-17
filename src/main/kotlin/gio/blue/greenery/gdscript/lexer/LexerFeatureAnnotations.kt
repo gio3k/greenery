@@ -14,7 +14,7 @@ private fun canCharEndAnnotationToken(c: Char): Boolean {
 
 /**
  * Attempts to parse an annotation line
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 fun TokenLexer.tryLexingAnnotation(): Boolean {

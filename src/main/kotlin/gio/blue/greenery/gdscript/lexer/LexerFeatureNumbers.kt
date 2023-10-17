@@ -20,7 +20,7 @@ fun TokenLexer.findNumberEndOffsetAfterPrefix(): Int {
 
 /**
  * Attempts to parse a number
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 fun TokenLexer.tryLexingNumber(): Boolean {

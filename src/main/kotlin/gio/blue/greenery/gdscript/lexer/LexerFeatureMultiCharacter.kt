@@ -48,7 +48,7 @@ private val multi2 = setOf(
 
 /**
  * Attempts to parse a multi character token
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 fun TokenLexer.tryLexingMultiCharacter(): Boolean {

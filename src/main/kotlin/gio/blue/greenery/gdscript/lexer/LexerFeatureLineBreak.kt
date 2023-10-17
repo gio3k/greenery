@@ -2,7 +2,7 @@ package gio.blue.greenery.gdscript.lexer
 
 /**
  * Attempts to parse a new line / line break
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 fun TokenLexer.tryLexingLineBreak(): Boolean {

@@ -44,7 +44,7 @@ val keywordMap = mapOf(
 
 /**
  * Attempts to parse a possible identifier or keyword
- * @receiver GDLexer
+ * @receiver TokenLexer
  * @return Boolean True if a token was parsed
  */
 fun TokenLexer.tryLexingPossibleIdentifier(): Boolean {
