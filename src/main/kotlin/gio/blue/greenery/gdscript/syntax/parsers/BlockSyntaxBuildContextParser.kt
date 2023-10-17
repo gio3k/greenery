@@ -20,7 +20,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
     /**
      * Indented block
      *
-     * (colon) (here! _NEWLINE_) _INDENT_ (...statements...) _DEDENT_
+     * (colon) (here! _NEWLINE_) _INDENT_ [(statement)(..._STATEMENT BREAK_...)] _DEDENT_
      */
     fun parseIndentedBlock(): Boolean {
         assertType(TokenLibrary.LINE_BREAK)
@@ -51,7 +51,6 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
 
                 // Check for dedent or EOF
                 if (tokenType == null || tokenType == TokenLibrary.DEDENT) {
-                    next()
                     break
                 }
 
@@ -68,6 +67,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
             }
         }
 
+        next()
         marker.done(SyntaxLibrary.STATEMENT_GROUP)
         return true
     }
@@ -75,7 +75,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
     /**
      * Single line block
      *
-     * (colon) (here! ...statements...) _NEWLINE_
+     * (colon) (here! (statement)(..._STATEMENT BREAK_...)) _NEWLINE_
      */
     private fun parseSingleLineBlock(): Boolean {
         val marker = mark()
