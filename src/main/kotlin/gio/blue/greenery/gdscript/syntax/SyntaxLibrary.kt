@@ -21,16 +21,19 @@ object SyntaxLibrary {
     val DICTIONARY_PAIR = ElementDescription("DICTIONARY_PAIR")
 
     val EXPRESSION_PREFIX = ElementDescription("EXPRESSION_PREFIX")
+    val EXPRESSION_LIST = ElementDescription("EXPRESSION_LIST")
     val BINARY_EXPRESSION = ElementDescription("BINARY_EXPRESSION")
 
-    val PARAMETER_LIST = ElementDescription("PARAMETER_LIST")
-    val PARAMETER = ElementDescription("PARAMETER")
-    val PARAMETER_TYPE_HINT = ElementDescription("PARAMETER_TYPE_HINT")
-    val PARAMETER_DEFAULT_ASSIGNMENT = ElementDescription("PARAMETER_DEFAULT_ASSIGNMENT")
+    val FUNCTION_DECL_STATEMENT = ElementDescription("FUNCTION_DECL_STATEMENT")
+    val FUNCTION_DECL_TYPE_HINT = ElementDescription("FUNCTION_DECL_TYPE_HINT")
+    val FUNCTION_DECL_PARAMETER_LIST = ElementDescription("FUNCTION_DECL_PARAMETER_LIST")
+    val FUNCTION_DECL_PARAMETER = ElementDescription("FUNCTION_DECL_PARAMETER")
+    val FUNCTION_DECL_PARAMETER_TYPE_HINT = ElementDescription("FUNCTION_DECL_PARAMETER_TYPE_HINT")
+    val FUNCTION_DECL_PARAMETER_DEFAULT_ASSIGNMENT = ElementDescription("FUNCTION_DECL_PARAMETER_DEFAULT_ASSIGNMENT")
 
     val EXTENDS_STATEMENT = ElementDescription("EXTENDS_STATEMENT") { ExtendsStatementImpl(it) }
     val CLASS_NAME_STATEMENT = ElementDescription("CLASS_NAME_STATEMENT") { ClassNameStatementImpl(it) }
     val ANNOTATION_STATEMENT = ElementDescription("ANNOTATION_STATEMENT") { AnnotationStatementImpl(it) }
-    val FUNCTION_STATEMENT = ElementDescription("FUNCTION_STATEMENT")
+
     val FOR_STATEMENT = ElementDescription("FOR_STATEMENT")
 }

@@ -6,7 +6,7 @@ import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContext
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContextAssociate
 
-class OpExSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
+class OperationSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
         context,
         builder

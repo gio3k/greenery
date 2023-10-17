@@ -24,6 +24,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             TokenLibrary.CLASS_NAME_KEYWORD -> return parseClassName()
             TokenLibrary.ANNOTATION -> return parseAnnotation()
             TokenLibrary.FOR_KEYWORD -> return parseFor()
+            TokenLibrary.FUNC_KEYWORD -> return context.functions.parse()
         }
 
         // Unknown token
@@ -36,25 +37,25 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
 
     private fun parseClassInformation(token: IElementType, syntax: IElementType): Boolean {
         assertType(token)
-
         val marker = mark()
-
         next()
+
+        println("parsing class info")
+
         if (tokenType != TokenLibrary.IDENTIFIER) {
             marker.error(
                 message("SYNTAX.generic.expected.0.got.1", tokenType.toString(), TokenLibrary.IDENTIFIER.toString())
             )
             return false
         }
-
         next()
+
         if (tokenType != null && !TokenLibrary.STATEMENT_BREAKERS.contains(tokenType)) {
             marker.error(
                 message("SYNTAX.statement.expected.statement-break.got.0", tokenType.toString())
             )
             return false
         }
-
         next()
 
         marker.done(syntax)
@@ -67,61 +68,6 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
     private fun parseClassName(): Boolean =
         parseClassInformation(TokenLibrary.CLASS_NAME_KEYWORD, SyntaxLibrary.CLASS_NAME_STATEMENT)
 
-    /**
-     * Function declaration
-     *
-     * (here! func) (name: identifier) (parameters: parameter list) (colon) (block)
-     */
-    private fun parseFunc(): Boolean {
-        assertType(TokenLibrary.FUNC_KEYWORD)
-        val marker = mark()
-        next()
-
-        // Expect identifier
-        if (tokenType != TokenLibrary.IDENTIFIER) {
-            marker.error(
-                message(
-                    "SYNTAX.generic.expected.0.got.1", TokenLibrary.IDENTIFIER.toString(), tokenType.toString()
-                )
-            )
-            return false
-        }
-        next()
-
-        // Read the parameter list
-        if (!context.expressions.parseParameterListInParentheses()) {
-            marker.error(
-                message(
-                    "SYNTAX.func-decl.expected.parameter-list"
-                )
-            )
-            return false
-        }
-
-        // Expect colon
-        if (tokenType != TokenLibrary.COLON) {
-            marker.error(
-                message(
-                    "SYNTAX.generic.expected.0.got.1", TokenLibrary.COLON.toString(), tokenType.toString()
-                )
-            )
-            return false
-        }
-        next()
-
-        // Parse block
-        if (!context.blocks.parse()) {
-            marker.error(
-                message(
-                    "SYNTAX.statement.expected.block"
-                )
-            )
-            return false
-        }
-
-        marker.done(SyntaxLibrary.FUNCTION_STATEMENT)
-        return true
-    }
 
     /**
      * For statement
@@ -223,7 +169,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         }
 
         // Read a parameter list
-        if (!context.expressions.parseParameterListInParentheses()) {
+        if (!context.expressions.parseBasicExpressionList()) {
             marker.drop()
             return false
         }
@@ -232,3 +178,4 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         return true
     }
 }
+

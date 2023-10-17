@@ -111,6 +111,7 @@ class TokenLexer : LexerBase() {
         if (queue.isNotEmpty()) {
             // Update token info
             lastToken = queue.remove()
+            println(lastToken)
             return
         }
 
@@ -120,6 +121,7 @@ class TokenLexer : LexerBase() {
             if (queue.isNotEmpty()) {
                 // Update token info
                 lastToken = queue.remove()
+                println(lastToken)
                 return
             }
         }
