@@ -1,6 +1,10 @@
 package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
+import gio.blue.greenery.gdscript.syntax.parsers.BlockSyntaxBuildContextParser
+import gio.blue.greenery.gdscript.syntax.parsers.ExpressionSyntaxBuildContextParser
+import gio.blue.greenery.gdscript.syntax.parsers.OpExSyntaxBuildContextParser
+import gio.blue.greenery.gdscript.syntax.parsers.StatementSyntaxBuildContextParser
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract

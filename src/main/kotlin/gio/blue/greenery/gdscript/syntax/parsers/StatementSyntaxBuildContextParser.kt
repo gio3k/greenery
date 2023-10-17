@@ -1,8 +1,11 @@
-package gio.blue.greenery.gdscript.syntax
+package gio.blue.greenery.gdscript.syntax.parsers
 
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.IElementType
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
+import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
+import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContext
+import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContextAssociate
 
 class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
