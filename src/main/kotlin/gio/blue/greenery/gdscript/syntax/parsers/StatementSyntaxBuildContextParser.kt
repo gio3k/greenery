@@ -40,9 +40,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         assertType(token)
         val marker = mark()
         next()
-
-        println("parsing class info")
-
+        
         if (tokenType != TokenLibrary.IDENTIFIER) {
             marker.error(
                 message("SYNTAX.generic.expected.0.got.1", tokenType.toString(), TokenLibrary.IDENTIFIER.toString())
