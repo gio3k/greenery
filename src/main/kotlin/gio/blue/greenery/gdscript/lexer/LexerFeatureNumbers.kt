@@ -67,7 +67,7 @@ fun TokenLexer.tryLexingNumber(): Boolean {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {}
             'e', 'E' -> {}
             '_' -> {}
-            '.', ',' -> isFloatingPoint = true
+            '.' -> isFloatingPoint = true
             else -> break
         }
 
