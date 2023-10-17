@@ -36,7 +36,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
         }
         next()
 
-        context.withinScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.BLOCK_BODY)) {
+        context.withinScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.STATEMENT_GROUP)) {
             // Parse statements until we hit the corresponding dedent
             while (tokenType != null && tokenType != TokenLibrary.DEDENT) {
                 val foundTokenType = tokenType
@@ -68,7 +68,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
             }
         }
 
-        marker.done(SyntaxLibrary.BLOCK_BODY)
+        marker.done(SyntaxLibrary.STATEMENT_GROUP)
         return true
     }
 
@@ -80,7 +80,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
     private fun parseSingleLineBlock(): Boolean {
         val marker = mark()
 
-        context.withinScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.BLOCK_BODY)) {
+        context.withinScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.STATEMENT_GROUP)) {
             // Parse statements until we hit EOF or a line break
             while (tokenType != null && tokenType != TokenLibrary.LINE_BREAK) {
                 val foundTokenType = tokenType
@@ -112,7 +112,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
             }
         }
 
-        marker.done(SyntaxLibrary.BLOCK_BODY)
+        marker.done(SyntaxLibrary.STATEMENT_GROUP)
         return true
     }
 }

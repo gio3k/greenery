@@ -68,6 +68,62 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         parseClassInformation(TokenLibrary.CLASS_NAME_KEYWORD, SyntaxLibrary.CLASS_NAME_STATEMENT)
 
     /**
+     * Function declaration
+     *
+     * (here! func) (name: identifier) (parameters: parameter list) (colon) (block)
+     */
+    private fun parseFunc(): Boolean {
+        assertType(TokenLibrary.FUNC_KEYWORD)
+        val marker = mark()
+        next()
+
+        // Expect identifier
+        if (tokenType != TokenLibrary.IDENTIFIER) {
+            marker.error(
+                message(
+                    "SYNTAX.generic.expected.0.got.1", TokenLibrary.IDENTIFIER.toString(), tokenType.toString()
+                )
+            )
+            return false
+        }
+        next()
+
+        // Read the parameter list
+        if (!context.expressions.parseParameterListInParentheses()) {
+            marker.error(
+                message(
+                    "SYNTAX.func-decl.expected.parameter-list"
+                )
+            )
+            return false
+        }
+
+        // Expect colon
+        if (tokenType != TokenLibrary.COLON) {
+            marker.error(
+                message(
+                    "SYNTAX.generic.expected.0.got.1", TokenLibrary.COLON.toString(), tokenType.toString()
+                )
+            )
+            return false
+        }
+        next()
+
+        // Parse block
+        if (!context.blocks.parse()) {
+            marker.error(
+                message(
+                    "SYNTAX.statement.expected.block"
+                )
+            )
+            return false
+        }
+
+        marker.done(SyntaxLibrary.FUNCTION_STATEMENT)
+        return true
+    }
+
+    /**
      * For statement
      *
      * (here! for) (?: identifier) (in) (iterable: expression) (colon) (block)
@@ -116,7 +172,6 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             )
             return false
         }
-
         next()
 
         // Parse block
@@ -167,8 +222,8 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             return true
         }
 
-        // Read an argument list
-        if (!context.expressions.parseArgumentListInParentheses()) {
+        // Read a parameter list
+        if (!context.expressions.parseParameterListInParentheses()) {
             marker.drop()
             return false
         }

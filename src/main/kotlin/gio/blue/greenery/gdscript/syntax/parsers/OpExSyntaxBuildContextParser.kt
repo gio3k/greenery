@@ -36,7 +36,7 @@ class OpExSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: S
             return false
         }
 
-        marker.done(SyntaxLibrary.PREFIX_EXPRESSION)
+        marker.done(SyntaxLibrary.EXPRESSION_PREFIX)
         return true
     }
 
@@ -57,7 +57,7 @@ class OpExSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: S
             return false
         }
 
-        marker.done(SyntaxLibrary.PREFIX_EXPRESSION)
+        marker.done(SyntaxLibrary.EXPRESSION_PREFIX)
         return true
     }
 }

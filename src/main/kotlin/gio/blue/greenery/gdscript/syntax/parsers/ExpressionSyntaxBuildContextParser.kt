@@ -16,27 +16,27 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         val t0 = tokenType ?: return false
         when (t0) {
             TokenLibrary.FLOAT_LITERAL -> {
-                markSingleHere(SyntaxLibrary.FLOAT_LITERAL_EXPRESSION)
+                markSingleHere(SyntaxLibrary.FLOAT_LITERAL)
                 return true
             }
 
             TokenLibrary.INTEGER_LITERAL -> {
-                markSingleHere(SyntaxLibrary.INTEGER_LITERAL_EXPRESSION)
+                markSingleHere(SyntaxLibrary.INTEGER_LITERAL)
                 return true
             }
 
             TokenLibrary.HEX_LITERAL -> {
-                markSingleHere(SyntaxLibrary.HEX_LITERAL_EXPRESSION)
+                markSingleHere(SyntaxLibrary.HEX_LITERAL)
                 return true
             }
 
             TokenLibrary.BINARY_LITERAL -> {
-                markSingleHere(SyntaxLibrary.BINARY_LITERAL_EXPRESSION)
+                markSingleHere(SyntaxLibrary.BINARY_LITERAL)
                 return true
             }
 
             TokenLibrary.TRUE_KEYWORD, TokenLibrary.FALSE_KEYWORD -> {
-                markSingleHere(SyntaxLibrary.BOOLEAN_LITERAL_EXPRESSION)
+                markSingleHere(SyntaxLibrary.BOOLEAN_LITERAL)
                 return true
             }
 
@@ -112,7 +112,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             return false
         }
 
-        marker.done(SyntaxLibrary.DICTIONARY_PAIR_EXPRESSION)
+        marker.done(SyntaxLibrary.DICTIONARY_PAIR)
         return true
     }
 
@@ -156,42 +156,42 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             }
         }
 
-        marker.done(SyntaxLibrary.DICTIONARY_EXPRESSION)
+        marker.done(SyntaxLibrary.DICTIONARY)
         return true
     }
 
     //endregion
 
-    //region Arguments
+    //region Parameters
 
     /**
-     * Argument type hint
+     * Parameter type hint
      *
      * (here! colon) (type name: identifier)
      */
-    fun parseArgumentTypeHint(): Boolean {
+    fun parseParameterTypeHint(): Boolean {
         assertType(TokenLibrary.COLON)
         val marker = mark()
         next()
 
         if (tokenType != TokenLibrary.IDENTIFIER) {
             marker.error(
-                message("SYNTAX.argument.type-hint.expected.identifier.after.colon")
+                message("SYNTAX.parameter.type-hint.expected.identifier.after.colon")
             )
             return false
         }
 
         next()
-        marker.done(SyntaxLibrary.ARGUMENT_TYPE_HINT)
+        marker.done(SyntaxLibrary.PARAMETER_TYPE_HINT)
         return true
     }
 
     /**
-     * Argument default value expression
+     * Parameter default value expression
      *
      * (here! eq) (value: expression)
      */
-    fun parseArgumentDefaultValueExpression(): Boolean {
+    fun parseParameterDefaultValueExpression(): Boolean {
         assertType(TokenLibrary.EQ)
         val marker = mark()
         next()
@@ -204,42 +204,42 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             return false
         }
 
-        marker.done(SyntaxLibrary.ARGUMENT_DEFAULT_ASSIGNMENT)
+        marker.done(SyntaxLibrary.PARAMETER_DEFAULT_ASSIGNMENT)
         return true
     }
 
     /**
-     * Single argument
+     * Single parameter
      *
      * (here! identifier) [type hint] [default value expression]
      */
-    fun parseArgument(): Boolean {
+    fun parseParameter(): Boolean {
         assertType(TokenLibrary.IDENTIFIER)
 
         val marker = mark()
         next()
 
         if (tokenType == TokenLibrary.COLON) {
-            parseArgumentTypeHint()
+            parseParameterTypeHint()
         }
 
         if (tokenType == TokenLibrary.EQ) {
-            if (!parseArgumentDefaultValueExpression()) {
+            if (!parseParameterDefaultValueExpression()) {
                 // Failed to parse the default value, skip past whatever it found
                 next()
             }
         }
 
-        marker.done(SyntaxLibrary.ARGUMENT)
+        marker.done(SyntaxLibrary.PARAMETER)
         return true
     }
 
     /**
-     * Argument list (in parentheses)
+     * Parameter list (in parentheses)
      *
-     * (here! lpar) [(argument)(comma...)] (rpar)
+     * (here! lpar) [(parameter)(comma...)] (rpar)
      */
-    fun parseArgumentListInParentheses(): Boolean {
+    fun parseParameterListInParentheses(): Boolean {
         assertType(TokenLibrary.LPAR)
         val marker = mark()
         next()
@@ -250,11 +250,11 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             skip(TokenLibrary.LINE_BREAK)
             skip(TokenLibrary.INDENT)
 
-            // Try to parse a pair
-            if (tokenType != TokenLibrary.IDENTIFIER || !parseArgument()) {
+            // Try to parse a parameter
+            if (tokenType != TokenLibrary.IDENTIFIER || !parseParameter()) {
                 marker.error(
                     message(
-                        "SYNTAX.generic.expected.argument.got.0", foundType.toString()
+                        "SYNTAX.generic.expected.parameter.got.0", foundType.toString()
                     )
                 )
                 return false
@@ -276,13 +276,13 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
 
             marker.error(
                 message(
-                    "SYNTAX.argument-list.expected.end.or.continuation.got.0", foundType.toString()
+                    "SYNTAX.parameter-list.expected.end.or.continuation.got.0", foundType.toString()
                 )
             )
             return false
         }
 
-        marker.done(SyntaxLibrary.ARGUMENT_LIST)
+        marker.done(SyntaxLibrary.PARAMETER_LIST)
         return true
     }
 
