@@ -24,7 +24,7 @@ class TokenLexerHandlerDepthAssociate(lexer: TokenLexer) : TokenLexerHandlerAsso
                 if (stack.isNotEmpty()) {
                     // Queue dedents, without affecting the boundary state.
                     // We're over a data character - we really don't want to skip it!
-                    lexer.enqueue(TokenLibrary.DEDENT, startOffset = 0, count = stack.size, updateBoundary = false)
+                    lexer.enqueue(TokenLibrary.DEDENT, startOffset = 0, count = stack.size - 1, updateBoundary = false)
                     stack.clear()
                     return true
                 }
