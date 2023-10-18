@@ -23,6 +23,12 @@ abstract class SyntaxParserBuildContextAssociate(
         }
     }
 
+    protected fun skipSet(ets: TokenSet) {
+        while (ets.contains(tokenType)) {
+            next()
+        }
+    }
+
     protected fun next() {
         builder.advanceLexer()
     }

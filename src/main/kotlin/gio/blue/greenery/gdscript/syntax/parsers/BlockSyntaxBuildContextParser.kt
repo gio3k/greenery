@@ -17,6 +17,12 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
         return parseSingleLineBlock()
     }
 
+    private fun skipUntilDedentOrEof() {
+        while (tokenType != null && tokenType != TokenLibrary.DEDENT) {
+            next()
+        }
+    }
+
     /**
      * Indented block
      *
@@ -39,31 +45,32 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
         context.withinScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.STATEMENT_GROUP)) {
             // Parse statements until we hit the corresponding dedent
             while (tokenType != null && tokenType != TokenLibrary.DEDENT) {
-                val foundTokenType = tokenType
+                skip(TokenLibrary.LINE_BREAK)
 
-                // Attempt to parse statement
+                val foundTokenType = tokenType
                 if (!context.statements.parse()) {
                     marker.error(
                         message("SYNTAX.generic.expected.statement.got.0", foundTokenType.toString())
                     )
-                    return false
-                }
 
-                // Check for dedent or EOF
-                if (tokenType == null || tokenType == TokenLibrary.DEDENT) {
-                    break
+                    // Stop actually parsing the block, just finish it and return
+                    skipUntilDedentOrEof()
+                    return false
                 }
 
                 // Check for an end of statement token
                 if (TokenLibrary.STATEMENT_BREAKERS.contains(tokenType)) {
-                    next() // Move forward to the next statement
+                    skipSet(TokenLibrary.STATEMENT_BREAKERS)
                     continue
-                }
+                } else {
+                    marker.error(
+                        message("SYNTAX.statement.expected.statement-break.got.0", tokenType.toString())
+                    )
 
-                marker.error(
-                    message("SYNTAX.statement.expected.statement-break.got.0", tokenType.toString())
-                )
-                return false
+                    // Stop actually parsing the block, just finish it and return
+                    skipUntilDedentOrEof()
+                    return false
+                }
             }
         }
 
