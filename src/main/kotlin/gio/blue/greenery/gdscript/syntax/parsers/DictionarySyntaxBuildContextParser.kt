@@ -28,7 +28,7 @@ class DictionarySyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
 
         // Read key as expression
         // If the pair is Lua style, the expression *needs* to be a string literal or identifier
-        // We'll deal with that later though - just parse as a normal expression for now
+        // We'll deal with that later though - parse as a normal expression for now
         if (!context.expressions.parse()) {
             marker.error(
                 message("SYNTAX.dictionary.expected.pair.key.expression.got.0", tokenType.toString())
@@ -50,7 +50,7 @@ class DictionarySyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         skip(TokenLibrary.LINE_BREAK)
         skip(TokenLibrary.INDENT)
 
-        if (!parse()) {
+        if (!context.expressions.parse()) {
             marker.error(
                 message("SYNTAX.dictionary.expected.pair.value.expression.got.0", tokenType.toString())
             )
@@ -101,6 +101,7 @@ class DictionarySyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             }
         }
 
+        next()
         marker.done(SyntaxLibrary.DICTIONARY)
         return true
     }

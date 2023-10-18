@@ -172,7 +172,7 @@ object TokenLibrary {
 
     val STATEMENT_BREAKERS = TokenSet.create(
         LINE_BREAK,
-        SEMICOLON
+        SEMICOLON,
     )
 
     /* Literals */

@@ -3,7 +3,6 @@ package gio.blue.greenery.gdscript.ast.impl
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import gio.blue.greenery.gdscript.ast.StringLiteralExpression
-import gio.blue.greenery.gdscript.lexer.TokenLibrary
 
 class StringLiteralExpressionImpl(node: ASTNode) : ASTWrapperPsiElement(node), StringLiteralExpression {
     private var valueCacheResult: String? = null
@@ -24,7 +23,6 @@ class StringLiteralExpressionImpl(node: ASTNode) : ASTWrapperPsiElement(node), S
     private fun getOrCacheValueAsString(): String {
         valueCacheResult?.let { return it }
 
-        val childStringElements = node.getChildren(TokenLibrary.STRING_ELEMENTS)
         TODO("Not yet implemented")
     }
 }
