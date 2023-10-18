@@ -51,6 +51,9 @@ class TokenLexerHandlerDepthAssociate(lexer: TokenLexer) : TokenLexerHandlerAsso
                     }
                 }
 
+                // Don't process indents on empty lines
+                '\r', '\n' -> return false
+
                 else -> break
             }
 
