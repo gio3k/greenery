@@ -20,6 +20,14 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
 
         val t0 = tokenType ?: return false
         when (t0) {
+            TokenLibrary.DEDENT -> {
+                builder.error(
+                    message("SYNTAX.generic.unexpected.dedent", t0.toString())
+                )
+                next()
+                return false
+            }
+
             TokenLibrary.EXTENDS_KEYWORD -> return parseExtends()
             TokenLibrary.CLASS_NAME_KEYWORD -> return parseClassName()
             TokenLibrary.ANNOTATION -> return parseAnnotation()
@@ -47,16 +55,8 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             )
             return false
         }
+        
         next()
-
-        if (tokenType != null && !TokenLibrary.STATEMENT_BREAKERS.contains(tokenType)) {
-            marker.error(
-                message("SYNTAX.statement.expected.statement-break.got.0", tokenType.toString())
-            )
-            return false
-        }
-        next()
-
         marker.done(syntax)
         return true
     }
