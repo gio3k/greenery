@@ -2,9 +2,6 @@ package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.syntax.parsers.*
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 
 class SyntaxParserBuildContext(val parser: SyntaxParser, builder: SyntaxTreeBuilder) {
     private val scopes = ArrayDeque<SyntaxParserBuildScope>()
@@ -16,18 +13,17 @@ class SyntaxParserBuildContext(val parser: SyntaxParser, builder: SyntaxTreeBuil
     val blocks = BlockSyntaxBuildContextParser(this, builder)
     val dictionaries = DictionarySyntaxBuildContextParser(this, builder)
 
+    val depth: Int
+        get() = scopes.size
+
     fun popScope(): SyntaxParserBuildScope = scopes.removeLast()
     fun pushScope(scope: SyntaxParserBuildScope) = scopes.addLast(scope)
     fun peekScope(): SyntaxParserBuildScope = scopes.last()
 
-    @OptIn(ExperimentalContracts::class)
-    inline fun withinScope(scope: SyntaxParserBuildScope, block: () -> Unit) {
-        contract {
-            callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-        }
-
+    fun<R> withinScope(scope: SyntaxParserBuildScope, block: () -> R): R {
         pushScope(scope)
-        block()
+        val result = block()
         popScope()
+        return result
     }
 }

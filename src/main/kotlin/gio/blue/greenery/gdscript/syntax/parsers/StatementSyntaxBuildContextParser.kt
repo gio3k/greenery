@@ -15,33 +15,72 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
     /**
      * Parse a statement
      */
-    fun parse(): Boolean {
-        skip(TokenLibrary.LINE_BREAK)
-
-        val t0 = tokenType ?: return false
-        when (t0) {
-            TokenLibrary.DEDENT -> {
-                builder.error(
-                    message("SYNTAX.generic.unexpected.dedent", t0.toString())
-                )
-                next()
-                return false
-            }
-
-            TokenLibrary.EXTENDS_KEYWORD -> return parseExtends()
-            TokenLibrary.CLASS_NAME_KEYWORD -> return parseClassName()
-            TokenLibrary.ANNOTATION -> return parseAnnotation()
-            TokenLibrary.FOR_KEYWORD -> return parseFor()
-            TokenLibrary.FUNC_KEYWORD -> return context.functions.parse()
-            TokenLibrary.PASS_KEYWORD -> return parsePass()
+    fun parse(
+        shouldMarkErrorIfUnsuccessful: Boolean = true,
+        maintainState: Boolean = false,
+        skipLeadingStatementBreakers: Boolean = true
+    ): Boolean {
+        if (skipLeadingStatementBreakers) {
+            skipSet(TokenLibrary.STATEMENT_BREAKERS)
         }
 
-        // Unknown token
-        next()
-        builder.error(
-            message("SYNTAX.generic.expected.statement.got.0", t0.toString())
-        )
-        return false
+        val marker = mark()
+
+        // Check for dedents
+        if (tokenType == TokenLibrary.DEDENT) {
+            if (!maintainState)
+                next()
+            if (shouldMarkErrorIfUnsuccessful) {
+                marker.error(
+                    message("SYNTAX.generic.unexpected.dedent", tokenType.toString())
+                )
+            } else {
+                marker.drop()
+            }
+            return false
+        }
+
+        // Check for indents
+        if (tokenType == TokenLibrary.INDENT) {
+            if (!maintainState)
+                next()
+            if (shouldMarkErrorIfUnsuccessful) {
+                marker.error(
+                    message("SYNTAX.generic.unexpected.indent", tokenType.toString())
+                )
+            } else {
+                marker.drop()
+            }
+            return false
+        }
+
+        val statementParseResult = when (tokenType) {
+            TokenLibrary.FUNC_KEYWORD -> context.functions.parse()
+
+            TokenLibrary.EXTENDS_KEYWORD -> parseExtends()
+            TokenLibrary.CLASS_NAME_KEYWORD -> parseClassName()
+            TokenLibrary.ANNOTATION -> parseAnnotation()
+            TokenLibrary.FOR_KEYWORD -> parseFor()
+            TokenLibrary.PASS_KEYWORD -> parsePass()
+
+            else -> {
+                // Unknown token - not a statement starter.
+                val foundTokenType = tokenType
+                if (!maintainState)
+                    next()
+                if (shouldMarkErrorIfUnsuccessful) {
+                    marker.error(
+                        message("SYNTAX.generic.expected.statement.got.0", foundTokenType.toString())
+                    )
+                } else {
+                    marker.drop()
+                }
+                return false
+            }
+        }
+
+        marker.drop()
+        return statementParseResult
     }
 
     private fun parseClassInformation(token: IElementType, syntax: IElementType): Boolean {
@@ -55,8 +94,8 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             )
             return false
         }
-        
         next()
+
         marker.done(syntax)
         return true
     }
