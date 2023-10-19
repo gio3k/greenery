@@ -14,6 +14,8 @@ open class SyntaxParser {
         val context = createContext(builder)
         val rootMarker = builder.mark()
 
+        builder.setDebugMode(true)
+
         while (!builder.eof()) {
             context.pushScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.TOP_LEVEL))
             context.statements.parse()

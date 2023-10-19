@@ -33,6 +33,12 @@ abstract class SyntaxParserBuildContextAssociate(
         builder.advanceLexer()
     }
 
+    protected fun saveThenNext(): IElementType? {
+        val save = tokenType
+        next()
+        return save
+    }
+
     protected fun markSingleHere(type: IElementType) {
         val marker = mark()
         next()

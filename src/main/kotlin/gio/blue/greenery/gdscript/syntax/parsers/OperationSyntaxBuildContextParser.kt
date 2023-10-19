@@ -26,9 +26,7 @@ class OperationSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
      */
     private fun parseFromUnaryStart(): Boolean {
         assertSet(TokenLibrary.UNARY_OPERATORS)
-
         val marker = mark()
-
         next()
 
         if (!context.expressions.parse()) {
@@ -36,6 +34,7 @@ class OperationSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             return false
         }
 
+        next()
         marker.done(SyntaxLibrary.EXPRESSION_PREFIX)
         return true
     }
@@ -47,9 +46,7 @@ class OperationSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
      */
     private fun parseFromNotStart(): Boolean {
         assertSet(TokenLibrary.NEGATION_OPERATORS)
-
         val marker = mark()
-
         next()
 
         if (!context.expressions.parse()) {
@@ -57,6 +54,7 @@ class OperationSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             return false
         }
 
+        next()
         marker.done(SyntaxLibrary.EXPRESSION_PREFIX)
         return true
     }

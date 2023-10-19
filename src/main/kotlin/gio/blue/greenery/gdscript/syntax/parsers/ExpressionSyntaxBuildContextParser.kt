@@ -8,13 +8,15 @@ import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContextAssociate
 
 class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
-        context,
-        builder
+        context, builder
     ) {
 
     fun parse(): Boolean {
-        val t0 = tokenType ?: return false
-        when (t0) {
+        if (tokenType == null) {
+            return false
+        }
+
+        when (tokenType) {
             TokenLibrary.FLOAT_LITERAL -> {
                 markSingleHere(SyntaxLibrary.FLOAT_LITERAL)
                 return true
@@ -82,8 +84,8 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             )
             return false
         }
-        next()
 
+        next()
         marker.drop()
         return true
     }
@@ -103,16 +105,15 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         next()
 
         while (tokenType != TokenLibrary.RPAR) {
-            val foundType = tokenType // Save the token type first
-
             skip(TokenLibrary.LINE_BREAK)
             skip(TokenLibrary.INDENT)
 
             // Try to parse an expression
+            val foundTokenType = tokenType
             if (!parse()) {
                 marker.error(
                     message(
-                        "SYNTAX.generic.expected.expression.got.0", foundType.toString()
+                        "SYNTAX.generic.expected.expression.got.0", foundTokenType.toString()
                     )
                 )
                 return false
@@ -134,7 +135,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
 
             marker.error(
                 message(
-                    "SYNTAX.expression-list.expected.end.or.continuation.got.0", foundType.toString()
+                    "SYNTAX.expression-list.expected.end.or.continuation.got.0", tokenType.toString()
                 )
             )
             return false

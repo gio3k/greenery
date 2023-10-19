@@ -91,9 +91,7 @@ object TokenLibrary {
     val COLONEQ = ElementDescription("COLONEQ") // :=
 
     val UNARY_OPERATORS = TokenSet.create(
-        PLUS,
-        MINUS,
-        TILDE
+        PLUS, MINUS, TILDE
     )
 
     val BINARY_OPERATORS = TokenSet.create(
@@ -101,8 +99,7 @@ object TokenLibrary {
     )
 
     val NEGATION_OPERATORS = TokenSet.create(
-        NOT_KEYWORD,
-        EXCLAIM
+        NOT_KEYWORD, EXCLAIM
     )
 
     // Boolean keywords
@@ -167,7 +164,17 @@ object TokenLibrary {
         NODE_PATH_STRING_PREFIX,
         STRING_NAME_STRING_PREFIX,
         STRING_CONTENT_PART,
-        STRING_ESCAPE_PART
+        STRING_ESCAPE_PART,
+    )
+
+    // String starters
+    val STRING_STARTERS = TokenSet.create(
+        TRIPLE_STRING_MARKER,
+        SINGLE_STRING_MARKER,
+        SMALL_STRING_MARKER,
+        RAW_STRING_PREFIX,
+        NODE_PATH_STRING_PREFIX,
+        STRING_NAME_STRING_PREFIX,
     )
 
     val STATEMENT_BREAKERS = TokenSet.create(

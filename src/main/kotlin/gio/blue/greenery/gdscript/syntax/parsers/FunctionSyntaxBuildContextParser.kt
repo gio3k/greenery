@@ -46,9 +46,10 @@ class FunctionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builde
 
         // Expect identifier
         if (tokenType != TokenLibrary.IDENTIFIER) {
+            val foundTokenType = saveThenNext()
             marker.error(
                 message(
-                    "SYNTAX.generic.expected.0.got.1", TokenLibrary.IDENTIFIER.toString(), tokenType.toString()
+                    "SYNTAX.generic.expected.0.got.1", TokenLibrary.IDENTIFIER.toString(), foundTokenType.toString()
                 )
             )
             return false
@@ -57,9 +58,10 @@ class FunctionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builde
 
         // Expect a left par to start the parameter list
         if (tokenType != TokenLibrary.LPAR) {
+            val foundTokenType = saveThenNext()
             marker.error(
                 message(
-                    "SYNTAX.func-decl.expected.parameter-list.got.0", tokenType.toString()
+                    "SYNTAX.func-decl.expected.parameter-list.got.0", foundTokenType.toString()
                 )
             )
             return false
@@ -115,8 +117,13 @@ class FunctionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builde
         next()
 
         if (tokenType != TokenLibrary.IDENTIFIER) {
+            val foundTokenType = saveThenNext()
             marker.error(
-                message("SYNTAX.generic.expected.0.got.1", TokenLibrary.IDENTIFIER.toString(), tokenType.toString())
+                message(
+                    "SYNTAX.generic.expected.0.got.1",
+                    TokenLibrary.IDENTIFIER.toString(),
+                    foundTokenType.toString()
+                )
             )
             return false
         }
@@ -136,10 +143,10 @@ class FunctionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builde
         val marker = mark()
         next()
 
-        val expressionStartTokenType = tokenType
+        val foundTokenType = tokenType
         if (!context.expressions.parse()) {
             marker.error(
-                message("SYNTAX.generic.expected.expression.got.0", expressionStartTokenType.toString())
+                message("SYNTAX.generic.expected.expression.got.0", foundTokenType.toString())
             )
             return false
         }
@@ -155,7 +162,6 @@ class FunctionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builde
      */
     fun parseParameter(): Boolean {
         assertType(TokenLibrary.IDENTIFIER)
-
         val marker = mark()
         next()
 
