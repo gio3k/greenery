@@ -24,7 +24,7 @@ class TokenLexerHandlerDepthAssociate(lexer: TokenLexer) : TokenLexerHandlerAsso
                 if (stack.isNotEmpty()) {
                     // Queue dedents, without affecting the boundary state.
                     // We're over a data character - we really don't want to skip it!
-                    lexer.enqueue(TokenLibrary.DEDENT, startOffset = 0, count = stack.size - 1, updateBoundary = false)
+                    lexer.enqueue(TokenLibrary.DEDENT, startOffset = 0, count = stack.size, updateBoundary = false)
                     stack.clear()
                     return true
                 }
@@ -79,6 +79,16 @@ class TokenLexerHandlerDepthAssociate(lexer: TokenLexer) : TokenLexerHandlerAsso
 
         if (size < lastIndentSize) {
             // Last indent size was larger than the current, return a dedent
+            stack.pop()
+
+            // Make sure the depth matches up
+            if (!stack.empty()) {
+                if (stack.pop() != size) {
+                    // Depth doesn't match!
+                    lexer.enqueue(TokenLibrary.ISSUE_DEDENT_DEPTH_UNEXPECTED)
+                }
+            }
+
             lexer.enqueue(TokenLibrary.DEDENT, 0, endOffset)
             return true
         }

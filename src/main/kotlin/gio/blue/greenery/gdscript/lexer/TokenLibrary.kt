@@ -11,8 +11,9 @@ object TokenLibrary {
     val LINE_BREAK = ElementDescription("LINE_BREAK")
 
     // These are probably issues
-    var ISSUE_STRAY_CARRIAGE_RETURN = ElementDescription("ISSUE_STRAY_CARRIAGE_RETURN")
-    var ISSUE_MIXED_INDENTS = ElementDescription("ISSUE_MIXED_INDENTS")
+    val ISSUE_STRAY_CARRIAGE_RETURN = ElementDescription("ISSUE_STRAY_CARRIAGE_RETURN")
+    val ISSUE_MIXED_INDENTS = ElementDescription("ISSUE_MIXED_INDENTS")
+    val ISSUE_DEDENT_DEPTH_UNEXPECTED = ElementDescription("ISSUE_DEDENT_DEPTH_UNEXPECTED")
     val ISSUE_BAD_CHARACTER = TokenType.BAD_CHARACTER
 
     val SPACE = ElementDescription("SPACE")

@@ -102,7 +102,7 @@ class TokenLexer : LexerBase() {
 
     override fun advance() {
         // Check if we're out of characters to read
-        if (boundsStart >= boundsEnd) {
+        if (boundsStart >= boundsEnd && queue.isEmpty()) {
             lastToken = QueuedToken(TokenLibrary.INVALID, 0, 0)
             return
         }
