@@ -17,6 +17,8 @@ object SyntaxLibrary {
     val STRING_LITERAL = ElementDescription("STRING_LITERAL") { StringLiteralExpressionImpl(it) }
     val LIST_LITERAL = ElementDescription("LIST_LITERAL")
 
+    val IDENTIFIER = ElementDescription("IDENTIFIER")
+
     val DICTIONARY = ElementDescription("DICTIONARY")
     val DICTIONARY_PAIR = ElementDescription("DICTIONARY_PAIR")
 
@@ -34,6 +36,11 @@ object SyntaxLibrary {
     val EXTENDS_STATEMENT = ElementDescription("EXTENDS_STATEMENT") { ExtendsStatementImpl(it) }
     val CLASS_NAME_STATEMENT = ElementDescription("CLASS_NAME_STATEMENT") { ClassNameStatementImpl(it) }
     val ANNOTATION_STATEMENT = ElementDescription("ANNOTATION_STATEMENT") { AnnotationStatementImpl(it) }
+
+    val IF_STATEMENT = ElementDescription("IF_STATEMENT")
+    val IF_PART_IF = ElementDescription("IF_PART_IF")
+    val IF_PART_ELSE = ElementDescription("IF_PART_ELSE")
+    val IF_PART_ELIF = ElementDescription("IF_PART_ELIF")
 
     val FOR_STATEMENT = ElementDescription("FOR_STATEMENT")
 }

@@ -1,28 +1,46 @@
-package gio.blue.greenery.gdscript.syntax.parsers
+package gio.blue.greenery.gdscript.syntax.basic
 
 import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.*
+
 
 class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
         context, builder
     ) {
 
-    fun parse(): Boolean {
+    /**
+     * Block starting with colon
+     *
+     * (here! colon) (block)
+     */
+    fun parseBlockStartingFromColon(): Boolean {
+        val marker = mark()
+
+        wantThenNext({ tokenType == TokenLibrary.COLON }) {
+            marker.error(message("SYNTAX.core.block.expected.colon"))
+            return false
+        }
+
+        want({ parseBlock() }) {
+            marker.drop()
+            return false
+        }
+
+        marker.drop()
+        return true
+    }
+
+    fun parseBlock(): Boolean {
         val marker = mark()
         val isIndentedBlock = tokenType == TokenLibrary.LINE_BREAK
 
         if (isIndentedBlock) {
             next()
 
-            // Expect an indent
-            val foundTokenType = tokenType
-            if (tokenType != TokenLibrary.INDENT) {
-                next()
-                marker.error(
-                    message("SYNTAX.statement.expected.indent.got.0", foundTokenType.toString())
-                )
+            want({ tokenType == TokenLibrary.INDENT }) {
+                marker.error(message("SYNTAX.core.block.expected.indent"))
                 return false
             }
 
@@ -47,9 +65,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
 
                 // Check for an end condition
                 when {
-                    isIndentedBlock && tokenType == TokenLibrary.DEDENT
-                            || !isIndentedBlock && tokenType == TokenLibrary.LINE_BREAK
-                            || tokenType == null -> {
+                    isIndentedBlock && tokenType == TokenLibrary.DEDENT || !isIndentedBlock && tokenType == TokenLibrary.LINE_BREAK || tokenType == null -> {
                         break
                     }
                 }

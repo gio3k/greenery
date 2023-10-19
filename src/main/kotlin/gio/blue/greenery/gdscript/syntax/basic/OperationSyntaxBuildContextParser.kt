@@ -1,4 +1,4 @@
-package gio.blue.greenery.gdscript.syntax.parsers
+package gio.blue.greenery.gdscript.syntax.basic
 
 import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
@@ -29,12 +29,16 @@ class OperationSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         val marker = mark()
         next()
 
-        if (!context.expressions.parse()) {
-            marker.error(message("SYNTAX.unary.invalid.target"))
+        want({ context.expressions.parse() }) {
+            marker.error("")
             return false
         }
 
-        next()
+        if (!context.expressions.parse()) {
+            marker.error(message("SYNTAX.expr.op.unary.expected.expr"))
+            return false
+        }
+
         marker.done(SyntaxLibrary.EXPRESSION_PREFIX)
         return true
     }
@@ -50,7 +54,7 @@ class OperationSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         next()
 
         if (!context.expressions.parse()) {
-            marker.error(message("SYNTAX.negate.invalid.target"))
+            marker.error(message("SYNTAX.expr.op.negation.expected.expr"))
             return false
         }
 

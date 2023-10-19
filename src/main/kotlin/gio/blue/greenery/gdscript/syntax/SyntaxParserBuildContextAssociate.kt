@@ -5,6 +5,9 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.PropertyKey
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 abstract class SyntaxParserBuildContextAssociate(
     val context: SyntaxParserBuildContext,
@@ -13,49 +16,56 @@ abstract class SyntaxParserBuildContextAssociate(
     val tokenType: IElementType?
         get() = builder.tokenType
 
+    @OptIn(ExperimentalContracts::class)
+    inline fun want(block: () -> Boolean, onFail: (IElementType?) -> Any) {
+        contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+        val foundTokenType = tokenType
+        if (!block()) {
+            next()
+            onFail(foundTokenType)
+        }
+    }
+
+    @OptIn(ExperimentalContracts::class)
+    inline fun wantThenNext(block: () -> Boolean, onFail: (IElementType?) -> Any) {
+        contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+        val foundTokenType = tokenType
+        if (!block()) {
+            next()
+            onFail(foundTokenType)
+        }
+        next()
+    }
+
     /**
      * Skip all elements of provided type
      * @param et1 IElementType
      */
-    protected fun skip(et1: IElementType) {
+    internal fun skip(et1: IElementType) {
         while (tokenType == et1) {
             next()
         }
     }
 
-    protected fun skipSet(ets: TokenSet) {
+    internal fun skipSet(ets: TokenSet) {
         while (ets.contains(tokenType)) {
             next()
         }
     }
 
-    protected fun next() {
+    fun next() {
         builder.advanceLexer()
     }
 
-    protected fun saveThenNext(): IElementType? {
-        val save = tokenType
-        next()
-        return save
-    }
+    fun mark(): SyntaxTreeBuilder.Marker = builder.mark()
 
-    protected fun markSingleHere(type: IElementType) {
-        val marker = mark()
-        next()
-        marker.done(type)
-    }
-
-    protected fun mark(): SyntaxTreeBuilder.Marker {
-        return builder.mark()
-    }
-
-    protected fun assertType(et: IElementType) {
+    internal fun assertType(et: IElementType) {
         if (tokenType != et) {
             throw AssertionError("Syntax assertion failed: $tokenType != expected $et")
         }
     }
 
-    protected fun assertSet(ets: TokenSet) {
+    internal fun assertSet(ets: TokenSet) {
         if (ets.contains(tokenType)) {
             throw AssertionError("Syntax assertion failed: $tokenType not in expected set $ets")
         }
