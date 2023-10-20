@@ -7,7 +7,7 @@ import gio.blue.greenery.gdscript.syntax.expressions.parseSetExpression
 /**
  * Annotation statement
  *
- * (at)_NO SPACE_(here! identifier) [(lpar) (argument list) (rpar)] _NEWLINE_
+ * (at)_NO SPACE_(here! identifier) [(lpar) (argument list) (rpar)]
  */
 fun StatementSyntaxBuildContextParser.parseAnnotationStatement(): Boolean {
     assertType(TokenLibrary.ANNOTATION)

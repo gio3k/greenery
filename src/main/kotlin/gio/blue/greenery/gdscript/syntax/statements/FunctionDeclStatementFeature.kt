@@ -105,7 +105,7 @@ private fun StatementSyntaxBuildContextParser.parseFunctionDeclParameterDefaultV
 /**
  * Function declaration parameter
  *
- * (here! identifier) [type hint] [default value expression]
+ * (here! identifier) [(type hint)] [(default value: expression)]
  */
 fun StatementSyntaxBuildContextParser.parseFunctionDeclParameter(): Boolean {
     assertType(TokenLibrary.IDENTIFIER)
