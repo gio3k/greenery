@@ -24,6 +24,8 @@ val keywordMap = mapOf(
     "enum" to TokenLibrary.ENUM_KEYWORD,
     "extends" to TokenLibrary.EXTENDS_KEYWORD,
     "func" to TokenLibrary.FUNC_KEYWORD,
+    "get" to TokenLibrary.GET_KEYWORD,
+    "set" to TokenLibrary.SET_KEYWORD,
     "in" to TokenLibrary.IN_KEYWORD,
     "is" to TokenLibrary.IS_KEYWORD,
     "not" to TokenLibrary.NOT_KEYWORD,

@@ -41,6 +41,8 @@ object TokenLibrary {
     val ENUM_KEYWORD = ElementDescription("ENUM_KEYWORD")
     val EXTENDS_KEYWORD = ElementDescription("EXTENDS_KEYWORD")
     val FUNC_KEYWORD = ElementDescription("FUNC_KEYWORD")
+    val SET_KEYWORD = ElementDescription("SET_KEYWORD")
+    val GET_KEYWORD = ElementDescription("GET_KEYWORD")
     val IN_KEYWORD = ElementDescription("IN_KEYWORD")
     val IS_KEYWORD = ElementDescription("IS_KEYWORD")
     val NOT_KEYWORD = ElementDescription("NOT_KEYWORD")
