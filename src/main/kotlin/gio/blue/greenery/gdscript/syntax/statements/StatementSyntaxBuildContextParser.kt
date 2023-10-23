@@ -52,6 +52,13 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             return false
         }
 
+        // Check for null first
+        if (tokenType == null) {
+            // Stop here
+            marker.drop()
+            return false
+        }
+
         val statementParseResult = when (tokenType) {
             TokenLibrary.ANNOTATION -> parseAnnotationStatement()
 
@@ -60,9 +67,11 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             TokenLibrary.PASS_KEYWORD -> parsePassStatement()
             TokenLibrary.FOR_KEYWORD -> parseForStatement()
 
+            TokenLibrary.VAR_KEYWORD -> parseVariableDeclStatement()
+            TokenLibrary.CONST_KEYWORD -> parseConstantDeclStatement()
+
             TokenLibrary.EXTENDS_KEYWORD -> parseExtendsStatement()
             TokenLibrary.CLASS_NAME_KEYWORD -> parseClassNameStatement()
-
 
             else -> {
                 // Unknown token - not a statement starter.
