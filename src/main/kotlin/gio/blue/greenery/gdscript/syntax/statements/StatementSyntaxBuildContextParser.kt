@@ -66,6 +66,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             TokenLibrary.IF_KEYWORD -> parseIfStatement()
             TokenLibrary.PASS_KEYWORD -> parsePassStatement()
             TokenLibrary.FOR_KEYWORD -> parseForStatement()
+            TokenLibrary.WHILE_KEYWORD -> parseWhileStatement()
 
             TokenLibrary.VAR_KEYWORD -> parseVariableDeclStatement()
             TokenLibrary.CONST_KEYWORD -> parseConstantDeclStatement()

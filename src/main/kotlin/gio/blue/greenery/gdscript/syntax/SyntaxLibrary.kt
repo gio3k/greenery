@@ -51,4 +51,5 @@ object SyntaxLibrary {
     val IF_PART_ELIF = ElementDescription("IF_PART_ELIF")
 
     val FOR_STATEMENT = ElementDescription("FOR_STATEMENT")
+    val WHILE_STATEMENT = ElementDescription("WHILE_STATEMENT")
 }
