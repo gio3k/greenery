@@ -19,6 +19,27 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         return true
     }
 
+    /**
+     * Returns whether the current token can be counted as the target / end of the expression
+     *
+     * The target expresion
+     *
+     * @return Boolean
+     */
+    fun checkExpressionIsTarget() : Boolean {
+        val tokenTypeAhead1 = builder.lookAhead(1) ?: return true
+
+        if (TokenLibrary.STATEMENT_BREAKERS.contains(tokenTypeAhead1)) {
+            return true
+        }
+
+        if (tokenTypeAhead1 == TokenLibrary.INDENT) {
+            return true
+        }
+
+        return false
+    }
+
     fun parse(): Boolean {
         if (tokenType == null) return false
 
