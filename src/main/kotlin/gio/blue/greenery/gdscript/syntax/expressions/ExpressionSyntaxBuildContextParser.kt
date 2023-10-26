@@ -24,23 +24,16 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
      *
      * @return Boolean
      */
-    fun checkExpressionIsTarget() : Boolean {
+    fun checkExpressionIsTarget(): Boolean {
         val tokenTypeAhead1 = builder.lookAhead(1) ?: return true
 
-        if (TokenLibrary.STATEMENT_BREAKERS.contains(tokenTypeAhead1)) {
-            return true
-        }
-
-        if (tokenTypeAhead1 == TokenLibrary.INDENT) {
-            return true
-        }
-
-        return false
+        return TokenLibrary.EXPRESSION_BREAKERS.contains(tokenTypeAhead1)
     }
 
-    fun parse(): Boolean {
-        if (tokenType == null) return false
-
+    /**
+     * Single part target expression
+     */
+    fun parseSinglePartTargetExpression(): Boolean {
         return when (tokenType) {
             TokenLibrary.FLOAT_LITERAL -> parseSingle(SyntaxLibrary.FLOAT_LITERAL)
             TokenLibrary.INTEGER_LITERAL -> parseSingle(SyntaxLibrary.INTEGER_LITERAL)
@@ -51,6 +44,18 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
 
             TokenLibrary.TRUE_KEYWORD, TokenLibrary.FALSE_KEYWORD -> parseSingle(SyntaxLibrary.BOOLEAN_LITERAL)
 
+            else -> false
+        }
+    }
+
+    fun parse(): Boolean {
+        if (tokenType == null) return false
+
+        if (checkExpressionIsTarget()) {
+            return parseSinglePartTargetExpression()
+        }
+
+        return when (tokenType) {
             TokenLibrary.LPAR -> parseExpressionWithOuterParenthesesExpression()
             TokenLibrary.LBRACKET -> parseListExpression()
             TokenLibrary.LBRACE -> parseDictionaryExpression()

@@ -61,15 +61,15 @@ private fun StatementSyntaxBuildContextParser.parsePropertySetter(): Boolean {
 /**
  * Variable type hint
  *
- * (here! colon) (type identifier: expression)
+ * (here! colon) (type identifier: identifier)
  */
 private fun StatementSyntaxBuildContextParser.parseVariableTypeHint(): Boolean {
     assertType(TokenLibrary.COLON)
     val marker = mark()
     next()
 
-    want({ context.expressions.parse() }) {
-        marker.error(message("SYNTAX.stmt.var.expected.type-hint.expected.identifier"))
+    wantThenNext({ tokenType == TokenLibrary.IDENTIFIER }) {
+        marker.error(message("SYNTAX.generic.expected.identifier"))
         return false
     }
 
@@ -99,15 +99,15 @@ private fun StatementSyntaxBuildContextParser.parseVariableDeclDefaultValueExpre
 /**
  * Constant declaration
  *
- * (here! const keyword) (name: expression) [(type hint)] (eq) (value: expression)
+ * (here! const keyword) (name: identifier) [(type hint)] (eq) (value: expression)
  */
 fun StatementSyntaxBuildContextParser.parseConstantDeclStatement(): Boolean {
     assertType(TokenLibrary.CONST_KEYWORD)
     val marker = mark()
     next()
 
-    want({ context.expressions.parse() }) {
-        marker.error(message("SYNTAX.generic.expected.expr.got.0", it.toString()))
+    wantThenNext({ tokenType == TokenLibrary.IDENTIFIER }) {
+        marker.error(message("SYNTAX.generic.expected.identifier"))
         return false
     }
 
@@ -212,15 +212,15 @@ fun StatementSyntaxBuildContextParser.parsePropertyDeclFollowup(): Boolean {
 /**
  * Variable declaration
  *
- * (here! var keyword) (name: expression) [(type hint)] [(default value: expression)] [(property followup)]
+ * (here! var keyword) (name: identifier) [(type hint)] [(default value: expression)] [(property followup)]
  */
 fun StatementSyntaxBuildContextParser.parseVariableDeclStatement(): Boolean {
     assertType(TokenLibrary.VAR_KEYWORD)
     val marker = mark()
     next()
 
-    want({ context.expressions.parse() }) {
-        marker.error(message("SYNTAX.generic.expected.expr.got.0", it.toString()))
+    wantThenNext({ tokenType == TokenLibrary.IDENTIFIER }) {
+        marker.error(message("SYNTAX.generic.expected.identifier"))
         return false
     }
 

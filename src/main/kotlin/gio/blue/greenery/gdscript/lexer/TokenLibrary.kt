@@ -185,6 +185,17 @@ object TokenLibrary {
         SEMICOLON,
     )
 
+    val EXPRESSION_BREAKERS = TokenSet.create(
+        LINE_BREAK,
+        SEMICOLON,
+        INDENT,
+        RPAR,
+        RBRACE,
+        RBRACKET,
+        COLON,
+        COMMA
+    )
+
     /* Literals */
     val INTEGER_LITERAL = ElementDescription("INTEGER_LITERAL")
     val FLOAT_LITERAL = ElementDescription("FLOAT_LITERAL")
