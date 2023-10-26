@@ -22,8 +22,6 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
     /**
      * Returns whether the current token can be counted as the target / end of the expression
      *
-     * The target expresion
-     *
      * @return Boolean
      */
     fun checkExpressionIsTarget() : Boolean {
