@@ -11,7 +11,7 @@ import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
 fun StatementSyntaxBuildContextParser.parseExtendsStatement(): Boolean {
     assertType(TokenLibrary.EXTENDS_KEYWORD)
     val marker = mark()
-    this.next()
+    next()
 
     want({ context.expressions.parse() }) {
         marker.error(message("SYNTAX.generic.expected.expr.got.0", it.toString()))

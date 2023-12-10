@@ -98,11 +98,29 @@ object TokenLibrary {
     )
 
     val BINARY_OPERATORS = TokenSet.create(
-        PLUS
+        PLUS, MINUS, MULT, EXP, DIV, PERC, LTLT, GTGT, AND, OR, XOR, LT, GT, LE, GE, EQEQ, NE
     )
 
     val NEGATION_OPERATORS = TokenSet.create(
         NOT_KEYWORD, EXCLAIM
+    )
+
+    val TARGETED_OPERATORS = TokenSet.create(
+        PLUSEQ,
+        MINUSEQ,
+        MULTEQ,
+        DIVEQ,
+        PERCEQ,
+        ANDEQ,
+        PERCEQ,
+        ANDEQ,
+        OREQ,
+        XOREQ,
+        LTLTEQ,
+        GTGTEQ,
+        EXPEQ,
+        RARROW,
+        COLONEQ
     )
 
     // Boolean keywords
@@ -186,14 +204,7 @@ object TokenLibrary {
     )
 
     val EXPRESSION_BREAKERS = TokenSet.create(
-        LINE_BREAK,
-        SEMICOLON,
-        INDENT,
-        RPAR,
-        RBRACE,
-        RBRACKET,
-        COLON,
-        COMMA
+        LINE_BREAK, SEMICOLON, INDENT, RPAR, RBRACE, RBRACKET, COLON, COMMA
     )
 
     /* Literals */
