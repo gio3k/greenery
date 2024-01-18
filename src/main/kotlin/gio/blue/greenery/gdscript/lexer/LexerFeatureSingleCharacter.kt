@@ -21,6 +21,7 @@ fun TokenLexer.tryLexingSingleCharacter(): Boolean {
         '`' -> enqueue(TokenLibrary.BACKTICK)
         '?' -> enqueue(TokenLibrary.QUESTION)
         ',' -> enqueue(TokenLibrary.COMMA)
+        '.' -> enqueue(TokenLibrary.PERIOD)
 
         // Space wasn't handled anywhere else
         ' ' -> enqueue(TokenLibrary.SPACE)

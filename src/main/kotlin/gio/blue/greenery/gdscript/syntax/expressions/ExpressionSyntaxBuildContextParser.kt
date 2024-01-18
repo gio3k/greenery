@@ -1,11 +1,17 @@
 package gio.blue.greenery.gdscript.syntax.expressions
 
 import com.intellij.lang.SyntaxTreeBuilder
-import com.intellij.psi.tree.IElementType
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContext
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContextAssociate
+import gio.blue.greenery.gdscript.syntax.expressions.arithmetic.parseArithmeticOperationAfterExpression
+import gio.blue.greenery.gdscript.syntax.expressions.arithmetic.parseExpressionWithUnaryPrefix
+import gio.blue.greenery.gdscript.syntax.expressions.booleans.parseExpressionWithBoolNegationPrefix
+import gio.blue.greenery.gdscript.syntax.expressions.dictionaries.parseDictionary
+import gio.blue.greenery.gdscript.syntax.expressions.identifiers.parseIdentifier
+import gio.blue.greenery.gdscript.syntax.expressions.members.parseMemberAfterExpression
+import gio.blue.greenery.gdscript.syntax.expressions.pars.parseEnclosedExpression
 
 class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
@@ -13,156 +19,65 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
     ) {
 
     /**
-     * Returns whether the current token can be counted as the target / end of the expression
+     * Returns whether the current token can be counted as the target / end of the expression part
      *
      * @return Boolean
      */
-    private fun checkExpressionIsTarget(): Boolean {
+    private fun isExpressionPartComplete(): Boolean {
         val tokenTypeAhead1 = builder.lookAhead(1) ?: return true
-
         return TokenLibrary.EXPRESSION_BREAKERS.contains(tokenTypeAhead1)
     }
 
-    private fun parseTargetExpression(): Boolean {
-        val marker = mark()
-
-        val result: IElementType? = when (tokenType) {
-            TokenLibrary.FLOAT_LITERAL -> SyntaxLibrary.FLOAT_LITERAL
-            TokenLibrary.INTEGER_LITERAL -> SyntaxLibrary.INTEGER_LITERAL
-            TokenLibrary.HEX_LITERAL -> SyntaxLibrary.HEX_LITERAL
-            TokenLibrary.BINARY_LITERAL -> SyntaxLibrary.BINARY_LITERAL
-
-            TokenLibrary.IDENTIFIER -> SyntaxLibrary.IDENTIFIER
-
-            TokenLibrary.TRUE_KEYWORD,
-            TokenLibrary.FALSE_KEYWORD -> SyntaxLibrary.BOOLEAN_LITERAL
-
-            else -> null
+    private fun parseInnerExpression(): Boolean {
+        // Check for grouped / bracket expressions
+        when (tokenType) {
+            TokenLibrary.LPAR -> return parseEnclosedExpression()
+            TokenLibrary.LBRACE -> return parseDictionary()
         }
 
-        if (result == null) {
-            marker.drop()
-            return false
+        // Check for a prefixed expression
+        if (TokenLibrary.UNARY_OPERATORS.contains(tokenType))
+            return parseExpressionWithUnaryPrefix()
+        if (TokenLibrary.BOOLEAN_NEGATION_OPERATORS.contains(tokenType))
+            return parseExpressionWithBoolNegationPrefix()
+
+        // Try to parse single token expressions if possible
+        if (isExpressionPartComplete()) {
+            // Check for a single token expression
+            if (parseSingleTokenExpression())
+                return true
+
+            // Check for an identifier
+            if (tokenType == TokenLibrary.IDENTIFIER)
+                return parseIdentifier()
         }
 
-        next()
-
-        marker.done(result)
-        return true
-    }
-
-    /**
-     * Finish assignment expression
-     *
-     * (expression) (here! eq) (value: expression)
-     */
-    private fun parseSecondTokenAsAssignmentExpression(marker: SyntaxTreeBuilder.Marker): Boolean {
-        assertType(TokenLibrary.EQ)
-        next()
-
-        want({ parse() }) {
-            marker.error("failed to parse assignment rhs expr")
-            return false
-        }
-
-        marker.done(SyntaxLibrary.EXPRESSION_PART_ASSIGNMENT)
-        return true
-    }
-
-    /**
-     * Finish targeted expression
-     *
-     * (expression) (here! targeted operator) (argument: expression)
-     */
-    private fun parseSecondTokenAsTargetedExpression(marker: SyntaxTreeBuilder.Marker): Boolean {
-        assertSet(TokenLibrary.TARGETED_OPERATORS)
-        next()
-
-        // Parse argument
-        want({ parse() }) {
-            marker.error("failed to parse targeted rhs expr")
-            return false
-        }
-
-        marker.done(SyntaxLibrary.EXPRESSION_PART_TARGETED)
-        return true
-    }
-
-    /**
-     * Finish binary expression
-     *
-     * (expression) (here! binary operator) (expression)
-     */
-    private fun parseSecondTokenAsBinaryExpression(marker: SyntaxTreeBuilder.Marker): Boolean {
-        assertSet(TokenLibrary.BINARY_OPERATORS)
-        next()
-
-        // Parse argument
-        want({ parse() }) {
-            marker.error("failed to parse binary rhs expr")
-            return false
-        }
-
-        marker.done(SyntaxLibrary.EXPRESSION_PART_BINARY)
-        return true
-    }
-
-    private fun tryParseMultiTokenExpression(): Boolean {
-        if (tokenType == null) return false
-        val marker = mark()
-        val tokenType0 = tokenType
-        next()
-
-        // Start checking
-        when (val tokenType1 = tokenType) {
-            TokenLibrary.EQ -> {
-                next()
-            }
-
-            TokenLibrary.BINARY_OPERATORS.contains(tokenType1) -> {
-            
-            }
-        }
+        return false
     }
 
     fun parse(): Boolean {
-        if (tokenType == null) return false
+        if (tokenType == null)
+            return false
 
         val marker = mark()
-
-        fun parseInner(): Boolean {
-            if (checkExpressionIsTarget()) {
-                return parseTargetExpression()
-            }
-
-            // Check for prefixes
-            // Check for unary
-            if (TokenLibrary.UNARY_OPERAT RS.contains(tokenType)) {
-                return parseExpressionPrefixedByUnary()
-            }
-
-            // Check for negation
-            if (TokenLibrary.NEGATION_OPERATORS.contains(tokenType)) {
-                return parseExpressionPrefixedByNegation()
-            }
-
-            // Check for grouped / bracket expressions
-            when (tokenType) {
-                TokenLibrary.LPAR -> parseExpressionWithOuterParenthesesExpression()
-                TokenLibrary.LBRACKET -> parseListExpression()
-                TokenLibrary.LBRACE -> parseDictionaryExpression()
-            }
-
-            return parseMultiPartExpression()
-        }
-
-        return if (parseInner()) {
-            marker.done(SyntaxLibrary.EXPRESSION)
-            true
-        } else {
+        if (!parseInnerExpression()) {
             marker.drop()
-            false
+            return false
         }
+
+        // Try to continue the expression
+        // Check for a member chain (.)
+        if (tokenType == TokenLibrary.PERIOD) {
+            parseMemberAfterExpression()
+        }
+
+        // Check for an arithmetic operation
+        if (TokenLibrary.ARITHMETIC_OPERATORS.contains(tokenType)) {
+            parseArithmeticOperationAfterExpression()
+        }
+
+        marker.done(SyntaxLibrary.COMPLETE_EXPRESSION)
+        return true
     }
 }
 

@@ -97,7 +97,7 @@ object TokenLibrary {
         PLUS, MINUS, TILDE
     )
 
-    val BINARY_OPERATORS = TokenSet.create(
+    val ARITHMETIC_OPERATORS = TokenSet.create(
         PLUS, MINUS, MULT, EXP, DIV, PERC, LTLT, GTGT, AND, OR, XOR, LT, GT, LE, GE, EQEQ, NE
     )
 
@@ -208,7 +208,7 @@ object TokenLibrary {
         LINE_BREAK, SEMICOLON, INDENT,
         LPAR, LBRACE, LBRACKET,
         RPAR, RBRACE, RBRACKET,
-        COLON, COMMA,
+        COLON, COMMA, PERIOD,
         PLUS, MINUS, DIV, MULT,
         PLUSEQ, MINUSEQ, DIVEQ, MULTEQ
     )

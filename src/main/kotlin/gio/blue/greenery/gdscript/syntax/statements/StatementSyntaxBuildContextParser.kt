@@ -4,6 +4,14 @@ import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContext
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContextAssociate
+import gio.blue.greenery.gdscript.syntax.statements.func.parseFunctionDeclaration
+import gio.blue.greenery.gdscript.syntax.statements.logic.parseIf
+import gio.blue.greenery.gdscript.syntax.statements.loops.parseFor
+import gio.blue.greenery.gdscript.syntax.statements.loops.parseWhile
+import gio.blue.greenery.gdscript.syntax.statements.top_level.parseClassName
+import gio.blue.greenery.gdscript.syntax.statements.top_level.parseExtends
+import gio.blue.greenery.gdscript.syntax.statements.variables.parseConstantDeclaration
+import gio.blue.greenery.gdscript.syntax.statements.variables.parseVariableDeclaration
 
 class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
@@ -60,22 +68,29 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
         }
 
         val statementParseResult = when (tokenType) {
-            TokenLibrary.ANNOTATION -> parseAnnotationStatement()
+            TokenLibrary.ANNOTATION -> parseAnnotation()
 
-            TokenLibrary.FUNC_KEYWORD -> parseFunctionDeclarationStatement()
-            TokenLibrary.IF_KEYWORD -> parseIfStatement()
-            TokenLibrary.PASS_KEYWORD -> parsePassStatement()
-            TokenLibrary.FOR_KEYWORD -> parseForStatement()
-            TokenLibrary.WHILE_KEYWORD -> parseWhileStatement()
+            TokenLibrary.FUNC_KEYWORD -> parseFunctionDeclaration()
+            TokenLibrary.IF_KEYWORD -> parseIf()
+            TokenLibrary.PASS_KEYWORD -> parsePass()
+            TokenLibrary.FOR_KEYWORD -> parseFor()
+            TokenLibrary.WHILE_KEYWORD -> parseWhile()
 
-            TokenLibrary.VAR_KEYWORD -> parseVariableDeclStatement()
-            TokenLibrary.CONST_KEYWORD -> parseConstantDeclStatement()
+            TokenLibrary.VAR_KEYWORD -> parseVariableDeclaration()
+            TokenLibrary.CONST_KEYWORD -> parseConstantDeclaration()
 
-            TokenLibrary.EXTENDS_KEYWORD -> parseExtendsStatement()
-            TokenLibrary.CLASS_NAME_KEYWORD -> parseClassNameStatement()
+            TokenLibrary.EXTENDS_KEYWORD -> parseExtends()
+            TokenLibrary.CLASS_NAME_KEYWORD -> parseClassName()
 
             else -> {
                 // Unknown token - not a statement starter.
+                // Attempt to parse it as an expression
+                if (parseExpression()) {
+                    marker.drop()
+                    return true
+                }
+
+                // Couldn't parse as an expression, just fail
                 val foundTokenType = tokenType
                 if (!maintainState)
                     next()

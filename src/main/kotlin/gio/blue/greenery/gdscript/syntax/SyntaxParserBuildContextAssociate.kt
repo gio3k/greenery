@@ -66,7 +66,7 @@ abstract class SyntaxParserBuildContextAssociate(
     }
 
     internal fun assertSet(ets: TokenSet) {
-        if (ets.contains(tokenType)) {
+        if (!ets.contains(tokenType)) {
             throw AssertionError("Syntax assertion failed: $tokenType not in expected set $ets")
         }
     }

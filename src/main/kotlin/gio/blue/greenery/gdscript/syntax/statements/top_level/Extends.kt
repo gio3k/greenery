@@ -1,14 +1,18 @@
-package gio.blue.greenery.gdscript.syntax.statements
+package gio.blue.greenery.gdscript.syntax.statements.top_level
 
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
+import gio.blue.greenery.gdscript.syntax.statements.StatementSyntaxBuildContextParser
 
 /**
- * Extends statement
+ * Parse a top-level extends statement starting from the current token
  *
- * (here! extends keyword) (expression)
+ * (here! extends keyword) (identifier)
+ *
+ * @receiver StatementSyntaxBuildContextParser
+ * @return Boolean Whether the statement was fully parsed
  */
-fun StatementSyntaxBuildContextParser.parseExtendsStatement(): Boolean {
+fun StatementSyntaxBuildContextParser.parseExtends(): Boolean {
     assertType(TokenLibrary.EXTENDS_KEYWORD)
     val marker = mark()
     next()
