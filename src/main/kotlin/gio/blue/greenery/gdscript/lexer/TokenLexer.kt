@@ -96,7 +96,7 @@ class TokenLexer : LexerBase() {
         if (tryLexingPossibleIdentifier()) return
 
         // Unknown character at this point
-        LOG.warn("Unknown character @ $boundsStart")
+        LOG.warn("Unknown character '${getCharAt(0)}' @ $boundsStart")
         enqueue(TokenLibrary.ISSUE_BAD_CHARACTER)
     }
 

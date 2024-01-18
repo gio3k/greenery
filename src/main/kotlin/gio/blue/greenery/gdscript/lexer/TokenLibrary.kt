@@ -101,7 +101,7 @@ object TokenLibrary {
         PLUS, MINUS, MULT, EXP, DIV, PERC, LTLT, GTGT, AND, OR, XOR, LT, GT, LE, GE, EQEQ, NE
     )
 
-    val NEGATION_OPERATORS = TokenSet.create(
+    val BOOLEAN_NEGATION_OPERATORS = TokenSet.create(
         NOT_KEYWORD, EXCLAIM
     )
 
@@ -145,6 +145,7 @@ object TokenLibrary {
     val QUESTION = ElementDescription("QUESTION") // ?
     val BACKTICK = ElementDescription("BACKTICK") // `
     val EQ = ElementDescription("EQ") // =
+    val PERIOD = ElementDescription("PERIOD") // .
 
     /**
      * Comment:
@@ -204,7 +205,12 @@ object TokenLibrary {
     )
 
     val EXPRESSION_BREAKERS = TokenSet.create(
-        LINE_BREAK, SEMICOLON, INDENT, RPAR, RBRACE, RBRACKET, COLON, COMMA
+        LINE_BREAK, SEMICOLON, INDENT,
+        LPAR, LBRACE, LBRACKET,
+        RPAR, RBRACE, RBRACKET,
+        COLON, COMMA,
+        PLUS, MINUS, DIV, MULT,
+        PLUSEQ, MINUSEQ, DIVEQ, MULTEQ
     )
 
     /* Literals */
