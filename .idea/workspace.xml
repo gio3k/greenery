@@ -43,37 +43,15 @@
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureLineBreak.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureLineBreak.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureMultiCharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureMultiCharacter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureNumbers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureNumbers.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureSingleCharacter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureSingleCharacter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureStrings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/LexerFeatureStrings.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/TokenLexerHandlerAssociate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/TokenLexerHandlerAssociate.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/TokenLexerHandlerDepthAssociate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/TokenLexerHandlerDepthAssociate.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/TokenLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/lexer/TokenLibrary.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/psi/PsiWrapperSyntaxParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/psi/PsiWrapperSyntaxParser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/GDSyntaxBundle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/GDSyntaxBundle.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxLibrary.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContextAssociate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildContextAssociate.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScope.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScope.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScopePurpose.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/SyntaxParserBuildScopePurpose.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/basic/BlockSyntaxBuildContextParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/basic/BlockSyntaxBuildContextParser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/expressions/DictionaryExpressionFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/expressions/ExpressionSyntaxBuildContextParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/expressions/ExpressionSyntaxBuildContextParser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/expressions/ListExpressionFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/expressions/OuterParenthesisHelperFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/expressions/PrefixExpressionFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/expressions/SetExpressionFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/AnnotationStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/ClassNameStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/ExtendsStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/ForStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/FunctionDeclStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/IfStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/MatchStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/PassStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/StatementSyntaxBuildContextParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/StatementSyntaxBuildContextParser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/VariableDeclStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gio/blue/greenery/gdscript/syntax/statements/WhileStatementFeature.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/messages/GDSyntaxBundle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages/GDSyntaxBundle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/BasicTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/BasicTests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/DepthTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/DepthTests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/LanguageFeatureTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/gio/blue/greenery/gdscript/lexer/LanguageFeatureTests.kt" afterDir="false" />
@@ -360,6 +338,7 @@
       <workItem from="1705511841844" duration="6619000" />
       <workItem from="1705581918396" duration="6650000" />
       <workItem from="1705596827943" duration="1000" />
+      <workItem from="1705665660594" duration="628000" />
     </task>
     <servers />
   </component>
