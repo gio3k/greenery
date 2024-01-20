@@ -42,7 +42,7 @@ private fun TokenLexer.tryLexingStringPrefix(): Boolean {
 }
 
 private fun TokenLexer.isTripleStringMarker(): Boolean {
-    // We already know the first character is correct, just check the next 2
+    // We already know the first character is correct, check the next 2
     if (tryGetCharAt(1) != '"') return false
     if (tryGetCharAt(2) != '"') return false
     return true
@@ -113,7 +113,7 @@ private fun TokenLexer.tryLexingStringContent(): Boolean {
     // Don't bother appending empty string content
     if (size == 0) return false
 
-    enqueue(TokenLibrary.STRING_CONTENT_PART, 0, size)
+    enqueue(TokenLibrary.STRING_CONTENT, 0, size)
     return true
 }
 
@@ -129,8 +129,7 @@ private fun TokenLexer.tryLexingEscapeCharacter(): Boolean {
     when (tryGetCharAt(1)) {
         null -> {
             // End of content found while reading escape character
-            // We won't deal with issue raising
-            enqueue(TokenLibrary.STRING_ESCAPE_PART)
+            enqueue(TokenLibrary.ISSUE_EOF)
             return true
         }
 
@@ -138,32 +137,30 @@ private fun TokenLexer.tryLexingEscapeCharacter(): Boolean {
             // UTF-16
             for (i in 5 downTo 2) {
                 if (hasCharAt(i)) {
-                    enqueue(TokenLibrary.STRING_ESCAPE_PART, 0, i)
+                    enqueue(TokenLibrary.STRING_ESCAPE_UNICODE_16, 0, i)
                     return true
                 }
             }
+            return false
         }
 
         'U' -> {
             // UTF-32
             for (i in 7 downTo 2) {
                 if (hasCharAt(i)) {
-                    enqueue(TokenLibrary.STRING_ESCAPE_PART, 0, i)
+                    enqueue(TokenLibrary.STRING_ESCAPE_UNICODE_32, 0, i)
                     return true
                 }
             }
+            return false
         }
 
         else -> {
             // Unknown - hopefully just a normal 2-character escape
-            enqueue(TokenLibrary.STRING_ESCAPE_PART, 0, 1)
+            enqueue(TokenLibrary.STRING_ESCAPE, 0, 1)
             return true
         }
     }
-
-    // We definitely found the escape character - we don't know what the data is
-    enqueue(TokenLibrary.STRING_ESCAPE_PART)
-    return true
 }
 
 private fun TokenLexer.tryLexingInvisibleControlChar(): Boolean {

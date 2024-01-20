@@ -9,13 +9,5 @@ package gio.blue.greenery.gdscript.syntax.statements
  * @return Boolean Whether the expression was fully parsed
  */
 fun StatementSyntaxBuildContextParser.parseExpression(): Boolean {
-    val marker = mark()
-
-    want({ context.expressions.parse() }) {
-        marker.error(message("SYNTAX.generic.expected.expr.got.0", it.toString()))
-        return false
-    }
-
-    marker.drop()
-    return true
+    return context.expressions.parse()
 }

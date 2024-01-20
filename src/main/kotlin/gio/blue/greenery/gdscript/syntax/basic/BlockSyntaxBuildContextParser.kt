@@ -23,16 +23,12 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
             return false
         }
 
-        want({ parseBlock() }) {
-            marker.drop()
-            return false
-        }
-
         marker.drop()
-        return true
+
+        return parseBlock()
     }
 
-    fun parseBlock(): Boolean {
+    private fun parseBlock(): Boolean {
         val marker = mark()
         val isIndentedBlock = tokenType == TokenLibrary.LINE_BREAK
 
@@ -50,30 +46,31 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
 
         return context.withinScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.STATEMENT_GROUP)) {
             var encounteredParseError = false
-            while (tokenType != null) {
-                skipSet(TokenLibrary.STATEMENT_BREAKERS)
 
+            skipSet(TokenLibrary.STATEMENT_BREAKERS)
+
+            while (tokenType != null) {
                 if (!context.statements.parse(shouldMarkErrorIfUnsuccessful = true)) {
                     // Failed to parse the statement
                     // Clean up - make sure we're ready to parse the next one
                     encounteredParseError = true
-                }
 
-                if (isIndentedBlock) {
-                    skip(TokenLibrary.LINE_BREAK)
+                    while (tokenType != null && !TokenLibrary.STATEMENT_BREAKERS.contains(tokenType)) {
+                        // Skip everything until the next statement breaker
+                        next()
+                    }
                 }
 
                 // Check for an end condition
                 when {
-                    isIndentedBlock && tokenType == TokenLibrary.DEDENT || !isIndentedBlock && tokenType == TokenLibrary.LINE_BREAK || tokenType == null -> {
-                        break
-                    }
+                    isIndentedBlock && tokenType == TokenLibrary.DEDENT -> break
+                    !isIndentedBlock && tokenType == TokenLibrary.LINE_BREAK -> break
+                    tokenType == null -> break
                 }
             }
 
-            next()
-
             if (!encounteredParseError) {
+                next()
                 marker.done(SyntaxLibrary.STATEMENT_GROUP)
                 true
             } else {

@@ -1,6 +1,7 @@
 package gio.blue.greenery.gdscript.lexer
 
 import com.intellij.psi.TokenType
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import gio.blue.greenery.gdscript.ElementDescription
 
@@ -14,7 +15,8 @@ object TokenLibrary {
     val ISSUE_STRAY_CARRIAGE_RETURN = ElementDescription("ISSUE_STRAY_CARRIAGE_RETURN")
     val ISSUE_MIXED_INDENTS = ElementDescription("ISSUE_MIXED_INDENTS")
     val ISSUE_DEDENT_DEPTH_UNEXPECTED = ElementDescription("ISSUE_DEDENT_DEPTH_UNEXPECTED")
-    val ISSUE_BAD_CHARACTER = TokenType.BAD_CHARACTER
+    val ISSUE_BAD_CHARACTER: IElementType = TokenType.BAD_CHARACTER
+    val ISSUE_EOF = ElementDescription("ISSUE_EOF")
 
     val SPACE = ElementDescription("SPACE")
     val TAB = ElementDescription("TAB")
@@ -172,8 +174,10 @@ object TokenLibrary {
     val STRING_NAME_STRING_PREFIX = ElementDescription("STRING_NAME_STRING_PREFIX") // &
 
     // String data
-    val STRING_CONTENT_PART = ElementDescription("STRING_CONTENT") // *
-    val STRING_ESCAPE_PART = ElementDescription("STRING_ESCAPE_PART") // \*
+    val STRING_CONTENT = ElementDescription("STRING_CONTENT") // *
+    val STRING_ESCAPE_UNICODE_16 = ElementDescription("STRING_ESCAPE_UNICODE_16") // \uXXXX
+    val STRING_ESCAPE_UNICODE_32 = ElementDescription("STRING_ESCAPE_UNICODE_32") // \uXXXXXX
+    val STRING_ESCAPE = ElementDescription("STRING_ESCAPE")
     val ISSUE_STRING_INVISIBLE_TEXT_DIRECTION_CHARACTER =
         ElementDescription("ISSUE_STRING_INVISIBLE_TEXT_DIRECTION_CHARACTER")
 
@@ -185,21 +189,30 @@ object TokenLibrary {
         RAW_STRING_PREFIX,
         NODE_PATH_STRING_PREFIX,
         STRING_NAME_STRING_PREFIX,
-        STRING_CONTENT_PART,
-        STRING_ESCAPE_PART,
+        STRING_ESCAPE_UNICODE_32,
+        STRING_ESCAPE_UNICODE_16,
+        STRING_ESCAPE,
+        STRING_CONTENT,
     )
 
-    // String starters
     val STRING_STARTERS = TokenSet.create(
-        TRIPLE_STRING_MARKER,
-        SINGLE_STRING_MARKER,
-        SMALL_STRING_MARKER,
         RAW_STRING_PREFIX,
         NODE_PATH_STRING_PREFIX,
         STRING_NAME_STRING_PREFIX,
+        TRIPLE_STRING_MARKER,
+        SINGLE_STRING_MARKER,
+        SMALL_STRING_MARKER,
+    )
+
+    // String markers
+    val STRING_MARKERS = TokenSet.create(
+        TRIPLE_STRING_MARKER,
+        SINGLE_STRING_MARKER,
+        SMALL_STRING_MARKER,
     )
 
     val STATEMENT_BREAKERS = TokenSet.create(
+        DEDENT,
         LINE_BREAK,
         SEMICOLON,
     )
@@ -210,7 +223,9 @@ object TokenLibrary {
         RPAR, RBRACE, RBRACKET,
         COLON, COMMA, PERIOD,
         PLUS, MINUS, DIV, MULT,
-        PLUSEQ, MINUSEQ, DIVEQ, MULTEQ
+        PLUSEQ, MINUSEQ, DIVEQ, MULTEQ,
+        IF_KEYWORD, ELSE_KEYWORD, ELIF_KEYWORD,
+        EQ
     )
 
     /* Literals */

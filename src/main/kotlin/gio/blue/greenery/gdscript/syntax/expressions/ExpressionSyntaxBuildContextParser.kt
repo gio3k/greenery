@@ -12,6 +12,7 @@ import gio.blue.greenery.gdscript.syntax.expressions.dictionaries.parseDictionar
 import gio.blue.greenery.gdscript.syntax.expressions.identifiers.parseIdentifier
 import gio.blue.greenery.gdscript.syntax.expressions.members.parseMemberAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.pars.parseEnclosedExpression
+import gio.blue.greenery.gdscript.syntax.expressions.strings.parseStringLiteral
 
 class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: SyntaxTreeBuilder) :
     SyntaxParserBuildContextAssociate(
@@ -40,6 +41,10 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             return parseExpressionWithUnaryPrefix()
         if (TokenLibrary.BOOLEAN_NEGATION_OPERATORS.contains(tokenType))
             return parseExpressionWithBoolNegationPrefix()
+
+        // Check for a string literal
+        if (TokenLibrary.STRING_STARTERS.contains(tokenType))
+            return parseStringLiteral()
 
         // Try to parse single token expressions if possible
         if (isExpressionPartComplete()) {

@@ -8,7 +8,8 @@ class StringLiteralExpressionImpl(node: ASTNode) : ASTWrapperPsiElement(node), S
     private var valueCacheResult: String? = null
 
     override fun getValue(): Any? {
-        TODO("Not yet implemented")
+        return "test"
+        // TODO("Not yet implemented")
     }
 
     override fun subtreeChanged() {
@@ -23,6 +24,7 @@ class StringLiteralExpressionImpl(node: ASTNode) : ASTWrapperPsiElement(node), S
     private fun getOrCacheValueAsString(): String {
         valueCacheResult?.let { return it }
 
-        TODO("Not yet implemented")
+        return "test"
+        //TODO("Not yet implemented")
     }
 }
