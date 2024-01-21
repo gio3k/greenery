@@ -31,6 +31,8 @@ object SyntaxLibrary {
     val EXPRESSION_SET = ElementDescription("EXPRESSION_SET")
     val EXPRESSION_MEMBER_CHAIN = ElementDescription("EXPRESSION_MEMBER_CHAIN")
 
+    val NODE_PATH = ElementDescription("NODE_PATH")
+
     val CONSTANT_DECL_STATEMENT = ElementDescription("CONSTANT_DECL_STATEMENT")
     val VARIABLE_DECL_STATEMENT = ElementDescription("VARIABLE_DECL_STATEMENT")
     val VARIABLE_DECL_PROPERTY_SETTER = ElementDescription("VARIABLE_DECL_PROPERTY_SETTER")

@@ -42,6 +42,10 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         if (TokenLibrary.BOOLEAN_NEGATION_OPERATORS.contains(tokenType))
             return parseExpressionWithBoolNegationPrefix()
 
+        // Check for a node path
+        if (tokenType == TokenLibrary.DOLLAR)
+            return parseNodePath()
+
         // Check for a string literal
         if (TokenLibrary.STRING_STARTERS.contains(tokenType))
             return parseStringLiteral()
