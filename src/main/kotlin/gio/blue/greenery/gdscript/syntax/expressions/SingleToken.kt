@@ -4,14 +4,14 @@ import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
 
 /**
- * Parse a single token expression starting at the current token
+ * Parse a single (literal) token expression starting at the current token
  *
- * (here! any)
+ * (here! literal)
  *
  * @receiver ExpressionSyntaxBuildContextParser
  * @return Boolean Whether the token was parsed
  */
-fun ExpressionSyntaxBuildContextParser.parseSingleTokenExpression(): Boolean {
+fun ExpressionSyntaxBuildContextParser.parseSingleLiteral(): Boolean {
     val marker = mark()
 
     val elementType = when (tokenType) {

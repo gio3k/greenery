@@ -30,6 +30,8 @@ object SyntaxLibrary {
     val EXPRESSION_MATH_RHS = ElementDescription("EXPRESSION_MATH_RHS")
     val EXPRESSION_SET = ElementDescription("EXPRESSION_SET")
     val EXPRESSION_MEMBER_CHAIN = ElementDescription("EXPRESSION_MEMBER_CHAIN")
+    val EXPRESSION_INDEXER = ElementDescription("EXPRESSION_INDEXER")
+    val EXPRESSION_ASSIGNMENT = ElementDescription("EXPRESSION_ASSIGNMENT")
 
     val NODE_PATH = ElementDescription("NODE_PATH")
 

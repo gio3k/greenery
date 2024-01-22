@@ -7,7 +7,7 @@ import gio.blue.greenery.gdscript.syntax.expressions.strings.parseStringLiteral
 /**
  * Parse a node path expression starting from the current token
  *
- * (here! dollar)
+ * (here! dollar) [(identifier or string)(...div...)]
  *
  * Keep in mind this isn't the same as a string-based node path - those start with $
  *
@@ -24,11 +24,11 @@ fun ExpressionSyntaxBuildContextParser.parseNodePath(): Boolean {
             next()
         } else if (TokenLibrary.STRING_STARTERS.contains(tokenType)) {
             want({ parseStringLiteral() }) {
-                marker.error("failed to parse string literal")
+                marker.drop()
                 return false
             }
         } else {
-            marker.error("unknown token")
+            marker.error(message("SYNTAX.expr.node-path.expected.item.got.0", tokenType.toString()))
             return false
         }
 

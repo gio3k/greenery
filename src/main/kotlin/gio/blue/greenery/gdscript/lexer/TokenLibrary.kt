@@ -22,6 +22,12 @@ object TokenLibrary {
     val TAB = ElementDescription("TAB")
     var WHITESPACE = TokenSet.create(SPACE, TAB)
 
+    /* Literals */
+    val INTEGER_LITERAL = ElementDescription("INTEGER_LITERAL")
+    val FLOAT_LITERAL = ElementDescription("FLOAT_LITERAL")
+    val BINARY_LITERAL = ElementDescription("BINARY_LITERAL")
+    val HEX_LITERAL = ElementDescription("HEX_LITERAL")
+
     // Keywords
     val IF_KEYWORD = ElementDescription("IF_KEYWORD")
     val ELIF_KEYWORD = ElementDescription("ELIF_KEYWORD")
@@ -94,36 +100,6 @@ object TokenLibrary {
     val EXPEQ = ElementDescription("EXPEQ") // **=
     val RARROW = ElementDescription("RARROW") // ->
     val COLONEQ = ElementDescription("COLONEQ") // :=
-
-    val UNARY_OPERATORS = TokenSet.create(
-        PLUS, MINUS, TILDE
-    )
-
-    val ARITHMETIC_OPERATORS = TokenSet.create(
-        PLUS, MINUS, MULT, EXP, DIV, PERC, LTLT, GTGT, AND, OR, XOR, LT, GT, LE, GE, EQEQ, NE
-    )
-
-    val BOOLEAN_NEGATION_OPERATORS = TokenSet.create(
-        NOT_KEYWORD, EXCLAIM
-    )
-
-    val TARGETED_OPERATORS = TokenSet.create(
-        PLUSEQ,
-        MINUSEQ,
-        MULTEQ,
-        DIVEQ,
-        PERCEQ,
-        ANDEQ,
-        PERCEQ,
-        ANDEQ,
-        OREQ,
-        XOREQ,
-        LTLTEQ,
-        GTGTEQ,
-        EXPEQ,
-        RARROW,
-        COLONEQ
-    )
 
     // Boolean keywords
     val TRUE_KEYWORD = ElementDescription("TRUE_KEYWORD")
@@ -228,11 +204,40 @@ object TokenLibrary {
         EQ
     )
 
-    /* Literals */
-    val INTEGER_LITERAL = ElementDescription("INTEGER_LITERAL")
-    val FLOAT_LITERAL = ElementDescription("FLOAT_LITERAL")
-    val BINARY_LITERAL = ElementDescription("BINARY_LITERAL")
-    val HEX_LITERAL = ElementDescription("HEX_LITERAL")
+    val UNARY_OPERATORS = TokenSet.create(
+        PLUS, MINUS, TILDE
+    )
+
+    val ARITHMETIC_OPERATORS = TokenSet.create(
+        PLUS, MINUS, MULT, EXP, DIV, PERC, LTLT, GTGT, AND, OR, XOR,
+    )
+
+    val BOOLEAN_OPERATORS = TokenSet.create(
+        LT, GT, LE, GE, EQEQ, NE
+    )
+
+    val BOOLEAN_NEGATION_OPERATORS = TokenSet.create(
+        NOT_KEYWORD, EXCLAIM
+    )
+
+    val TARGETED_OPERATORS = TokenSet.create(
+        PLUSEQ,
+        MINUSEQ,
+        MULTEQ,
+        DIVEQ,
+        PERCEQ,
+        ANDEQ,
+        PERCEQ,
+        ANDEQ,
+        OREQ,
+        XOREQ,
+        LTLTEQ,
+        GTGTEQ,
+        EXPEQ,
+        RARROW,
+        COLONEQ
+    )
+
     var BOOLEAN_LITERALS = TokenSet.create(TRUE_KEYWORD, FALSE_KEYWORD)
     var NUMERIC_LITERALS = TokenSet.create(INTEGER_LITERAL, FLOAT_LITERAL, BINARY_LITERAL, HEX_LITERAL)
 }
