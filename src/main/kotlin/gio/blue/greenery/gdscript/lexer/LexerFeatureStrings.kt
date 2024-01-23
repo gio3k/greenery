@@ -189,8 +189,9 @@ fun TokenLexer.tryLexingString(): Boolean {
     }
 
     // Parse the string content if possible until a string marker is found
-    while (true) {
-        tryLexingStringContent()
+    while (hasCharAt(0)) {
+        if (!tryLexingStringContent())
+            break
 
         // We stopped reading string content - something stopped us!
         tryLexingEscapeCharacter()
@@ -199,16 +200,15 @@ fun TokenLexer.tryLexingString(): Boolean {
         if (tryLexingStringMarker()) {
             // We found a string marker
             val marker = peek()
-            if (marker!!.type == marker0!!.type) {
-                // Same type as the start marker - return here
-                return true
-            }
+            if (marker == marker0)
+                break // Same marker that we started with - return here
+            if (marker!!.type == marker0!!.type)
+                break // Same type as the start marker - return here
 
             // This is a string marker unrelated to the starting one
-            // Just keep going
+            continue
         }
-
-        // Return if there are no more characters to read
-        if (!hasCharAt(0)) return true
     }
+
+    return true
 }

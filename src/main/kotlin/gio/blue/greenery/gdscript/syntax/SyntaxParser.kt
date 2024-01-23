@@ -2,6 +2,7 @@ package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.IElementType
+import gio.blue.greenery.gdscript.syntax.blocks.parseTopLevelBlock
 
 
 /**
@@ -17,9 +18,7 @@ open class SyntaxParser {
         builder.setDebugMode(true)
 
         while (!builder.eof()) {
-            context.pushScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.TOP_LEVEL))
-            context.statements.parse()
-            context.popScope()
+            context.blocks.parseTopLevelBlock()
         }
 
         rootMarker.done(root)

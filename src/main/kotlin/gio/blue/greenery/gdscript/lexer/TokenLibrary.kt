@@ -208,19 +208,19 @@ object TokenLibrary {
         PLUS, MINUS, TILDE
     )
 
-    val ARITHMETIC_OPERATORS = TokenSet.create(
-        PLUS, MINUS, MULT, EXP, DIV, PERC, LTLT, GTGT, AND, OR, XOR,
-    )
-
-    val BOOLEAN_OPERATORS = TokenSet.create(
-        LT, GT, LE, GE, EQEQ, NE
-    )
-
     val BOOLEAN_NEGATION_OPERATORS = TokenSet.create(
         NOT_KEYWORD, EXCLAIM
     )
 
-    val TARGETED_OPERATORS = TokenSet.create(
+    val MATH_BINARY_OPERATORS = TokenSet.create(
+        PLUS, MINUS, MULT, EXP, DIV, PERC, LTLT, GTGT, AND, OR, XOR,
+    )
+
+    val BOOLEAN_BINARY_OPERATORS = TokenSet.create(
+        LT, GT, LE, GE, EQEQ, NE
+    )
+
+    val MATH_TARGETED_OPERATORS = TokenSet.create(
         PLUSEQ,
         MINUSEQ,
         MULTEQ,
@@ -234,7 +234,6 @@ object TokenLibrary {
         LTLTEQ,
         GTGTEQ,
         EXPEQ,
-        RARROW,
         COLONEQ
     )
 

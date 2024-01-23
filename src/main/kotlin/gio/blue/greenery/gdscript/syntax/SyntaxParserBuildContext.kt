@@ -1,7 +1,7 @@
 package gio.blue.greenery.gdscript.syntax
 
 import com.intellij.lang.SyntaxTreeBuilder
-import gio.blue.greenery.gdscript.syntax.basic.BlockSyntaxBuildContextParser
+import gio.blue.greenery.gdscript.syntax.blocks.BlockSyntaxBuildContextParser
 import gio.blue.greenery.gdscript.syntax.expressions.ExpressionSyntaxBuildContextParser
 import gio.blue.greenery.gdscript.syntax.statements.StatementSyntaxBuildContextParser
 

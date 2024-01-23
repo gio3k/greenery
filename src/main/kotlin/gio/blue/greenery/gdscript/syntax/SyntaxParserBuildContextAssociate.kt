@@ -47,6 +47,13 @@ abstract class SyntaxParserBuildContextAssociate(
         }
     }
 
+    internal fun skipUntil(et1: IElementType) {
+        while (tokenType != null && tokenType != et1) {
+            next()
+            continue
+        }
+    }
+
     internal fun skipSet(ets: TokenSet) {
         while (ets.contains(tokenType)) {
             next()

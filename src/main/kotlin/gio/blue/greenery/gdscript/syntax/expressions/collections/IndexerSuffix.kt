@@ -30,6 +30,6 @@ fun ExpressionSyntaxBuildContextParser.parseIndexerAfterExpression(): Boolean {
     }
 
     next()
-    marker.done(SyntaxLibrary.EXPRESSION_INDEXER)
+    marker.done(SyntaxLibrary.EXPRESSION_SUFFIX_INDEXER)
     return true
 }

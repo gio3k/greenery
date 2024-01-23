@@ -5,12 +5,15 @@ import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContext
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContextAssociate
-import gio.blue.greenery.gdscript.syntax.expressions.arithmetic.parseArithmeticOperationAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.arithmetic.parseExpressionWithUnaryPrefix
+import gio.blue.greenery.gdscript.syntax.expressions.arithmetic.parseMathBinOpAfterExpression
+import gio.blue.greenery.gdscript.syntax.expressions.arithmetic.parseMathTargetedOpAfterExpression
+import gio.blue.greenery.gdscript.syntax.expressions.booleans.parseBoolBinOpAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.booleans.parseExpressionWithBoolNegationPrefix
 import gio.blue.greenery.gdscript.syntax.expressions.collections.parseIndexerAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.dictionaries.parseDictionary
 import gio.blue.greenery.gdscript.syntax.expressions.identifiers.parseIdentifier
+import gio.blue.greenery.gdscript.syntax.expressions.logic.parseIfAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.members.parseMemberAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.pars.parseEnclosedExpression
 import gio.blue.greenery.gdscript.syntax.expressions.strings.parseStringLiteral
@@ -72,6 +75,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             return false
 
         val marker = mark()
+
         if (!parseInnerExpression()) {
             marker.drop()
             return false
@@ -89,8 +93,20 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
                 // Check for an assignment
                 tokenType == TokenLibrary.EQ -> parseAssignmentAfterExpression()
 
-                // Check for an arithmetic operation
-                TokenLibrary.ARITHMETIC_OPERATORS.contains(tokenType) -> parseArithmeticOperationAfterExpression()
+                // Check for "is"
+                tokenType == TokenLibrary.IS_KEYWORD -> parseIsAfterExpression()
+
+                // Check for "if"
+                tokenType == TokenLibrary.IF_KEYWORD -> parseIfAfterExpression()
+
+                // Check for a 2-part math operation
+                TokenLibrary.MATH_BINARY_OPERATORS.contains(tokenType) -> parseMathBinOpAfterExpression()
+
+                // Check for a 2-part bool operation
+                TokenLibrary.BOOLEAN_BINARY_OPERATORS.contains(tokenType) -> parseBoolBinOpAfterExpression()
+
+                // Check for a targeted math operation
+                TokenLibrary.MATH_TARGETED_OPERATORS.contains(tokenType) -> parseMathTargetedOpAfterExpression()
 
                 // Fallback
                 else -> false
@@ -103,7 +119,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             break
         }
 
-        marker.done(SyntaxLibrary.COMPLETE_EXPRESSION)
+        marker.done(SyntaxLibrary.EXPRESSION)
         return true
     }
 }

@@ -1,4 +1,4 @@
-package gio.blue.greenery.gdscript.syntax.basic
+package gio.blue.greenery.gdscript.syntax.blocks
 
 import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
@@ -25,7 +25,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
 
         marker.drop()
 
-        return parseBlock()
+        return context.blocks.parseIndentedBlock()
     }
 
     private fun parseBlock(): Boolean {
@@ -47,10 +47,12 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
         return context.withinScope(SyntaxParserBuildScope(SyntaxParserBuildScopePurpose.STATEMENT_GROUP)) {
             var encounteredParseError = false
 
+            skip(TokenLibrary.LINE_BREAK)
+
             skipSet(TokenLibrary.STATEMENT_BREAKERS)
 
             while (tokenType != null) {
-                if (!context.statements.parse(shouldMarkErrorIfUnsuccessful = true)) {
+                if (!context.statements.parse()) {
                     // Failed to parse the statement
                     // Clean up - make sure we're ready to parse the next one
                     encounteredParseError = true

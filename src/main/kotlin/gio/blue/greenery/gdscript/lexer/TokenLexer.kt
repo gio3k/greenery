@@ -3,6 +3,7 @@ package gio.blue.greenery.gdscript.lexer
 import com.intellij.lexer.LexerBase
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.tree.IElementType
+import gio.blue.greenery.gdscript.lexer.depth.TokenLexerHandlerDepthAssociate
 import java.util.*
 
 class TokenLexer : LexerBase() {
@@ -15,7 +16,7 @@ class TokenLexer : LexerBase() {
     /**
      * Queue of tokens to return
      */
-    private var queue: Queue<QueuedToken> = LinkedList()
+    private var queue: ArrayDeque<QueuedToken> = ArrayDeque()
     private var lastToken = QueuedToken(TokenLibrary.INVALID, 0, 0)
 
     // Bounds to read
@@ -115,7 +116,7 @@ class TokenLexer : LexerBase() {
         }
 
         while (hasCharAt(0)) {
-            process()
+                process()
 
             if (queue.isNotEmpty()) {
                 // Update token info
@@ -186,5 +187,9 @@ class TokenLexer : LexerBase() {
         }
     }
 
-    internal fun peek(): QueuedToken? = queue.peek()
+    internal fun fastForward(offset: Int) {
+        boundsStart += offset
+    }
+
+    internal fun peek(): QueuedToken? = queue.peekLast()
 }

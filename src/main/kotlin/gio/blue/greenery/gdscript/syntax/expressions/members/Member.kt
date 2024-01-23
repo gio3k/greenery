@@ -29,6 +29,6 @@ fun ExpressionSyntaxBuildContextParser.parseMemberAfterExpression(): Boolean {
         return false
     }
 
-    marker.done(SyntaxLibrary.EXPRESSION_MEMBER_CHAIN)
+    marker.done(SyntaxLibrary.EXPRESSION_SUFFIX_MEMBER)
     return true
 }

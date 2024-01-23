@@ -15,7 +15,7 @@ import gio.blue.greenery.gdscript.syntax.statements.StatementSyntaxBuildContextP
 fun StatementSyntaxBuildContextParser.parseClassName(): Boolean {
     assertType(TokenLibrary.CLASS_NAME_KEYWORD)
     val marker = mark()
-    this.next()
+    next()
 
     wantThenNext({ tokenType == TokenLibrary.IDENTIFIER }) {
         marker.error(message("SYNTAX.generic.expected.identifier"))

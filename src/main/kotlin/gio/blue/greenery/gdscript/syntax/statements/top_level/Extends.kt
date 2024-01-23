@@ -2,12 +2,13 @@ package gio.blue.greenery.gdscript.syntax.statements.top_level
 
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
+import gio.blue.greenery.gdscript.syntax.expressions.strings.parseStringLiteral
 import gio.blue.greenery.gdscript.syntax.statements.StatementSyntaxBuildContextParser
 
 /**
  * Parse a top-level extends statement starting from the current token
  *
- * (here! extends keyword) (identifier)
+ * (here! extends keyword) (identifier or string)
  *
  * @receiver StatementSyntaxBuildContextParser
  * @return Boolean Whether the statement was fully parsed
@@ -17,8 +18,16 @@ fun StatementSyntaxBuildContextParser.parseExtends(): Boolean {
     val marker = mark()
     next()
 
-    want({ context.expressions.parse() }) {
-        marker.error(message("SYNTAX.generic.expected.expr.got.0", it.toString()))
+    // Check for identifier
+    if (tokenType == TokenLibrary.IDENTIFIER) {
+        next()
+    } else if (TokenLibrary.STRING_STARTERS.contains(tokenType)) {
+        want({context.expressions.parseStringLiteral()}) {
+            marker.error("failed to parse string")
+            return false
+        }
+    } else {
+        marker.error("dunno")
         return false
     }
 

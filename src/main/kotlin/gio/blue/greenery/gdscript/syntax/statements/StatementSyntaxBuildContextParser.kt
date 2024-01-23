@@ -2,6 +2,7 @@ package gio.blue.greenery.gdscript.syntax.statements
 
 import com.intellij.lang.SyntaxTreeBuilder
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
+import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContext
 import gio.blue.greenery.gdscript.syntax.SyntaxParserBuildContextAssociate
 import gio.blue.greenery.gdscript.syntax.statements.func.parseFunctionDeclaration
@@ -21,53 +22,20 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
     /**
      * Parse a statement
      */
-    fun parse(
-        shouldMarkErrorIfUnsuccessful: Boolean = true,
-        maintainState: Boolean = false,
-        skipLeadingStatementBreakers: Boolean = true
-    ): Boolean {
-        if (skipLeadingStatementBreakers) {
-            skipSet(TokenLibrary.STATEMENT_BREAKERS)
-        }
-
+    fun parse(): Boolean {
         val marker = mark()
 
-        // Check for dedents
-        if (tokenType == TokenLibrary.DEDENT) {
-            if (!maintainState)
-                next()
-            if (shouldMarkErrorIfUnsuccessful) {
-                marker.error(
-                    message("SYNTAX.core.depth.unexpected.dedent", tokenType.toString())
-                )
-            } else {
-                marker.drop()
-            }
-            return false
+        if (parseInnerStatement()) {
+            marker.done(SyntaxLibrary.STATEMENT)
+            return true
         }
 
-        // Check for indents
-        if (tokenType == TokenLibrary.INDENT) {
-            if (!maintainState)
-                next()
-            if (shouldMarkErrorIfUnsuccessful) {
-                marker.error(
-                    message("SYNTAX.core.depth.unexpected.indent", tokenType.toString())
-                )
-            } else {
-                marker.drop()
-            }
-            return false
-        }
+        marker.drop()
+        return false
+    }
 
-        // Check for null first
-        if (tokenType == null) {
-            // Stop here
-            marker.drop()
-            return false
-        }
-
-        val statementParseResult = when (tokenType) {
+    private fun parseInnerStatement(): Boolean {
+        return when (tokenType) {
             TokenLibrary.ANNOTATION -> parseAnnotation()
 
             TokenLibrary.FUNC_KEYWORD -> parseFunctionDeclaration()
@@ -82,31 +50,9 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             TokenLibrary.EXTENDS_KEYWORD -> parseExtends()
             TokenLibrary.CLASS_NAME_KEYWORD -> parseClassName()
 
-            else -> {
-                // Unknown token - not a statement starter.
-                // Attempt to parse it as an expression
-                if (parseExpression()) {
-                    marker.drop()
-                    return true
-                }
-
-                // Couldn't parse as an expression, just fail
-                val foundTokenType = tokenType
-                if (!maintainState)
-                    next()
-                if (shouldMarkErrorIfUnsuccessful) {
-                    marker.error(
-                        message("SYNTAX.core.expected.stmt.got.0", foundTokenType.toString())
-                    )
-                } else {
-                    marker.drop()
-                }
-                return false
-            }
+            // Unknown token - try parsing as expression
+            else -> parseExpression()
         }
-
-        marker.drop()
-        return statementParseResult
     }
 }
 

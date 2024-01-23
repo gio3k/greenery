@@ -23,6 +23,6 @@ fun ExpressionSyntaxBuildContextParser.parseAssignmentAfterExpression(): Boolean
     }
 
     next()
-    marker.done(SyntaxLibrary.EXPRESSION_ASSIGNMENT)
+    marker.done(SyntaxLibrary.EXPRESSION_SUFFIX_ASSIGNMENT)
     return true
 }

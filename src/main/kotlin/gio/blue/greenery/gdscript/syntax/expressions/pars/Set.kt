@@ -44,6 +44,6 @@ fun ExpressionSyntaxBuildContextParser.parseSet(): Boolean {
 
     // We should be on the right parenthesis token now - skip it
     next()
-    marker.done(SyntaxLibrary.EXPRESSION_SET)
+    marker.done(SyntaxLibrary.EXPRESSION_GROUP)
     return true
 }

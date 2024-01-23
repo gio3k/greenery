@@ -16,10 +16,10 @@ internal fun StatementSyntaxBuildContextParser.parseIfConditionalPart(resultElem
     val marker = mark()
     next()
 
-    want({ context.expressions.parse() }, {
+    want({ context.expressions.parse() }) {
         marker.error(message("SYNTAX.stmt.if.conditional.expected.expr"))
         return false
-    })
+    }
 
     want({ context.blocks.parseBlockStartingFromColon() }) {
         marker.drop()

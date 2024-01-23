@@ -23,10 +23,8 @@ fun TokenLexer.tryLexingSingleCharacter(): Boolean {
         ',' -> enqueue(TokenLibrary.COMMA)
         '.' -> enqueue(TokenLibrary.PERIOD)
 
-        // Space wasn't handled anywhere else
         ' ' -> enqueue(TokenLibrary.SPACE)
 
-        // Tab wasn't handled anywhere else
         '\t' -> enqueue(TokenLibrary.TAB)
 
         else -> return false

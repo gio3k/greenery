@@ -22,6 +22,6 @@ fun ExpressionSyntaxBuildContextParser.parseExpressionWithBoolNegationPrefix(): 
         return false
     }
 
-    marker.done(SyntaxLibrary.EXPRESSION_PREFIX_NEGATE_BOOLEAN)
+    marker.done(SyntaxLibrary.EXPRESSION_PREFIX_NEGATION)
     return true
 }
