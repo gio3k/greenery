@@ -35,24 +35,32 @@ object SyntaxLibrary {
     // Expression Prefixes
     // e.g. -target
     val EXPRESSION_PREFIX_UNARY = ElementDescription("EXPRESSION_PREFIX_UNARY")
+
     // e.g. !target
     val EXPRESSION_PREFIX_NEGATION = ElementDescription("EXPRESSION_PREFIX_NEGATION")
 
     // Expression Suffixes
     // e.g. lhs[index]
     val EXPRESSION_SUFFIX_INDEXER = ElementDescription("EXPRESSION_SUFFIX_INDEXER")
+
     // e.g. lhs.rhs
     val EXPRESSION_SUFFIX_MEMBER = ElementDescription("EXPRESSION_SUFFIX_MEMBER")
+
     // e.g. lhs = rhs
     val EXPRESSION_SUFFIX_ASSIGNMENT = ElementDescription("EXPRESSION_SUFFIX_ASSIGNMENT")
+
     // e.g.: lhs += rhs
     val EXPRESSION_SUFFIX_MATH_TARGETED = ElementDescription("EXPRESSION_SUFFIX_MATH_TARGETED")
+
     // e.g.: lhs + rhs
     val EXPRESSION_SUFFIX_MATH_BINOP = ElementDescription("EXPRESSION_SUFFIX_MATH_BINOP")
+
     // e.g.: lhs == rhs
     val EXPRESSION_SUFFIX_BOOL_BINOP = ElementDescription("EXPRESSION_SUFFIX_BOOL_BINOP")
+
     // e.g. lhs is rhs
     val EXPRESSION_SUFFIX_BOOL_IS = ElementDescription("EXPRESSION_SUFFIX_IS")
+
     // e.g. on_true if expr else on_false
     val EXPRESSION_SUFFIX_TERNARY = ElementDescription("EXPRESSION_SUFFIX_TERNARY")
 
@@ -76,6 +84,7 @@ object SyntaxLibrary {
     // Statements
     val EXTENDS_STATEMENT = ElementDescription("EXTENDS_STATEMENT") { ExtendsStatementImpl(it) }
     val CLASS_NAME_STATEMENT = ElementDescription("CLASS_NAME_STATEMENT") { ClassNameStatementImpl(it) }
+    val SIGNAL_STATEMENT = ElementDescription("SIGNAL_STATEMENT")
     val ANNOTATION_STATEMENT = ElementDescription("ANNOTATION_STATEMENT") { AnnotationStatementImpl(it) }
 
     // Logic Statements
