@@ -8,7 +8,7 @@ import gio.blue.greenery.gdscript.syntax.statements.StatementSyntaxBuildContextP
 /**
  * Parse a top-level extends statement starting from the current token
  *
- * (here! extends keyword) (identifier or string)
+ * (here! EXTENDS) (identifier or string)
  *
  * @receiver StatementSyntaxBuildContextParser
  * @return Boolean Whether the statement was fully parsed
@@ -22,12 +22,12 @@ fun StatementSyntaxBuildContextParser.parseExtends(): Boolean {
     if (tokenType == TokenLibrary.IDENTIFIER) {
         next()
     } else if (TokenLibrary.STRING_STARTERS.contains(tokenType)) {
-        want({context.expressions.parseStringLiteral()}) {
-            marker.error("failed to parse string")
+        want({ context.expressions.parseStringLiteral() }) {
+            marker.error(message("SYNTAX.stmt.extends.expected.identifier-or-string"))
             return false
         }
     } else {
-        marker.error("dunno")
+        marker.error(message("SYNTAX.stmt.extends.expected.identifier-or-string"))
         return false
     }
 
