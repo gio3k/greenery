@@ -18,7 +18,7 @@ fun StatementSyntaxBuildContextParser.parseClassName(): Boolean {
     next()
 
     wantThenNext({ tokenType == TokenLibrary.IDENTIFIER }) {
-        marker.error(message("SYNTAX.generic.expected.identifier"))
+        marker.error(message("SYNTAX.generic.expected.identifier.after.0", "class_name"))
         return false
     }
 

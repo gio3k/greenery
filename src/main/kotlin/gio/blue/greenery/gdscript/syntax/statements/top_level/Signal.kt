@@ -18,7 +18,7 @@ fun StatementSyntaxBuildContextParser.parseSignal(): Boolean {
     next()
 
     wantThenNext({ tokenType == TokenLibrary.IDENTIFIER }) {
-        marker.error(message("SYNTAX.stmt.signal.expected.name"))
+        marker.error(message("SYNTAX.generic.expected.identifier.after.0", "signal"))
         return false
     }
 
