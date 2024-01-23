@@ -34,6 +34,7 @@ fun ExpressionSyntaxBuildContextParser.parseStringLiteral(): Boolean {
 
     // Save the type of string marker, then move on
     val stringType = tokenType
+    println("string start token type ${stringType}")
     next()
 
     // Proceed through string content until it's completed
@@ -41,6 +42,9 @@ fun ExpressionSyntaxBuildContextParser.parseStringLiteral(): Boolean {
         marker.error(message("SYNTAX.expr.string.expected.string-token.got.0", tokenType.toString()))
         return false
     }
+
+    // Move past the end marker
+    next()
 
     marker.done(SyntaxLibrary.STRING_LITERAL)
     return true
@@ -59,8 +63,7 @@ private fun ExpressionSyntaxBuildContextParser.proceedUntilStringEnds(stringType
 
             stringType -> {
                 // String end marker, stop iterating
-                next()
-                break
+                return true
             }
 
             else -> {
@@ -70,5 +73,5 @@ private fun ExpressionSyntaxBuildContextParser.proceedUntilStringEnds(stringType
         }
     }
 
-    return tokenType != null
+    return false
 }

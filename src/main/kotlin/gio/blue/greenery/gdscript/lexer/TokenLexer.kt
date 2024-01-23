@@ -96,8 +96,15 @@ class TokenLexer : LexerBase() {
 
         val char = getCharAt(0)
         when (char) {
-            '#' -> parseComment()
-            '@' -> parseAnnotation()
+            '#' -> {
+                if (parseComment())
+                    return
+            }
+
+            '@' -> {
+                if (parseAnnotation())
+                    return
+            }
 
             '"', '\'', 'r', '^', '&' -> {
                 // These characters could be used for a string, but a few have other uses
