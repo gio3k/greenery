@@ -34,7 +34,6 @@ fun ExpressionSyntaxBuildContextParser.parseStringLiteral(): Boolean {
 
     // Save the type of string marker, then move on
     val stringType = tokenType
-    println("string start token type ${stringType}")
     next()
 
     // Proceed through string content until it's completed
