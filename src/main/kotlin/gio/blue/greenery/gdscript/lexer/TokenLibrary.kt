@@ -17,6 +17,7 @@ object TokenLibrary {
     val ISSUE_DEDENT_DEPTH_UNEXPECTED = ElementDescription("ISSUE_DEDENT_DEPTH_UNEXPECTED")
     val ISSUE_BAD_CHARACTER: IElementType = TokenType.BAD_CHARACTER
     val ISSUE_EOF = ElementDescription("ISSUE_EOF")
+    val ISSUE_INVALID_ESCAPE = ElementDescription("ISSUE_INVALID_ESCAPE")
 
     val SPACE = ElementDescription("SPACE")
     val TAB = ElementDescription("TAB")

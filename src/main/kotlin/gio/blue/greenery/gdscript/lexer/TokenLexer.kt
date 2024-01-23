@@ -3,7 +3,14 @@ package gio.blue.greenery.gdscript.lexer
 import com.intellij.lexer.LexerBase
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.tree.IElementType
-import gio.blue.greenery.gdscript.lexer.depth.TokenLexerHandlerDepthAssociate
+import gio.blue.greenery.gdscript.lexer.annotations.parseAnnotation
+import gio.blue.greenery.gdscript.lexer.characters.parseMultiCharacter
+import gio.blue.greenery.gdscript.lexer.characters.parseSingleCharacter
+import gio.blue.greenery.gdscript.lexer.comments.parseComment
+import gio.blue.greenery.gdscript.lexer.depth.DepthIndentType
+import gio.blue.greenery.gdscript.lexer.depth.parseIndents
+import gio.blue.greenery.gdscript.lexer.identifiers.parseIdentifier
+import gio.blue.greenery.gdscript.lexer.strings.parseString
 import java.util.*
 
 class TokenLexer : LexerBase() {
@@ -13,9 +20,7 @@ class TokenLexer : LexerBase() {
 
     data class QueuedToken(val type: IElementType, val start: Int, val end: Int)
 
-    /**
-     * Queue of tokens to return
-     */
+    /** Queue of tokens to return */
     private var queue: ArrayDeque<QueuedToken> = ArrayDeque()
     private var lastToken = QueuedToken(TokenLibrary.INVALID, 0, 0)
 
@@ -26,13 +31,18 @@ class TokenLexer : LexerBase() {
     private var state = 0
     private var buffer: CharSequence? = null
 
-    private val depthHandlerAssociate = TokenLexerHandlerDepthAssociate(this)
+    // Depth handling
+    internal var depthStack: Stack<Int> = Stack()
+    internal var knownIndentType = DepthIndentType.NONE
 
     private fun reset() {
         boundsStart = 0
         boundsEnd = 0
         lastToken = QueuedToken(TokenLibrary.INVALID, 0, 0)
         queue.clear()
+
+        depthStack.clear()
+        knownIndentType = DepthIndentType.NONE
     }
 
     override fun start(buffer: CharSequence, start: Int, end: Int, initialState: Int) {
@@ -69,32 +79,45 @@ class TokenLexer : LexerBase() {
     }
 
     private fun process() {
-        if (tryLexingLineBreak()) {
-            // We found a line break - that means we're at the start of the line!
-            depthHandlerAssociate.tryLexingStartOfLineIndents()
+        if (parseLineBreak()) {
+            // We found a line break, handle indents
+            parseIndents()
             return
         }
 
         if (tokenType == TokenLibrary.INVALID) {
             // We're the very first token seen by the lexer
             // Try to parse indents, and if it doesn't work out, just continue
-            if (depthHandlerAssociate.tryLexingStartOfLineIndents()) return
+            if (parseIndents()) return
         }
 
-        if (tryLexingCommentLine()) return
-        if (tryLexingAnnotation()) return
+        if (!hasCharAt(0))
+            return // No characters to read, give up
 
-        if (tryLexingString()) return
-        if (tryLexingNumber()) return
+        val char = getCharAt(0)
+        when (char) {
+            '#' -> parseComment()
+            '@' -> parseAnnotation()
+
+            '"', '\'', 'r', '^', '&' -> {
+                // These characters could be used for a string, but a few have other uses
+                // Check for a string, return if we find one
+                if (parseString())
+                    return
+            }
+        }
 
         // Handle single characters (e.g. ',' '.')
-        if (tryLexingSingleCharacter()) return
+        if (parseSingleCharacter())
+            return
 
         // Handle multi characters (e.g. "*=" "->")
-        if (tryLexingMultiCharacter()) return
+        if (parseMultiCharacter())
+            return
 
         // Handle identifiers and keywords
-        if (tryLexingPossibleIdentifier()) return
+        if (parseIdentifier())
+            return
 
         // Unknown character at this point
         LOG.warn("Unknown character '${getCharAt(0)}' @ $boundsStart")
@@ -116,7 +139,7 @@ class TokenLexer : LexerBase() {
         }
 
         while (hasCharAt(0)) {
-                process()
+            process()
 
             if (queue.isNotEmpty()) {
                 // Update token info
@@ -160,31 +183,20 @@ class TokenLexer : LexerBase() {
         return getCharAt(offset)
     }
 
-    /**
-     * Add a token / element to the return queue
-     * @param type IElementType Token type to queue up
-     * @param startOffset Int Start of the token as an offset of the boundary
-     * @param endOffset Int End of the token as an offset of the boundary
-     * @param count Int Number of tokens to add
-     * @param updateBoundary Boolean Whether the boundary should be updated to move past the provided token
-     */
     internal fun enqueue(
         type: IElementType,
-        startOffset: Int = 0,
-        endOffset: Int = startOffset,
-        count: Int = 1,
+        offset: Int = 0,
+        size: Int = 1,
         updateBoundary: Boolean = true
-    ) {
-        for (i in 1..count) {
-            queue.add(
-                QueuedToken(type, startOffset + boundsStart, endOffset + boundsStart)
-            )
-        }
+    ): QueuedToken {
+        val token = QueuedToken(type, boundsStart + offset, boundsStart + offset + (size - 1))
+        queue.add(token)
+        println("${type} @ ${boundsStart + offset}")
 
-        if (updateBoundary) {
-            // Move reading boundary to the next character to read
-            boundsStart += endOffset + 1
-        }
+        if (updateBoundary)
+            boundsStart += size
+
+        return token
     }
 
     internal fun fastForward(offset: Int) {
