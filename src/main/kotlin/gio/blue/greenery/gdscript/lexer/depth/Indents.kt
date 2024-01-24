@@ -72,7 +72,7 @@ internal fun TokenLexer.parseIndents(): Boolean {
 
         // Make sure the depth matches up
         if (!depthStack.empty()) {
-            if (depthStack.pop() != indentSize) {
+            if (depthStack.peek() != indentSize) {
                 // Depth doesn't match!
                 enqueue(TokenLibrary.ISSUE_DEDENT_DEPTH_UNEXPECTED)
             }
