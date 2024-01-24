@@ -14,6 +14,9 @@ fun BlockSyntaxBuildContextParser.parseIndentedBlock(): Boolean {
     val marker = mark()
     next()
 
+    // Skip leading line breaks
+    skip(TokenLibrary.LINE_BREAK)
+
     wantThenNext({ tokenType == TokenLibrary.INDENT }) {
         marker.error(message("SYNTAX.core.block.expected.indent"))
         return false
