@@ -24,17 +24,14 @@ fun TokenLexer.parseString(): Boolean {
             break
         }
 
-        parseStringContent()
+        if (parseStringContent() == null)
+            fastForward(1)
 
         // We stopped reading string content - something stopped us!
         if (parseStringEscapeCharacter())
             continue
         if (parseStringControlCharacter())
             continue
-
-        // String content was completed for an unknown reason - probably end of data.
-        // Skip ahead to the marker
-        fastForward(1)
     }
 
     return true

@@ -39,7 +39,7 @@ internal fun TokenLexer.parseStringContent(): TokenLexer.QueuedToken? {
             }
         }
 
-        size = i
+        size++
     }
 
     // Don't bother appending empty string content
