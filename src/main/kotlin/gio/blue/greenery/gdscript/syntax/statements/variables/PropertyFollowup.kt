@@ -80,6 +80,13 @@ fun StatementSyntaxBuildContextParser.parsePropertyFollowup(): Boolean {
         }
     }
 
+    // Expect dedent
+    skip(TokenLibrary.LINE_BREAK)
+    wantThenNext({ tokenType == TokenLibrary.DEDENT }) {
+        marker.error("SYNTAX.stmt.var.prop.expected.dedent")
+        return false
+    }
+
     marker.done(SyntaxLibrary.VARIABLE_DECL_PROPERTY)
     return true
 }
