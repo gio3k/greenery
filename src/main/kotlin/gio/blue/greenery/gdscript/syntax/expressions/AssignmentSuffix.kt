@@ -22,7 +22,6 @@ fun ExpressionSyntaxBuildContextParser.parseAssignmentAfterExpression(): Boolean
         return false
     }
 
-    next()
     marker.done(SyntaxLibrary.EXPRESSION_SUFFIX_ASSIGNMENT)
     return true
 }
