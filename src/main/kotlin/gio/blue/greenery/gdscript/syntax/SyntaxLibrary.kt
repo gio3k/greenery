@@ -27,7 +27,9 @@ object SyntaxLibrary {
     // Expressions
     val IDENTIFIER = ElementDescription("IDENTIFIER")
 
-    val DICTIONARY = ElementDescription("DICTIONARY")
+    val ARRAY_CTOR = ElementDescription("ARRAY_CTOR")
+
+    val DICTIONARY_CTOR = ElementDescription("DICTIONARY_CTOR")
     val DICTIONARY_PAIR = ElementDescription("DICTIONARY_PAIR")
 
     val NODE_PATH = ElementDescription("NODE_PATH")

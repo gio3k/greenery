@@ -1,4 +1,4 @@
-package gio.blue.greenery.gdscript.syntax.expressions.dictionaries
+package gio.blue.greenery.gdscript.syntax.expressions.collections
 
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxLibrary

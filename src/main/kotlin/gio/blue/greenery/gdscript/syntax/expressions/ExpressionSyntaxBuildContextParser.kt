@@ -10,8 +10,9 @@ import gio.blue.greenery.gdscript.syntax.expressions.arithmetic.parseMathBinOpAf
 import gio.blue.greenery.gdscript.syntax.expressions.arithmetic.parseMathTargetedOpAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.booleans.parseBoolBinOpAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.booleans.parseExpressionWithBoolNegationPrefix
+import gio.blue.greenery.gdscript.syntax.expressions.collections.parseArrayCtor
+import gio.blue.greenery.gdscript.syntax.expressions.collections.parseDictionaryCtor
 import gio.blue.greenery.gdscript.syntax.expressions.collections.parseIndexerAfterExpression
-import gio.blue.greenery.gdscript.syntax.expressions.dictionaries.parseDictionary
 import gio.blue.greenery.gdscript.syntax.expressions.identifiers.parseIdentifier
 import gio.blue.greenery.gdscript.syntax.expressions.logic.parseIfAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.members.parseMemberAfterExpression
@@ -39,7 +40,8 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         // Check for grouped / bracket expressions
         when (tokenType) {
             TokenLibrary.LPAR -> return parseEnclosedExpression()
-            TokenLibrary.LBRACE -> return parseDictionary()
+            TokenLibrary.LBRACE -> return parseDictionaryCtor()
+            TokenLibrary.LBRACKET -> return parseArrayCtor()
         }
 
         // Check for a prefixed expression

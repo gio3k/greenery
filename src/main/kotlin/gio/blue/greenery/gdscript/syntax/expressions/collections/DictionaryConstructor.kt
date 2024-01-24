@@ -1,18 +1,18 @@
-package gio.blue.greenery.gdscript.syntax.expressions.dictionaries
+package gio.blue.greenery.gdscript.syntax.expressions.collections
 
 import gio.blue.greenery.gdscript.lexer.TokenLibrary
 import gio.blue.greenery.gdscript.syntax.SyntaxLibrary
 import gio.blue.greenery.gdscript.syntax.expressions.ExpressionSyntaxBuildContextParser
 
 /**
- * Parse a dictionary expression
+ * Parse a dictionary creator expression
  *
  * (here! lbrace) [(dictionary pair)(...comma...)] (rbrace)
  *
  * @receiver ExpressionSyntaxBuildContextParser
- * @return Boolean Whether the dictionary was fully parsed
+ * @return Boolean Whether the dictionary creator was fully parsed
  */
-fun ExpressionSyntaxBuildContextParser.parseDictionary(): Boolean {
+fun ExpressionSyntaxBuildContextParser.parseDictionaryCtor(): Boolean {
     assertType(TokenLibrary.LBRACE)
     val marker = mark()
     next()
@@ -37,6 +37,6 @@ fun ExpressionSyntaxBuildContextParser.parseDictionary(): Boolean {
         }
     }
 
-    marker.done(SyntaxLibrary.DICTIONARY)
+    marker.done(SyntaxLibrary.DICTIONARY_CTOR)
     return true
 }
