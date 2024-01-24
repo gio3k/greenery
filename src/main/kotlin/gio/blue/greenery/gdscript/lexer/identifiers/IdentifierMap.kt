@@ -17,7 +17,7 @@ class IdentifierMap {
             "return" to TokenLibrary.RETURN_KEYWORD,
 
             "as" to TokenLibrary.AS_KEYWORD,
-            "assert" to TokenLibrary.ASSERT_KEYWORD,
+            // "assert" to TokenLibrary.ASSERT_KEYWORD,
             "await" to TokenLibrary.AWAIT_KEYWORD,
             "breakpoint" to TokenLibrary.BREAKPOINT_KEYWORD,
             "class" to TokenLibrary.CLASS_KEYWORD,

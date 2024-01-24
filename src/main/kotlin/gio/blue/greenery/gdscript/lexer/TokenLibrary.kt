@@ -41,7 +41,7 @@ object TokenLibrary {
     val PASS_KEYWORD = ElementDescription("PASS_KEYWORD")
     val RETURN_KEYWORD = ElementDescription("RETURN_KEYWORD")
     val AS_KEYWORD = ElementDescription("AS_KEYWORD")
-    val ASSERT_KEYWORD = ElementDescription("ASSERT_KEYWORD")
+    // val ASSERT_KEYWORD = ElementDescription("ASSERT_KEYWORD")
     val AWAIT_KEYWORD = ElementDescription("AWAIT_KEYWORD")
     val BREAKPOINT_KEYWORD = ElementDescription("BREAKPOINT_KEYWORD")
     val CLASS_KEYWORD = ElementDescription("CLASS_KEYWORD")
