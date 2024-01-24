@@ -87,6 +87,7 @@ object SyntaxLibrary {
     val EXTENDS_STATEMENT = ElementDescription("EXTENDS_STATEMENT") { ExtendsStatementImpl(it) }
     val CLASS_NAME_STATEMENT = ElementDescription("CLASS_NAME_STATEMENT") { ClassNameStatementImpl(it) }
     val SIGNAL_STATEMENT = ElementDescription("SIGNAL_STATEMENT")
+    val RETURN_STATEMENT = ElementDescription("RETURN_STATEMENT")
     val ANNOTATION_STATEMENT = ElementDescription("ANNOTATION_STATEMENT") { AnnotationStatementImpl(it) }
 
     // Logic Statements

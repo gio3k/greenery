@@ -45,6 +45,7 @@ class StatementSyntaxBuildContextParser(context: SyntaxParserBuildContext, build
             TokenLibrary.SIGNAL_KEYWORD -> parseSignal()
             TokenLibrary.FOR_KEYWORD -> parseFor()
             TokenLibrary.WHILE_KEYWORD -> parseWhile()
+            TokenLibrary.RETURN_KEYWORD -> parseReturn()
 
             TokenLibrary.VAR_KEYWORD -> parseVariableDeclaration()
             TokenLibrary.CONST_KEYWORD -> parseConstantDeclaration()
