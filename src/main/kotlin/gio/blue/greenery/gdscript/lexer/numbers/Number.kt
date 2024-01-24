@@ -40,7 +40,7 @@ internal fun TokenLexer.parseNumber(): Boolean {
 
     // Keep going until we hit a stop
     var isFloatingPoint = false
-    var endOffset = 0
+    var size = 1
     for (i in 1..getRemainingBoundarySize()) {
         if (!hasCharAt(i)) break
         when (getCharAt(i)) {
@@ -51,13 +51,13 @@ internal fun TokenLexer.parseNumber(): Boolean {
             else -> break
         }
 
-        endOffset++
+        size++
     }
 
     if (isFloatingPoint) {
-        enqueue(TokenLibrary.FLOAT_LITERAL, 0, endOffset)
+        enqueue(TokenLibrary.FLOAT_LITERAL, size = size)
     } else {
-        enqueue(TokenLibrary.INTEGER_LITERAL, 0, endOffset)
+        enqueue(TokenLibrary.INTEGER_LITERAL, size = size)
     }
 
     return true

@@ -10,6 +10,7 @@ import gio.blue.greenery.gdscript.lexer.comments.parseComment
 import gio.blue.greenery.gdscript.lexer.depth.DepthIndentType
 import gio.blue.greenery.gdscript.lexer.depth.parseIndents
 import gio.blue.greenery.gdscript.lexer.identifiers.parseIdentifier
+import gio.blue.greenery.gdscript.lexer.numbers.parseNumber
 import gio.blue.greenery.gdscript.lexer.strings.parseString
 import java.util.*
 
@@ -113,6 +114,10 @@ class TokenLexer : LexerBase() {
                     return
             }
         }
+
+        // Handle numbers
+        if (parseNumber())
+            return
 
         // Handle single characters (e.g. ',' '.')
         if (parseSingleCharacter())
