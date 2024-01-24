@@ -24,18 +24,6 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         context, builder
     ) {
 
-    /**
-     * Returns whether the current token can be counted as the target / end of the expression part
-     *
-     * @return Boolean
-     */
-    private fun isExpressionPartComplete(): Boolean {
-        // TODO / hack: do we need this?
-        return true
-        //val tokenTypeAhead1 = builder.lookAhead(1) ?: return true
-        //return TokenLibrary.EXPRESSION_BREAKERS.contains(tokenTypeAhead1)
-    }
-
     private fun parseInnerExpression(): Boolean {
         // Check for grouped / bracket expressions
         when (tokenType) {
@@ -58,16 +46,13 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         if (TokenLibrary.STRING_STARTERS.contains(tokenType))
             return parseStringLiteral()
 
-        // Try to parse single token expressions if possible
-        if (isExpressionPartComplete()) {
-            // Check for a single token expression
-            if (parseSingleLiteral())
-                return true
+        // Check for a single token expression
+        if (parseSingleLiteral())
+            return true
 
-            // Check for an identifier
-            if (tokenType == TokenLibrary.IDENTIFIER)
-                return parseIdentifier()
-        }
+        // Check for an identifier
+        if (tokenType == TokenLibrary.IDENTIFIER)
+            return parseIdentifier()
 
         return false
     }
