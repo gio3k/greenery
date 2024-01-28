@@ -24,9 +24,18 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
             return false
         }
 
-        marker.drop()
+        if (tokenType == TokenLibrary.LINE_BREAK) {
+            marker.drop()
+            return context.blocks.parseIndentedBlock()
+        }
 
-        return context.blocks.parseIndentedBlock()
+        if (!context.blocks.parseSingleLineBlock()) {
+            marker.error(message("SYNTAX.core.block.expected.block"))
+            return false
+        }
+
+        marker.drop()
+        return true
     }
 
     fun BlockSyntaxBuildContextParser.parseUnknownToken() {
