@@ -1,9 +1,12 @@
-package gio.blue.greenery.gdscript.lexer
+package gio.blue.greenery.gdscript.lexer.lines
+
+import gio.blue.greenery.gdscript.lexer.TokenLexer
+import gio.blue.greenery.gdscript.lexer.TokenLibrary
 
 /**
- * Attempts to parse a new line / line break
+ * Parse a line break
  * @receiver TokenLexer
- * @return Boolean True if a token was parsed
+ * @return Boolean Whether a line break was parsed
  */
 fun TokenLexer.parseLineBreak(): Boolean {
     if (!hasCharAt(0))

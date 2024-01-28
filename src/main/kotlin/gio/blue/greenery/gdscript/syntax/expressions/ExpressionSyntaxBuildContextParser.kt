@@ -14,6 +14,7 @@ import gio.blue.greenery.gdscript.syntax.expressions.collections.parseArrayCtor
 import gio.blue.greenery.gdscript.syntax.expressions.collections.parseDictionaryCtor
 import gio.blue.greenery.gdscript.syntax.expressions.collections.parseIndexerAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.identifiers.parseIdentifier
+import gio.blue.greenery.gdscript.syntax.expressions.lambda.parseFunctionLambda
 import gio.blue.greenery.gdscript.syntax.expressions.logic.parseIfAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.members.parseMemberAfterExpression
 import gio.blue.greenery.gdscript.syntax.expressions.pars.parseEnclosedExpression
@@ -30,6 +31,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             TokenLibrary.LPAR -> return parseEnclosedExpression()
             TokenLibrary.LBRACE -> return parseDictionaryCtor()
             TokenLibrary.LBRACKET -> return parseArrayCtor()
+            TokenLibrary.FUNC_KEYWORD -> return parseFunctionLambda()
         }
 
         // Check for a prefixed expression

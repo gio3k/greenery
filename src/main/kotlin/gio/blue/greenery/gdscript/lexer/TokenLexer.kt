@@ -7,9 +7,10 @@ import gio.blue.greenery.gdscript.lexer.annotations.parseAnnotation
 import gio.blue.greenery.gdscript.lexer.characters.parseMultiCharacter
 import gio.blue.greenery.gdscript.lexer.characters.parseSingleCharacter
 import gio.blue.greenery.gdscript.lexer.comments.parseComment
-import gio.blue.greenery.gdscript.lexer.depth.DepthIndentType
-import gio.blue.greenery.gdscript.lexer.depth.parseIndents
 import gio.blue.greenery.gdscript.lexer.identifiers.parseIdentifier
+import gio.blue.greenery.gdscript.lexer.lines.DepthIndentType
+import gio.blue.greenery.gdscript.lexer.lines.parseIndents
+import gio.blue.greenery.gdscript.lexer.lines.parseLineBreak
 import gio.blue.greenery.gdscript.lexer.numbers.parseNumber
 import gio.blue.greenery.gdscript.lexer.strings.parseString
 import java.util.*
@@ -80,16 +81,15 @@ class TokenLexer : LexerBase() {
     }
 
     private fun process() {
+        if (tokenType == TokenLibrary.INVALID) {
+            fastForward(1)
+            return
+        }
+
         if (parseLineBreak()) {
             // We found a line break, handle indents
             parseIndents()
             return
-        }
-
-        if (tokenType == TokenLibrary.INVALID) {
-            // We're the very first token seen by the lexer
-            // Try to parse indents, and if it doesn't work out, just continue
-            if (parseIndents()) return
         }
 
         if (!hasCharAt(0))
@@ -203,7 +203,20 @@ class TokenLexer : LexerBase() {
     ): QueuedToken {
         val token = QueuedToken(type, boundsStart + offset, boundsStart + offset + (size - 1))
         queue.add(token)
-        println("${type} @ ${boundsStart + offset}")
+
+        val sx = StringBuilder()
+        if (type == TokenLibrary.LINE_BREAK) {
+            sx.append("\\n")
+        } else {
+            for (i in 0..(size - 1)) {
+                if (hasCharAt(i))
+                    sx.append(getCharAt(i))
+                else
+                    sx.append("<NULL>")
+            }
+        }
+
+        println("${type} @ ${boundsStart + offset} ($sx)")
 
         if (updateBoundary)
             boundsStart += size

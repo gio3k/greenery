@@ -34,7 +34,7 @@ class LanguageFeatureTests {
         lexer.expectSkipSpaces(TokenLibrary.IDENTIFIER, 7, 12, "String?")
         lexer.expectSkipSpaces(TokenLibrary.EQ, 14)
         lexer.expectSkipSpaces(TokenLibrary.SINGLE_STRING_MARKER, 16)
-        lexer.expectSkipSpaces(TokenLibrary.STRING_CONTENT_PART, 17, 19)
+        lexer.expectSkipSpaces(TokenLibrary.STRING_CONTENT, 17, 19)
         lexer.expectSkipSpaces(TokenLibrary.SINGLE_STRING_MARKER, 20)
     }
 

@@ -12,7 +12,7 @@ import gio.blue.greenery.gdscript.syntax.statements.StatementSyntaxBuildContextP
  * @receiver StatementSyntaxBuildContextParser
  * @return Boolean Whether the list was fully parsed
  */
-internal fun StatementSyntaxBuildContextParser.parseFunctionParameterList(): Boolean {
+fun StatementSyntaxBuildContextParser.parseFunctionParameterList(): Boolean {
     assertType(TokenLibrary.LPAR)
     val marker = mark()
     next()

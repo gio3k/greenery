@@ -12,7 +12,7 @@ import gio.blue.greenery.gdscript.syntax.statements.StatementSyntaxBuildContextP
  * @receiver StatementSyntaxBuildContextParser
  * @return Boolean Whether the default value part was fully parsed
  */
-internal fun StatementSyntaxBuildContextParser.parseFunctionParameterDefaultValue(): Boolean {
+fun StatementSyntaxBuildContextParser.parseFunctionParameterDefaultValue(): Boolean {
     assertType(TokenLibrary.EQ)
     val marker = mark()
     next()

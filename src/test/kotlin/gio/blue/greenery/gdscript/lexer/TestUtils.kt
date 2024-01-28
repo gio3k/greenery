@@ -49,7 +49,6 @@ internal fun TokenLexer.expectSkipSpaces(type: IElementType, start: Int, end: In
 internal fun createTestLexer(sequence: CharSequence): TokenLexer {
     val lexer = TokenLexer()
     lexer.start(sequence)
-    lexer.advance() // Skip INVALID
     return lexer
 }
 

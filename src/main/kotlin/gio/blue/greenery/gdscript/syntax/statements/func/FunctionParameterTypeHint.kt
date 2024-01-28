@@ -12,7 +12,7 @@ import gio.blue.greenery.gdscript.syntax.statements.StatementSyntaxBuildContextP
  * @receiver StatementSyntaxBuildContextParser
  * @return Boolean Whether the type hint was fully parsed
  */
-internal fun StatementSyntaxBuildContextParser.parseFunctionParameterTypeHint(): Boolean {
+fun StatementSyntaxBuildContextParser.parseFunctionParameterTypeHint(): Boolean {
     assertType(TokenLibrary.COLON)
     val marker = mark()
     next()

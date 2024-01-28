@@ -20,6 +20,7 @@ fun ExpressionSyntaxBuildContextParser.parseSet(): Boolean {
     while (tokenType != TokenLibrary.RPAR) {
         skip(TokenLibrary.LINE_BREAK)
         skip(TokenLibrary.INDENT)
+        skip(TokenLibrary.SPACE)
 
         // Parse the expression
         want({ parse() }) {
@@ -29,6 +30,7 @@ fun ExpressionSyntaxBuildContextParser.parseSet(): Boolean {
 
         skip(TokenLibrary.LINE_BREAK)
         skip(TokenLibrary.INDENT)
+        skip(TokenLibrary.DEDENT)
 
         // We just read a pair, expect a comma or right parenthesis
         if (tokenType == TokenLibrary.COMMA) {
