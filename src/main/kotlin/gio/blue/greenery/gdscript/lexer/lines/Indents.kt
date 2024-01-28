@@ -48,6 +48,8 @@ internal fun TokenLexer.parseIndents(): Boolean {
         val newIndentSize = depthStack.peek()
         if (indentSize < newIndentSize) {
             enqueue(TokenLibrary.DEDENT, size = 1, updateBoundary = false)
+        } else {
+            break
         }
         depthStack.pop()
     }
