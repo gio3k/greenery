@@ -13,7 +13,7 @@ object SyntaxLibrary {
 
     // Expression Core
     val EXPRESSION = ElementDescription("EXPRESSION")
-    val EXPRESSION_GROUP = ElementDescription("EXPRESSION_GROUP")
+    val EXPRESSION_SET = ElementDescription("EXPRESSION_GROUP")
 
     // Literals
     val BINARY_LITERAL = ElementDescription("BINARY_LITERAL")

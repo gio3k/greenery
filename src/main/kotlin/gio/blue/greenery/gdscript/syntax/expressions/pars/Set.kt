@@ -32,7 +32,7 @@ fun ExpressionSyntaxBuildContextParser.parseSet(): Boolean {
         skip(TokenLibrary.INDENT)
         skip(TokenLibrary.DEDENT)
 
-        // We just read a pair, expect a comma or right parenthesis
+        // We just read an item, expect a comma or right parenthesis
         if (tokenType == TokenLibrary.COMMA) {
             next()
             continue
@@ -46,6 +46,6 @@ fun ExpressionSyntaxBuildContextParser.parseSet(): Boolean {
 
     // We should be on the right parenthesis token now - skip it
     next()
-    marker.done(SyntaxLibrary.EXPRESSION_GROUP)
+    marker.done(SyntaxLibrary.EXPRESSION_SET)
     return true
 }
