@@ -19,6 +19,9 @@ fun BlockSyntaxBuildContextParser.parseTopLevelBlock(): Boolean {
         skip(TokenLibrary.LINE_BREAK)
         skip(TokenLibrary.SEMICOLON)
 
+        if (tokenType == null)
+            break
+
         val statementMarker = mark()
         if (!context.statements.parse()) {
             parseUnknownToken()

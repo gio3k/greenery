@@ -31,6 +31,9 @@ fun BlockSyntaxBuildContextParser.parseIndentedBlock(): Boolean {
             break
         }
 
+        if (tokenType == null)
+            break
+
         val statementMarker = mark()
         if (!context.statements.parse()) {
             parseUnknownToken()

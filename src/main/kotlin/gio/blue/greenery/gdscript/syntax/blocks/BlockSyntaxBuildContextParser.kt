@@ -30,6 +30,9 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
     }
 
     fun BlockSyntaxBuildContextParser.parseUnknownToken() {
+        if (tokenType == null)
+            return
+
         val marker = mark()
         val unknownTokenType = tokenType
         next()
@@ -44,7 +47,7 @@ class BlockSyntaxBuildContextParser(context: SyntaxParserBuildContext, builder: 
 
             TokenLibrary.DEDENT -> message("SYNTAX.core.depth.unexpected.dedent")
             TokenLibrary.INDENT -> message("SYNTAX.core.depth.unexpected.indent")
-            
+
             else -> message("SYNTAX.issues.unexpected.token.0", unknownTokenType.toString())
         }
 
