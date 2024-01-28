@@ -14,6 +14,11 @@ internal fun TokenLexer.parseIndents(): Boolean {
             ' ' -> DepthIndentType.SPACE
             '\t' -> DepthIndentType.TAB
 
+            '\n', '\r' -> {
+                // The indents are before a newline, we don't want to handle indents on empty lines
+                return false
+            }
+
             else -> break
         }
 
