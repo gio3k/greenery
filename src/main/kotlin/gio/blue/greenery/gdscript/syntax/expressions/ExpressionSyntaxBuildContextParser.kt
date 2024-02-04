@@ -59,7 +59,7 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
         return false
     }
 
-    fun parse(): Boolean {
+    fun parse(continueExpression: Boolean = true, ignoreAssignmentContinuation: Boolean = false): Boolean {
         if (tokenType == null)
             return false
 
@@ -70,42 +70,44 @@ class ExpressionSyntaxBuildContextParser(context: SyntaxParserBuildContext, buil
             return false
         }
 
-        // Try to continue the expression
-        while (tokenType != null) {
-            val wasExpressionContinuationSuccessful = when {
-                // Check for a member chain (.)
-                tokenType == TokenLibrary.PERIOD -> parseMemberAfterExpression()
+        if (continueExpression) {
+            // Try to continue the expression
+            while (tokenType != null) {
+                val wasExpressionContinuationSuccessful = when {
+                    // Check for a member chain (.)
+                    tokenType == TokenLibrary.PERIOD -> parseMemberAfterExpression()
 
-                // Check for an indexer
-                tokenType == TokenLibrary.LBRACKET -> parseIndexerAfterExpression()
+                    // Check for an indexer
+                    tokenType == TokenLibrary.LBRACKET -> parseIndexerAfterExpression()
 
-                // Check for an assignment
-                tokenType == TokenLibrary.EQ -> parseAssignmentAfterExpression()
+                    // Check for an assignment
+                    !ignoreAssignmentContinuation && tokenType == TokenLibrary.EQ -> parseAssignmentAfterExpression()
 
-                // Check for "is"
-                tokenType == TokenLibrary.IS_KEYWORD -> parseIsAfterExpression()
+                    // Check for "is"
+                    tokenType == TokenLibrary.IS_KEYWORD -> parseIsAfterExpression()
 
-                // Check for "if"
-                tokenType == TokenLibrary.IF_KEYWORD -> parseIfAfterExpression()
+                    // Check for "if"
+                    tokenType == TokenLibrary.IF_KEYWORD -> parseIfAfterExpression()
 
-                // Check for a 2-part math operation
-                TokenLibrary.MATH_BINARY_OPERATORS.contains(tokenType) -> parseMathBinOpAfterExpression()
+                    // Check for a 2-part math operation
+                    TokenLibrary.MATH_BINARY_OPERATORS.contains(tokenType) -> parseMathBinOpAfterExpression()
 
-                // Check for a 2-part bool operation
-                TokenLibrary.BOOLEAN_BINARY_OPERATORS.contains(tokenType) -> parseBoolBinOpAfterExpression()
+                    // Check for a 2-part bool operation
+                    TokenLibrary.BOOLEAN_BINARY_OPERATORS.contains(tokenType) -> parseBoolBinOpAfterExpression()
 
-                // Check for a targeted math operation
-                TokenLibrary.MATH_TARGETED_OPERATORS.contains(tokenType) -> parseMathTargetedOpAfterExpression()
+                    // Check for a targeted math operation
+                    TokenLibrary.MATH_TARGETED_OPERATORS.contains(tokenType) -> parseMathTargetedOpAfterExpression()
 
-                // Fallback
-                else -> false
+                    // Fallback
+                    else -> false
+                }
+
+                // Keep trying to continue the expression if the last continuation succeeded
+                if (wasExpressionContinuationSuccessful)
+                    continue
+
+                break
             }
-
-            // Keep trying to continue the expression if the last continuation succeeded
-            if (wasExpressionContinuationSuccessful)
-                continue
-
-            break
         }
 
         marker.done(SyntaxLibrary.EXPRESSION)

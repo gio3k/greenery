@@ -17,6 +17,10 @@ fun ExpressionSyntaxBuildContextParser.parseDictionaryCtor(): Boolean {
     val marker = mark()
     next()
 
+    if (tokenType == TokenLibrary.IDENTIFIER || TokenLibrary.STRING_STARTERS.contains(tokenType)) {
+        
+    }
+
     while (tokenType != TokenLibrary.RBRACE) {
         skip(TokenLibrary.LINE_BREAK)
         skip(TokenLibrary.INDENT)
@@ -29,14 +33,22 @@ fun ExpressionSyntaxBuildContextParser.parseDictionaryCtor(): Boolean {
 
         skip(TokenLibrary.LINE_BREAK)
         skip(TokenLibrary.INDENT)
+        skip(TokenLibrary.DEDENT)
 
         // We just read a pair, expect a comma or right brace
-        wantThenNext({ tokenType == TokenLibrary.COMMA || tokenType == TokenLibrary.RBRACE }) {
+        if (tokenType == TokenLibrary.COMMA) {
+            next()
+            continue
+        }
+
+        if (tokenType != TokenLibrary.RBRACE) {
             marker.error(message("SYNTAX.expr.dict.expected.delimiter-or-end"))
             return false
         }
     }
 
+    // We should be on the right brace token now - skip it
+    next()
     marker.done(SyntaxLibrary.DICTIONARY_CTOR)
     return true
 }
